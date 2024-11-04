@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:offers_app/screens/auth.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:offers_app/screens/offers.dart';
+import 'package:offers_app/screens/splash.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -35,7 +38,18 @@ class MyApp extends StatelessWidget {
           onSurface: const Color.fromARGB(255, 18, 1, 7),
         ),
       ),
-      home: AuthScreen(),
+      home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (ctx, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const SplashScreen();
+            }
+            if (snapshot.hasData) {
+              return const OffersScreen();
+            } else {
+              return const AuthScreen();
+            }
+          }),
     );
   }
 }
