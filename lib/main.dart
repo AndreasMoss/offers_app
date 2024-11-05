@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:offers_app/screens/auth.dart';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:offers_app/screens/offers.dart';
+import 'package:offers_app/screens/offers_main.dart';
 import 'package:offers_app/screens/splash.dart';
 import 'firebase_options.dart';
 
@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
               return const SplashScreen();
             }
             if (snapshot.hasData) {
-              return const OffersScreen();
+              return const OffersMainScreen();
             } else {
               return const AuthScreen();
             }
