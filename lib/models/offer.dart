@@ -19,7 +19,8 @@ class Offer {
   void redeemCode() {
     if (availableCodes > 0) {
       redeemedCodes++;
-    } else
+    } else {
       print('No Codes left');
+    }
   }
 }

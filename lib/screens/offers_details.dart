@@ -37,9 +37,9 @@ class OffersDetails extends StatelessWidget {
                 // Navigator.of(context).pop();
                 // print(offer.availableCodes);
               },
-              child: const Text('Redeem Code'),
               style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).colorScheme.secondary),
+              child: const Text('Redeem Code'),
             )
           ],
         ),
