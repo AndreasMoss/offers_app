@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:offers_app/screens/auth.dart';
+import 'package:offers_app/screens/general_screens/auth.dart';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:offers_app/screens/offers_main.dart';
-import 'package:offers_app/screens/splash.dart';
+import 'package:offers_app/screens/general_screens/offers_main.dart';
+import 'package:offers_app/screens/general_screens/splash.dart';
 import 'firebase_options.dart';
 
 void main() async {

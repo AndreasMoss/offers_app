@@ -5,20 +5,32 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 //dummydata
 import 'package:offers_app/dummy_data_for_test/dummy_offers.dart';
 import 'package:offers_app/providers/usertype_provider.dart';
-import 'package:offers_app/screens/map.dart';
-import 'package:offers_app/screens/offers_details.dart';
+import 'package:offers_app/screens/business_screens/add_offer.dart';
+import 'package:offers_app/screens/general_screens/map.dart';
+import 'package:offers_app/screens/general_screens/offers_details.dart';
 
 class OffersMainScreen extends ConsumerWidget {
   const OffersMainScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ////////////////////////
-    final userTypeAsyncValue = ref.watch(userTypeFutureProvider);
-
-/////////////////////////
+    final userTypeAsyncValue = ref.watch(userTypeProvider);
+    //perimenw o provider na exei data, kathws einai futureProvider
     return userTypeAsyncValue.when(
       data: (userType) {
+        //check for null alla etsi opws ftiaksame tous providers , de xreiazetai logika.
+        // if (userType == null) {
+        //   return Scaffold(
+        //     appBar: AppBar(
+        //       title: const Text('Offers Screen'),
+        //     ),
+        //     body: const Center(
+        //       child: Text(
+        //         'Loading...',
+        //       ),
+        //     ),
+        //   );
+        // }
         //final userTypeLoaded = ref.read(userTypeProvider);
         return Scaffold(
           appBar: AppBar(
@@ -35,8 +47,28 @@ class OffersMainScreen extends ConsumerWidget {
               //     color: Theme.of(context).colorScheme.onPrimary,
               //   ),
               // ),
+              if (userType == 'business')
+                IconButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (ctx) {
+                        return const AddOfferScreen();
+                      }),
+                    );
+                  },
+                  icon: Icon(
+                    Icons.add,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                ),
               IconButton(
-                onPressed: FirebaseAuth.instance.signOut,
+                onPressed: () async {
+                  await FirebaseAuth.instance.signOut();
+                  //ref.invalidate(userTypeFutureProvider);
+                  //de xreiastike telika to invalidate epeidh kanei watch ton stream.
+                  //epanaferoume ton futureProvider giati paratirisa oti otan kanw logout metaksi diaforetikwn usertype
+                  //kratietai to proigoumeno userType, to opoio de to theloume.
+                },
                 icon: Icon(
                   Icons.exit_to_app,
                   color: Theme.of(context).colorScheme.onPrimary,
