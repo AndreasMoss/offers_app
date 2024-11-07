@@ -1,6 +1,6 @@
 import 'package:offers_app/models/offer.dart';
 
-final dummyOffers = [
+final List<Offer> dummyOffers = [
   Offer(
     id: 'offer1',
     title: '1+1 Coffee at Starbucks',

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 //dummydata
 import 'package:offers_app/dummy_data_for_test/dummy_offers.dart';
+import 'package:offers_app/providers/offers_list_provider.dart';
 import 'package:offers_app/providers/usertype_provider.dart';
 import 'package:offers_app/screens/business_screens/add_offer.dart';
 import 'package:offers_app/screens/general_screens/map.dart';
@@ -16,6 +17,8 @@ class OffersMainScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userTypeAsyncValue = ref.watch(userTypeProvider);
     //perimenw o provider na exei data, kathws einai futureProvider
+    final offersListStreamDataProvided = ref.watch(offersStreamProvider);
+    //parakolouthw ton provider pou moy dinei ta offers.
     return userTypeAsyncValue.when(
       data: (userType) {
         //check for null alla etsi opws ftiaksame tous providers , de xreiazetai logika.
@@ -76,55 +79,59 @@ class OffersMainScreen extends ConsumerWidget {
               ),
             ],
           ),
-          body: Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                  itemCount: dummyOffers.length,
-                  itemBuilder: (ctx, index) {
-                    return Card(
-                      elevation: 2,
-                      child: ListTile(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (ctx) {
-                                return OffersDetails(offer: dummyOffers[index]);
-                              },
-                            ),
-                          );
-                        },
-                        title: Text(
-                          dummyOffers[index].title,
-                          style: Theme.of(context).textTheme.labelLarge,
+          body: offersListStreamDataProvided.when(
+            data: (offers) => Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                    itemCount: offers.length,
+                    itemBuilder: (ctx, index) {
+                      return Card(
+                        elevation: 2,
+                        child: ListTile(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (ctx) {
+                                  return OffersDetails(offer: offers[index]);
+                                },
+                              ),
+                            );
+                          },
+                          title: Text(
+                            offers[index].title,
+                            style: Theme.of(context).textTheme.labelLarge,
+                          ),
+                          trailing: Text('${offers[index].codes} Codes left'),
                         ),
-                        trailing: Text(
-                            '${dummyOffers[index].availableCodes} Codes left'),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: ElevatedButton.icon(
-                  icon: const Icon(Icons.map),
-                  onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (ctx) => const MapScreen()));
-                  },
-                  style: ElevatedButton.styleFrom(
+                Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: ElevatedButton.icon(
+                    icon: const Icon(Icons.map),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (ctx) => const MapScreen()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context)
                           .colorScheme
                           .secondary
-                          .withOpacity(0.9) // Full width button
-                      ),
-                  label: const Text('View on Map'),
+                          .withOpacity(0.9),
+                    ),
+                    label: const Text('View on Map'),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (error, stack) => Center(child: Text('Error: $error')),
           ),
         );
       },
