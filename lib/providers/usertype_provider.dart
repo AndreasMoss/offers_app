@@ -7,6 +7,7 @@ final authStateProvider = StreamProvider<User?>((ref) {
   return FirebaseAuth.instance.authStateChanges();
 });
 
+// o futureprovider parakolouthei ton streamprovider (pou parakolouthei ti sindesi), opote otan allazei ekeinos, o futureprovider epanekteleitai
 final userTypeProvider = FutureProvider<String?>((ref) async {
   final user = ref.watch(authStateProvider).asData?.value;
 

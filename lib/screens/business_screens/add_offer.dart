@@ -1,7 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
-import 'package:offers_app/dummy_data_for_test/dummy_offers.dart';
-import 'package:offers_app/models/offer.dart';
 
 class AddOfferScreen extends StatefulWidget {
   const AddOfferScreen({super.key});
@@ -13,12 +11,12 @@ class AddOfferScreen extends StatefulWidget {
 class _AddOfferScreenState extends State<AddOfferScreen> {
   final _addForm = GlobalKey<FormState>();
 
-  var _enteredID = '';
+  //var _enteredID = '';
   var _enteredTitle = '';
   var _enteredDescription = '';
   var _enteredCodesNumber = 1;
 
-  void _submitAddForm() {
+  void _submitAddForm() async {
     final isValid = _addForm.currentState!.validate();
 
     if (!isValid) {
@@ -27,13 +25,22 @@ class _AddOfferScreenState extends State<AddOfferScreen> {
 
     _addForm.currentState!.save();
 
-    dummyOffers.add(
-      Offer(
-          id: _enteredID,
-          title: _enteredTitle,
-          description: _enteredDescription,
-          codes: _enteredCodesNumber),
-    );
+    // dummyOffers.add(
+    //   Offer(
+    //       id: _enteredID,
+    //       title: _enteredTitle,
+    //       description: _enteredDescription,
+    //       codes: _enteredCodesNumber),
+    // );
+
+    final docRef = await FirebaseFirestore.instance.collection('offers').add({
+      'title': _enteredTitle,
+      'description': _enteredDescription,
+      'codes': _enteredCodesNumber,
+    });
+    print("New document ID: ${docRef.id}");
+
+    Navigator.of(context).pop();
   }
 
   @override
@@ -48,19 +55,19 @@ class _AddOfferScreenState extends State<AddOfferScreen> {
               key: _addForm,
               child: Column(
                 children: [
-                  TextFormField(
-                    decoration: const InputDecoration(labelText: 'ID'),
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'Please enter a valid ID';
-                      }
+                  // TextFormField(
+                  //   decoration: const InputDecoration(labelText: 'ID'),
+                  //   validator: (value) {
+                  //     if (value == null || value.trim().isEmpty) {
+                  //       return 'Please enter a valid ID';
+                  //     }
 
-                      return null;
-                    },
-                    onSaved: (value) {
-                      _enteredID = value!;
-                    },
-                  ),
+                  //     return null;
+                  //   },
+                  //   onSaved: (value) {
+                  //     _enteredID = value!;
+                  //   },
+                  // ),
                   TextFormField(
                     decoration: const InputDecoration(labelText: 'title'),
                     validator: (value) {

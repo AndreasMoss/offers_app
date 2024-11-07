@@ -2,8 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-//dummydata
-import 'package:offers_app/dummy_data_for_test/dummy_offers.dart';
 import 'package:offers_app/providers/offers_list_provider.dart';
 import 'package:offers_app/providers/usertype_provider.dart';
 import 'package:offers_app/screens/business_screens/add_offer.dart';
@@ -17,24 +15,12 @@ class OffersMainScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userTypeAsyncValue = ref.watch(userTypeProvider);
     //perimenw o provider na exei data, kathws einai futureProvider
-    final offersListStreamDataProvided = ref.watch(offersStreamProvider);
+
     //parakolouthw ton provider pou moy dinei ta offers.
     return userTypeAsyncValue.when(
       data: (userType) {
-        //check for null alla etsi opws ftiaksame tous providers , de xreiazetai logika.
-        // if (userType == null) {
-        //   return Scaffold(
-        //     appBar: AppBar(
-        //       title: const Text('Offers Screen'),
-        //     ),
-        //     body: const Center(
-        //       child: Text(
-        //         'Loading...',
-        //       ),
-        //     ),
-        //   );
-        // }
-        //final userTypeLoaded = ref.read(userTypeProvider);
+        final offersListStreamDataProvided = ref.watch(offersStreamProvider);
+
         return Scaffold(
           appBar: AppBar(
             title: const Text('Offers Screen'),
@@ -67,10 +53,6 @@ class OffersMainScreen extends ConsumerWidget {
               IconButton(
                 onPressed: () async {
                   await FirebaseAuth.instance.signOut();
-                  //ref.invalidate(userTypeFutureProvider);
-                  //de xreiastike telika to invalidate epeidh kanei watch ton stream.
-                  //epanaferoume ton futureProvider giati paratirisa oti otan kanw logout metaksi diaforetikwn usertype
-                  //kratietai to proigoumeno userType, to opoio de to theloume.
                 },
                 icon: Icon(
                   Icons.exit_to_app,
@@ -131,12 +113,13 @@ class OffersMainScreen extends ConsumerWidget {
               ],
             ),
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (error, stack) => Center(child: Text('Error: $error')),
+            error: (error, stack) =>
+                Center(child: Text('ErrorBBBBBBBBBBBBBBBBBBBB: $error')),
           ),
         );
       },
       error: (error, stack) => Scaffold(
-        body: Center(child: Text('Error: $error')),
+        body: Center(child: Text('ErrorAAAAAAAAAAAAAAAAAAAA: $error')),
       ),
       loading: () => const Scaffold(
         body: Center(child: CircularProgressIndicator()),
