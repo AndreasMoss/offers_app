@@ -1,23 +1,34 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:offers_app/providers/usertype_provider.dart';
 
-class AddOfferScreen extends StatefulWidget {
+//PROSEXE NA BALEIS NA MI MPOROUN NA KANOUN ADD OFFER BUSINESSESS POU DEN EXOUN BALEI PEDIO ONOMA BUSINESS
+// I NA TO ELEGXEIS. GIATI DEN EXW BALEI GIA OLES AKOMA.
+
+class AddOfferScreen extends ConsumerStatefulWidget {
   const AddOfferScreen({super.key});
 
   @override
-  State<AddOfferScreen> createState() => _AddOfferScreenState();
+  ConsumerState<AddOfferScreen> createState() => _AddOfferScreenState();
 }
 
-class _AddOfferScreenState extends State<AddOfferScreen> {
+class _AddOfferScreenState extends ConsumerState<AddOfferScreen> {
   final _addForm = GlobalKey<FormState>();
 
-  //var _enteredID = '';
   var _enteredTitle = '';
   var _enteredDescription = '';
   var _enteredCodesNumber = 1;
 
   void _submitAddForm() async {
     final isValid = _addForm.currentState!.validate();
+
+    final userIdProvided = ref.read(userIdProvider);
+    if (userIdProvided == null) {
+      print(
+          'ISSUE WITH userIdProvided!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+      return;
+    }
 
     if (!isValid) {
       return;
@@ -34,6 +45,7 @@ class _AddOfferScreenState extends State<AddOfferScreen> {
     // );
 
     final docRef = await FirebaseFirestore.instance.collection('offers').add({
+      'business_id': userIdProvided,
       'title': _enteredTitle,
       'description': _enteredDescription,
       'codes': _enteredCodesNumber,

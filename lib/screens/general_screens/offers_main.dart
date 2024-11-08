@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:offers_app/providers/offers_list_provider.dart';
 import 'package:offers_app/providers/usertype_provider.dart';
 import 'package:offers_app/screens/business_screens/add_offer.dart';
+import 'package:offers_app/screens/business_screens/business_profile_edit.dart';
+import 'package:offers_app/screens/general_screens/edit_profile.dart';
 import 'package:offers_app/screens/general_screens/map.dart';
 import 'package:offers_app/screens/general_screens/offers_details.dart';
 
@@ -37,6 +39,22 @@ class OffersMainScreen extends ConsumerWidget {
               //     color: Theme.of(context).colorScheme.onPrimary,
               //   ),
               // ),
+              if (userType == 'business')
+                IconButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (ctx) {
+                          return const BusinessProfileEditScreen();
+                        },
+                      ),
+                    );
+                  },
+                  icon: Icon(
+                    Icons.person,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                ),
               if (userType == 'business')
                 IconButton(
                   onPressed: () {

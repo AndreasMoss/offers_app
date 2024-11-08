@@ -1,21 +1,25 @@
+//THELEI FTIAKSIMO TO IF EINAI USER I BUSINESS
+// DEN EXEI TELEIWSEI OPOTE PAW NA BALW MONO GIA TA BUSINESSES TORA TO EDIT PROFILE
+
+// MI TELEIWMENO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:offers_app/providers/usertype_provider.dart';
 
-class BusinessProfileEditScreen extends ConsumerStatefulWidget {
-  const BusinessProfileEditScreen({super.key});
+class UserProfileEditScreen extends ConsumerStatefulWidget {
+  const UserProfileEditScreen({super.key});
 
   @override
-  ConsumerState<BusinessProfileEditScreen> createState() =>
-      _BusinessProfileEditScreenState();
+  ConsumerState<UserProfileEditScreen> createState() =>
+      _UserProfileEditScreenState();
 }
 
-class _BusinessProfileEditScreenState
-    extends ConsumerState<BusinessProfileEditScreen> {
+class _UserProfileEditScreenState extends ConsumerState<UserProfileEditScreen> {
   final _editProfileForm = GlobalKey<FormState>();
 
-  var _enteredBusinessName = '';
+  var _enteredUsername = '';
 
   void _submitEditProfileForm() async {
     final isValid = _editProfileForm.currentState!.validate();
@@ -38,7 +42,7 @@ class _BusinessProfileEditScreenState
           .collection('users')
           .doc(userIdProvided)
           .update({
-        'business_name': _enteredBusinessName,
+        'username': _enteredUsername,
       });
     } catch (error) {
       print(
@@ -61,17 +65,17 @@ class _BusinessProfileEditScreenState
             child: Column(
               children: [
                 TextFormField(
-                  decoration: const InputDecoration(
-                      labelText: 'Enter your Business Name'),
+                  decoration:
+                      const InputDecoration(labelText: 'Enter your Username'),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return 'Please enter a valid business Name';
+                      return 'Please enter a valid Username';
                     }
 
                     return null;
                   },
                   onSaved: (value) {
-                    _enteredBusinessName = value!;
+                    _enteredUsername = value!;
                   },
                 ),
                 const SizedBox(
