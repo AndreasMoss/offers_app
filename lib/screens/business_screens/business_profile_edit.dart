@@ -1,58 +1,23 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class AddOfferScreen extends StatefulWidget {
-  const AddOfferScreen({super.key});
+class BusinessProfileEditScreen extends StatefulWidget {
+  const BusinessProfileEditScreen({super.key});
 
   @override
-  State<AddOfferScreen> createState() => _AddOfferScreenState();
+  State<BusinessProfileEditScreen> createState() =>
+      _BusinessProfileEditScreenState();
 }
 
-class _AddOfferScreenState extends State<AddOfferScreen> {
-  final _addForm = GlobalKey<FormState>();
-
-  //var _enteredID = '';
-  var _enteredTitle = '';
-  var _enteredDescription = '';
-  var _enteredCodesNumber = 1;
-
-  void _submitAddForm() async {
-    final isValid = _addForm.currentState!.validate();
-
-    if (!isValid) {
-      return;
-    }
-
-    _addForm.currentState!.save();
-
-    // dummyOffers.add(
-    //   Offer(
-    //       id: _enteredID,
-    //       title: _enteredTitle,
-    //       description: _enteredDescription,
-    //       codes: _enteredCodesNumber),
-    // );
-
-    final docRef = await FirebaseFirestore.instance.collection('offers').add({
-      'title': _enteredTitle,
-      'description': _enteredDescription,
-      'codes': _enteredCodesNumber,
-    });
-    print("New document ID: ${docRef.id}");
-
-    Navigator.of(context).pop();
-  }
+class _BusinessProfileEditScreenState extends State<BusinessProfileEditScreen> {
+  final _editProfileForm = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add new Offer'),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Form(
-            key: _addForm,
+            key: _editProfileForm,
             child: Column(
               children: [
                 // TextFormField(
@@ -80,7 +45,7 @@ class _AddOfferScreenState extends State<AddOfferScreen> {
                   onSaved: (value) {
                     //se kathe tetoio elegxoume an einai null ston validator pou kaloume prin to save sto _submitAddForm.
                     //Giauto bazoume !
-                    _enteredTitle = value!;
+                    //_enteredVALUE = value!;
                   },
                 ),
                 TextFormField(
@@ -96,7 +61,7 @@ class _AddOfferScreenState extends State<AddOfferScreen> {
                     return null;
                   },
                   onSaved: (value) {
-                    _enteredDescription = value!;
+                    //_enteredVALUE = value!;
                   },
                 ),
                 TextFormField(
@@ -113,11 +78,11 @@ class _AddOfferScreenState extends State<AddOfferScreen> {
                     return null;
                   },
                   onSaved: (value) {
-                    _enteredCodesNumber = int.tryParse(value!)!;
+                    //_enteredCodesVALUE = int.tryParse(value!)!;
                   },
                 ),
                 ElevatedButton(
-                  onPressed: _submitAddForm,
+                  onPressed: () {},
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.secondary),
                   child: const Text('Add Offer'),

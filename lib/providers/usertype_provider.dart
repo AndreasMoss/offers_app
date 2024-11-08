@@ -10,6 +10,7 @@ final authStateProvider = StreamProvider<User?>((ref) {
 // o futureprovider parakolouthei ton streamprovider (pou parakolouthei ti sindesi), opote otan allazei ekeinos, o futureprovider epanekteleitai
 final userTypeProvider = FutureProvider<String?>((ref) async {
   final user = ref.watch(authStateProvider).asData?.value;
+  // me to asData pairnoyme tin trexousa katastasi tou AsyncData (an einai stin katatasi data:) kai me to value pairnoyme tin timi pou periexei.
 
   if (user == null) {
     return null;
@@ -24,4 +25,15 @@ final userTypeProvider = FutureProvider<String?>((ref) async {
   } else {
     throw Exception("User document does not exist");
   }
+});
+
+// autos o provider mou dinei to userid
+final userIdProvider = Provider<String?>((ref) {
+  final user = ref.watch(authStateProvider).asData?.value;
+  if (user == null) {
+    return null;
+  }
+
+  // Returns userid if exists
+  return user.uid;
 });

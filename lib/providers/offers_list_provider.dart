@@ -4,16 +4,6 @@ import 'package:offers_app/models/offer.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:offers_app/providers/usertype_provider.dart';
 
-// final offersStreamProvider = StreamProvider<List<Offer>>((ref) {
-//   return Stream<List<Offer>>.periodic(const Duration(seconds: 5), (count) {
-//     print(
-//         'REFRESHIN THE OFFERS LIST HERE AND PRINTING SOMETHING FOR DEBUGGING');
-//     return dummyOffers;
-//   });
-// });
-
-///////////////////////////// kainourgios:
-
 // to .map sta streams leitourgei diaforetika apo tis listes. Edw to .map() eksasfalizei oti tha ginei mia energeia
 // otan to stream steilei neo antikeimeno i iparksei kapoia allagi.
 

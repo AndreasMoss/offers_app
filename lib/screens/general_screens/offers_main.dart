@@ -20,6 +20,7 @@ class OffersMainScreen extends ConsumerWidget {
     return userTypeAsyncValue.when(
       data: (userType) {
         final offersListStreamDataProvided = ref.watch(offersStreamProvider);
+        final userIdProvided = ref.watch(userIdProvider);
 
         return Scaffold(
           appBar: AppBar(
@@ -110,6 +111,7 @@ class OffersMainScreen extends ConsumerWidget {
                     label: const Text('View on Map'),
                   ),
                 ),
+                Text('You are user: \n$userIdProvided'),
               ],
             ),
             loading: () => const Center(child: CircularProgressIndicator()),
