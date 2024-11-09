@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:offers_app/models/user_type.dart';
+import 'package:offers_app/theme/colors_for_text.dart';
 
 //setting the firebase instance object
 final _firebase = FirebaseAuth.instance;
@@ -64,17 +65,40 @@ class _AuthScreenState extends State<AuthScreen> {
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 24),
         child: Column(
-          //mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Create an Account!'),
-            const Text(
-                'Lorep ipsum is simply ummy text of the printing and typesetting industry.'),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  _isLogin ? 'Please Log in! 👋' : 'Create an Account! 👋',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineLarge!
+                      .copyWith(color: textBlackB12),
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                const Text(
+                    'Join now to discover exclusive offers and discounts tailored just for you.'),
+              ],
+            ),
+            const SizedBox(
+              height: 32,
+            ),
             Form(
               key: _form,
               child: Column(
-                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Text(
+                    'Email',
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelMedium!
+                        .copyWith(color: textBlackB12),
+                  ),
+                  const SizedBox(height: 8),
                   SizedBox(
                     height: 48,
                     width: double.infinity,
@@ -98,66 +122,124 @@ class _AuthScreenState extends State<AuthScreen> {
                       },
                     ),
                   ),
-                  TextFormField(
-                    decoration: const InputDecoration(labelText: 'Password'),
-                    obscureText: true,
-                    validator: (value) {
-                      if (value == null || value.length < 6) {
-                        return 'Password must be at least 6 characters long.';
-                      }
-
-                      return null;
-                    },
-                    onSaved: (value) {
-                      _enteredPassword = value!;
-                    },
+                  const SizedBox(height: 16),
+                  Text(
+                    'Password',
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelMedium!
+                        .copyWith(color: textBlackB12),
                   ),
-                  const SizedBox(height: 24),
-                  if (!_isLogin)
-                    const Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'Select User Type',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    height: 48,
+                    width: double.infinity,
+                    child: TextFormField(
+                      decoration: const InputDecoration(labelText: 'Password'),
+                      obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.length < 6) {
+                          return 'Password must be at least 6 characters long.';
+                        }
+
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _enteredPassword = value!;
+                      },
                     ),
+                  ),
+                  const SizedBox(height: 16),
                   if (!_isLogin)
-                    DropdownButtonFormField(
-                        value: UserType.regular,
-                        items: const [
-                          DropdownMenuItem(
-                            //value sto menuItem einai to value poy tha parei en telei stin epilogi.
-                            value: UserType.regular,
-                            child: Text(
-                              'Regular User',
-                              style: TextStyle(fontWeight: FontWeight.normal),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 155.5,
+                          height: 48,
+                          child: OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(
+                                  () {
+                                    _selectedUserType = UserType.business;
+                                    //de mporei na einai null kathws exw kanei arxikopoiisi tou _selectedUserType
+                                    print(_selectedUserType);
+                                  },
+                                );
+                              },
+                              child: const Text('Business')),
+                        ),
+                        const Spacer(),
+                        SizedBox(
+                          width: 155.5,
+                          height: 48,
+                          child: OutlinedButton(
+                            onPressed: () {
+                              setState(
+                                () {
+                                  _selectedUserType = UserType.regular;
+                                  //de mporei na einai null kathws exw kanei arxikopoiisi tou _selectedUserType
+                                  print(_selectedUserType);
+                                },
+                              );
+                            },
+                            style: OutlinedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                             ),
+                            child: const Text('Regular'),
                           ),
-                          DropdownMenuItem(
-                            value: UserType.business,
-                            child: Text(
-                              'Business',
-                              style: TextStyle(fontWeight: FontWeight.normal),
-                            ),
-                          ),
-                        ],
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedUserType = value!;
-                            //de mporei na einai null kathws exw kanei arxikopoiisi tou _selectedUserType
-                            print(_selectedUserType);
-                          });
-                        }),
+                        ),
+                      ],
+                    ),
+                  // if (!_isLogin)
+                  //   DropdownButtonFormField(
+                  //     value: UserType.regular,
+                  //     items: const [
+                  //       DropdownMenuItem(
+                  //         //value sto menuItem einai to value poy tha parei en telei stin epilogi.
+                  //         value: UserType.regular,
+                  //         child: Text(
+                  //           'Regular User',
+                  //           style: TextStyle(fontWeight: FontWeight.normal),
+                  //         ),
+                  //       ),
+                  //       DropdownMenuItem(
+                  //         value: UserType.business,
+                  //         child: Text(
+                  //           'Business',
+                  //           style: TextStyle(fontWeight: FontWeight.normal),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //     onChanged: (value) {
+                  //       setState(
+                  //         () {
+                  //           _selectedUserType = value!;
+                  //           //de mporei na einai null kathws exw kanei arxikopoiisi tou _selectedUserType
+                  //           print(_selectedUserType);
+                  //         },
+                  //       );
+                  //     },
+                  //   ),
                   const SizedBox(height: 12),
-                  ElevatedButton(
-                    onPressed: _submit,
-                    style: ElevatedButton.styleFrom(
-                        foregroundColor:
-                            Theme.of(context).colorScheme.onPrimary,
-                        backgroundColor: Theme.of(context).colorScheme.primary),
-                    child: Text(_isLogin ? 'Log in' : 'Sign up'),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 52,
+                    child: ElevatedButton(
+                      onPressed: _submit,
+                      style: ElevatedButton.styleFrom(
+                          foregroundColor:
+                              Theme.of(context).colorScheme.onPrimary,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary),
+                      child: Text(_isLogin ? 'Log in' : 'Sign up'),
+                    ),
                   ),
                   TextButton(
                       onPressed: () {

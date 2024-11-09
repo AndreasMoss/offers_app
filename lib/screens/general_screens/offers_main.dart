@@ -6,7 +6,6 @@ import 'package:offers_app/providers/offers_list_provider.dart';
 import 'package:offers_app/providers/usertype_provider.dart';
 import 'package:offers_app/screens/business_screens/add_offer.dart';
 import 'package:offers_app/screens/business_screens/business_profile_edit.dart';
-import 'package:offers_app/screens/general_screens/edit_profile.dart';
 import 'package:offers_app/screens/general_screens/map.dart';
 import 'package:offers_app/screens/general_screens/offers_details.dart';
 

@@ -6,8 +6,8 @@ import 'package:offers_app/screens/general_screens/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:offers_app/screens/general_screens/offers_main.dart';
 import 'package:offers_app/screens/general_screens/splash.dart';
+import 'package:offers_app/theme/offers_theme.dart';
 import 'firebase_options.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,42 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'FlutterChat',
-      theme: ThemeData().copyWith(
-        textTheme: GoogleFonts.workSansTextTheme(),
-        appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.white,
-            foregroundColor: Color.fromRGBO(255, 255, 255, 1)),
-        colorScheme: const ColorScheme(
-          brightness: Brightness.light,
-          primary: Color.fromARGB(255, 76, 175, 80),
-          onPrimary: Colors.white,
-          secondary: Color.fromARGB(255, 76, 175, 80),
-          onSecondary: Colors.white,
-          surface: Color.fromARGB(26, 76, 175, 80),
-          onSurface: Color.fromARGB(255, 76, 175, 80),
-          error: Colors.red,
-          onError: Colors.white,
-        ),
-        inputDecorationTheme: const InputDecorationTheme(
-          labelStyle: TextStyle(
-            color: Color.fromARGB(255, 129, 136, 152),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Color.fromARGB(255, 129, 136, 152),
-              width: 1.0,
-            ),
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Color.fromARGB(255, 129, 136, 152),
-              width: 1.0,
-            ),
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-          ),
-        ),
-      ),
+      theme: offersTheme,
       home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (ctx, snapshot) {
