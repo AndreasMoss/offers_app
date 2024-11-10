@@ -25,6 +25,7 @@ class OffersMainScreen extends ConsumerWidget {
 
         return Scaffold(
           appBar: AppBar(
+            backgroundColor: Theme.of(context).colorScheme.primary,
             title: const Text('Offers Screen'),
             actions: [
               //Test for userType

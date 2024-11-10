@@ -35,7 +35,7 @@ final ThemeData offersTheme = ThemeData().copyWith(
     ),
   ),
   appBarTheme: const AppBarTheme(
-      backgroundColor: Colors.white,
+      backgroundColor: Color.fromARGB(255, 76, 175, 80),
       foregroundColor: Color.fromRGBO(255, 255, 255, 1)),
   colorScheme: const ColorScheme(
     brightness: Brightness.light,
@@ -50,6 +50,7 @@ final ThemeData offersTheme = ThemeData().copyWith(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
+      foregroundColor: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12), // Προσθήκη borderRadius εδώ
       ),
