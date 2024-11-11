@@ -8,6 +8,8 @@ import 'package:offers_app/screens/business_screens/add_offer.dart';
 import 'package:offers_app/screens/business_screens/business_profile_edit.dart';
 import 'package:offers_app/screens/general_screens/map.dart';
 import 'package:offers_app/screens/general_screens/offers_details.dart';
+import 'package:offers_app/theme/colors_for_text.dart';
+import 'package:offers_app/widgets/offer_tile.dart';
 
 class OffersMainScreen extends ConsumerWidget {
   const OffersMainScreen({super.key});
@@ -24,113 +26,111 @@ class OffersMainScreen extends ConsumerWidget {
         final userIdProvided = ref.watch(userIdProvider);
 
         return Scaffold(
-          appBar: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            title: const Text('Offers Screen'),
-            actions: [
-              //Test for userType
-              // IconButton(
-              //   onPressed: () {
-              //     print('User Type: $userType');
-              //     print('User Type: $userTypeLoaded');
-              //   },
-              //   icon: Icon(
-              //     Icons.person,
-              //     color: Theme.of(context).colorScheme.onPrimary,
-              //   ),
-              // ),
-              if (userType == 'business')
-                IconButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (ctx) {
-                          return const BusinessProfileEditScreen();
-                        },
-                      ),
-                    );
-                  },
-                  icon: Icon(
-                    Icons.person,
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
-                ),
-              if (userType == 'business')
-                IconButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (ctx) {
-                        return const AddOfferScreen();
-                      }),
-                    );
-                  },
-                  icon: Icon(
-                    Icons.add,
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
-                ),
-              IconButton(
-                onPressed: () async {
-                  await FirebaseAuth.instance.signOut();
-                },
-                icon: Icon(
-                  Icons.exit_to_app,
-                  color: Theme.of(context).colorScheme.onPrimary,
-                ),
-              ),
-            ],
-          ),
+          // TA EXW KANEI COMMENT GIA NA BLEPW KANONIKA OPWS THELW TIN OTHONI, ALLA EXW TIS LEITOURGIKOTHTES STA BUTTON ICONS
+          // !!!!!!!!!!!!!!
+
+          // appBar: AppBar(
+          //   backgroundColor: Theme.of(context).colorScheme.primary,
+          //   title: const Text('Offers Screen'),
+          //   actions: [
+          //     //Test for userType
+          //     // IconButton(
+          //     //   onPressed: () {
+          //     //     print('User Type: $userType');
+          //     //     print('User Type: $userTypeLoaded');
+          //     //   },
+          //     //   icon: Icon(
+          //     //     Icons.person,
+          //     //     color: Theme.of(context).colorScheme.onPrimary,
+          //     //   ),
+          //     // ),
+          //     if (userType == 'business')
+          //       IconButton(
+          //         onPressed: () {
+          //           Navigator.of(context).push(
+          //             MaterialPageRoute(
+          //               builder: (ctx) {
+          //                 return const BusinessProfileEditScreen();
+          //               },
+          //             ),
+          //           );
+          //         },
+          //         icon: Icon(
+          //           Icons.person,
+          //           color: Theme.of(context).colorScheme.onPrimary,
+          //         ),
+          //       ),
+          //     if (userType == 'business')
+          //       IconButton(
+          //         onPressed: () {
+          //           Navigator.of(context).push(
+          //             MaterialPageRoute(builder: (ctx) {
+          //               return const AddOfferScreen();
+          //             }),
+          //           );
+          //         },
+          //         icon: Icon(
+          //           Icons.add,
+          //           color: Theme.of(context).colorScheme.onPrimary,
+          //         ),
+          //       ),
+          //     IconButton(
+          //       onPressed: () async {
+          //         await FirebaseAuth.instance.signOut();
+          //       },
+          //       icon: Icon(
+          //         Icons.exit_to_app,
+          //         color: Theme.of(context).colorScheme.onPrimary,
+          //       ),
+          //     ),
+          //   ],
+          // ),
           body: offersListStreamDataProvided.when(
-            data: (offers) => Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                    itemCount: offers.length,
-                    itemBuilder: (ctx, index) {
-                      return Card(
-                        elevation: 2,
-                        child: ListTile(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (ctx) {
-                                  return OffersDetails(offer: offers[index]);
-                                },
-                              ),
-                            );
-                          },
-                          title: Text(
-                            offers[index].title,
-                            style: Theme.of(context).textTheme.labelLarge,
-                          ),
-                          trailing: Text('${offers[index].codes} Codes left'),
-                        ),
-                      );
-                    },
+            data: (offers) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Available Offers!👋',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineLarge!
+                        .copyWith(color: textBlackB12),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(18.0),
-                  child: ElevatedButton.icon(
-                    icon: const Icon(Icons.map),
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (ctx) => const MapScreen()),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context)
-                          .colorScheme
-                          .secondary
-                          .withOpacity(0.9),
+                  Expanded(
+                    child: ListView.builder(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 4, vertical: 4),
+                      itemCount: offers.length,
+                      itemBuilder: (ctx, index) {
+                        return OfferTile(offer: offers[index]);
+                      },
                     ),
-                    label: const Text('View on Map'),
                   ),
-                ),
-                Text('You are user: \n$userIdProvided'),
-              ],
+
+                  // Padding(
+                  //   padding: const EdgeInsets.all(18.0),
+                  //   child: ElevatedButton.icon(
+                  //     icon: const Icon(Icons.map),
+                  //     onPressed: () {
+                  //       Navigator.of(context).push(
+                  //         MaterialPageRoute(
+                  //             builder: (ctx) => const MapScreen()),
+                  //       );
+                  //     },
+                  //     style: ElevatedButton.styleFrom(
+                  //       backgroundColor: Theme.of(context)
+                  //           .colorScheme
+                  //           .secondary
+                  //           .withOpacity(0.9),
+                  //     ),
+                  //     label: const Text('View on Map'),
+                  //   ),
+                  // ),
+                  // Text('You are user: \n$userIdProvided'),
+                ],
+              ),
             ),
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (error, stack) =>
