@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:offers_app/screens/general_screens/auth.dart';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:offers_app/screens/general_screens/offers_main.dart';
+import 'package:offers_app/screens/general_screens/main_screen.dart';
 import 'package:offers_app/screens/general_screens/splash.dart';
 import 'package:offers_app/theme/offers_theme.dart';
 import 'firebase_options.dart';
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
               return const SplashScreen();
             }
             if (snapshot.hasData) {
-              return const OffersMainScreen();
+              return const MainScreen();
             } else {
               return const AuthScreen();
             }
