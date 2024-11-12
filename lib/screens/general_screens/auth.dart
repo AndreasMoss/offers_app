@@ -68,236 +68,209 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 24),
-          child: Column(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    _isLogin ? 'Please Log in! 👋' : 'Create an Account! 👋',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineLarge!
-                        .copyWith(color: textBlackB12),
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  const Text(
-                      'Join now to discover exclusive offers and discounts tailored just for you.'),
-                ],
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-              Form(
-                key: _form,
+      body: Padding(
+        padding:
+            const EdgeInsets.only(top: 60, left: 24, right: 24, bottom: 24),
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Email',
+                      _isLogin ? 'Please Log in! 👋' : 'Create an Account! 👋',
                       style: Theme.of(context)
                           .textTheme
-                          .labelMedium!
+                          .headlineLarge!
                           .copyWith(color: textBlackB12),
                     ),
-                    const SizedBox(height: 8),
-                    SizedBox(
-                      height: 48,
-                      width: double.infinity,
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          labelText: 'Enter your email',
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                        autocorrect: false,
-                        textCapitalization: TextCapitalization.none,
-                        validator: (value) {
-                          if (value == null ||
-                              value.trim().isEmpty ||
-                              !value.contains('@')) {
-                            return 'Please enter a valid email address.';
-                          }
-
-                          return null;
-                        },
-                        onSaved: (value) {
-                          _enteredEmail = value!;
-                        },
-                      ),
+                    const SizedBox(height: 24),
+                    const Text(
+                      'Join now to discover exclusive offers and discounts tailored just for you.',
                     ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'Password',
-                      style: Theme.of(context)
-                          .textTheme
-                          .labelMedium!
-                          .copyWith(color: textBlackB12),
-                    ),
-                    const SizedBox(height: 8),
-                    SizedBox(
-                      height: 48,
-                      width: double.infinity,
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                            labelText: 'Enter your password'),
-                        obscureText: true,
-                        validator: (value) {
-                          if (value == null || value.length < 6) {
-                            return 'Password must be at least 6 characters long.';
-                          }
-
-                          return null;
-                        },
-                        onSaved: (value) {
-                          _enteredPassword = value!;
-                        },
-                      ),
-                    ),
-                    if (!_isLogin) const SizedBox(height: 16),
-                    if (!_isLogin)
-                      Row(
+                    const SizedBox(height: 32),
+                    Form(
+                      key: _form,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Text(
+                            'Email',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelMedium!
+                                .copyWith(color: textBlackB12),
+                          ),
+                          const SizedBox(height: 8),
                           SizedBox(
-                            width: 165,
                             height: 48,
-                            child: OutlinedButton(
-                              style: OutlinedButton.styleFrom(
-                                side: BorderSide(
-                                    color: _isBusiness
-                                        ? Theme.of(context).colorScheme.primary
-                                        : const Color(0xFFDFE1E7)),
-                                foregroundColor:
-                                    _isBusiness ? textBlackB12 : textGrayB98,
-                                textStyle: _isBusiness
-                                    ? Theme.of(context).textTheme.headlineMedium
-                                    : Theme.of(context)
-                                        .textTheme
-                                        .titleSmall!
-                                        .copyWith(fontWeight: FontWeight.w400),
-                                backgroundColor: _isBusiness
-                                    ? Theme.of(context).colorScheme.surface
-                                    : Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
+                            width: double.infinity,
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                labelText: 'Enter your email',
                               ),
-                              onPressed: () {
-                                setState(
-                                  () {
-                                    _isBusiness = true;
-                                    _selectedUserType = UserType.business;
-                                    //de mporei na einai null kathws exw kanei arxikopoiisi tou _selectedUserType
-                                    //print(_isBusiness);
-                                  },
-                                );
+                              keyboardType: TextInputType.emailAddress,
+                              autocorrect: false,
+                              textCapitalization: TextCapitalization.none,
+                              validator: (value) {
+                                if (value == null ||
+                                    value.trim().isEmpty ||
+                                    !value.contains('@')) {
+                                  return 'Please enter a valid email address.';
+                                }
+                                return null;
                               },
-                              child: const Text('Business'),
+                              onSaved: (value) {
+                                _enteredEmail = value!;
+                              },
                             ),
                           ),
-                          const Spacer(),
+                          const SizedBox(height: 16),
+                          Text(
+                            'Password',
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelMedium!
+                                .copyWith(color: textBlackB12),
+                          ),
+                          const SizedBox(height: 8),
                           SizedBox(
-                            width: 165,
                             height: 48,
-                            child: OutlinedButton(
-                              onPressed: () {
-                                setState(
-                                  () {
-                                    _isBusiness = false;
-                                    _selectedUserType = UserType.regular;
-                                    //de mporei na einai null kathws exw kanei arxikopoiisi tou _selectedUserType
-                                    //print(_isBusiness);
-                                  },
-                                );
-                              },
-                              style: OutlinedButton.styleFrom(
-                                side: BorderSide(
-                                    color: !_isBusiness
-                                        ? Theme.of(context).colorScheme.primary
-                                        : const Color(0xFFDFE1E7)),
-                                foregroundColor:
-                                    !_isBusiness ? textBlackB12 : textGrayB98,
-                                textStyle: !_isBusiness
-                                    ? Theme.of(context).textTheme.headlineMedium
-                                    : Theme.of(context)
-                                        .textTheme
-                                        .titleSmall!
-                                        .copyWith(fontWeight: FontWeight.w400),
-                                backgroundColor: !_isBusiness
-                                    ? Theme.of(context).colorScheme.surface
-                                    : Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
+                            width: double.infinity,
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                labelText: 'Enter your password',
                               ),
-                              child: const Text('Regular'),
+                              obscureText: true,
+                              validator: (value) {
+                                if (value == null || value.length < 6) {
+                                  return 'Password must be at least 6 characters long.';
+                                }
+                                return null;
+                              },
+                              onSaved: (value) {
+                                _enteredPassword = value!;
+                              },
                             ),
                           ),
+                          if (!_isLogin) const SizedBox(height: 16),
+                          if (!_isLogin)
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 165,
+                                  height: 48,
+                                  child: OutlinedButton(
+                                    style: OutlinedButton.styleFrom(
+                                      side: BorderSide(
+                                        color: _isBusiness
+                                            ? Theme.of(context)
+                                                .colorScheme
+                                                .primary
+                                            : const Color(0xFFDFE1E7),
+                                      ),
+                                      foregroundColor: _isBusiness
+                                          ? textBlackB12
+                                          : textGrayB98,
+                                      textStyle: _isBusiness
+                                          ? Theme.of(context)
+                                              .textTheme
+                                              .headlineMedium
+                                          : Theme.of(context)
+                                              .textTheme
+                                              .titleSmall!
+                                              .copyWith(
+                                                  fontWeight: FontWeight.w400),
+                                      backgroundColor: _isBusiness
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .surface
+                                          : Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        _isBusiness = true;
+                                        _selectedUserType = UserType.business;
+                                      });
+                                    },
+                                    child: const Text('Business'),
+                                  ),
+                                ),
+                                const Spacer(),
+                                SizedBox(
+                                  width: 165,
+                                  height: 48,
+                                  child: OutlinedButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _isBusiness = false;
+                                        _selectedUserType = UserType.regular;
+                                      });
+                                    },
+                                    style: OutlinedButton.styleFrom(
+                                      side: BorderSide(
+                                        color: !_isBusiness
+                                            ? Theme.of(context)
+                                                .colorScheme
+                                                .primary
+                                            : const Color(0xFFDFE1E7),
+                                      ),
+                                      foregroundColor: !_isBusiness
+                                          ? textBlackB12
+                                          : textGrayB98,
+                                      textStyle: !_isBusiness
+                                          ? Theme.of(context)
+                                              .textTheme
+                                              .headlineMedium
+                                          : Theme.of(context)
+                                              .textTheme
+                                              .titleSmall!
+                                              .copyWith(
+                                                  fontWeight: FontWeight.w400),
+                                      backgroundColor: !_isBusiness
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .surface
+                                          : Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    child: const Text('Regular'),
+                                  ),
+                                ),
+                              ],
+                            ),
                         ],
-                      ),
-                    // if (!_isLogin)
-                    //   DropdownButtonFormField(
-                    //     value: UserType.regular,
-                    //     items: const [
-                    //       DropdownMenuItem(
-                    //         //value sto menuItem einai to value poy tha parei en telei stin epilogi.
-                    //         value: UserType.regular,
-                    //         child: Text(
-                    //           'Regular User',
-                    //           style: TextStyle(fontWeight: FontWeight.normal),
-                    //         ),
-                    //       ),
-                    //       DropdownMenuItem(
-                    //         value: UserType.business,
-                    //         child: Text(
-                    //           'Business',
-                    //           style: TextStyle(fontWeight: FontWeight.normal),
-                    //         ),
-                    //       ),
-                    //     ],
-                    //     onChanged: (value) {
-                    //       setState(
-                    //         () {
-                    //           _selectedUserType = value!;
-                    //           //de mporei na einai null kathws exw kanei arxikopoiisi tou _selectedUserType
-                    //           print(_selectedUserType);
-                    //         },
-                    //       );
-                    //     },
-                    //   ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          _isLogin = !_isLogin;
-                        });
-                      },
-                      child: Text(_isLogin
-                          ? 'Create an account'
-                          : 'Log in with an existing account'),
-                    ),
-                    const SizedBox(height: 10),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 52,
-                      child: ElevatedButton(
-                        onPressed: _submit,
-                        style: ElevatedButton.styleFrom(
-                            foregroundColor:
-                                Theme.of(context).colorScheme.onPrimary,
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primary),
-                        child: Text(_isLogin ? 'Log in' : 'Sign up'),
                       ),
                     ),
                   ],
                 ),
-              )
-            ],
-          ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: _submit,
+              style: ElevatedButton.styleFrom(),
+              child: Text(
+                _isLogin ? 'Sign in' : 'Sign up',
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  _isLogin = !_isLogin;
+                });
+              },
+              child: Text(_isLogin
+                  ? 'Create an account'
+                  : 'Log in with an existing account'),
+            ),
+          ],
         ),
       ),
     );

@@ -50,7 +50,14 @@ final ThemeData offersTheme = ThemeData().copyWith(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
+      minimumSize: const Size(double.infinity, 52),
+      backgroundColor: const Color.fromARGB(255, 76, 175, 80),
       foregroundColor: Colors.white,
+      textStyle: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        fontFamily: GoogleFonts.workSans().fontFamily,
+      ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12), // Προσθήκη borderRadius εδώ
       ),

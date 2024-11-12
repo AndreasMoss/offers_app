@@ -13,7 +13,7 @@ class OffersListPage extends ConsumerWidget {
 
     return offersListStreamDataProvided.when(
       data: (offers) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 24),
+        padding: const EdgeInsets.only(top: 60, left: 24, right: 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -24,9 +24,10 @@ class OffersListPage extends ConsumerWidget {
                   .headlineLarge!
                   .copyWith(color: textBlackB12),
             ),
+
             Expanded(
               child: ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                padding: const EdgeInsets.only(top: 18),
                 itemCount: offers.length,
                 itemBuilder: (ctx, index) {
                   return OfferTile(offer: offers[index]);

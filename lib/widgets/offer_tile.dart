@@ -41,7 +41,8 @@ class _OfferTileState extends State<OfferTile> {
             Container(
               width: 80,
               height: 108,
-              decoration: const BoxDecoration(color: Colors.red),
+              decoration: BoxDecoration(
+                  color: textGrayB80, borderRadius: BorderRadius.circular(8)),
             ),
             Expanded(
               child: Padding(

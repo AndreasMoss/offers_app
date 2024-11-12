@@ -1,9 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:offers_app/providers/usertype_provider.dart';
-import 'package:offers_app/screens/business_screens/add_offer.dart';
 import 'package:offers_app/screens/business_screens/business_profile_edit.dart';
 import 'package:offers_app/widgets/for_bot_nav_bar/dashboard_page.dart';
 
@@ -35,68 +33,10 @@ class _OffersMainScreenState extends ConsumerState<MainScreen> {
     //parakolouthw ton provider pou moy dinei ta offers.
     return userTypeAsyncValue.when(
       data: (userType) {
-        final userIdProvided = ref.watch(userIdProvider);
+        // final userIdProvided = ref.watch(userIdProvider);
 
         return Scaffold(
-          // TA EXW KANEI COMMENT GIA NA BLEPW KANONIKA OPWS THELW TIN OTHONI, ALLA EXW TIS LEITOURGIKOTHTES STA BUTTON ICONS
-          // !!!!!!!!!!!!!!
-
-          appBar: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            title: const Text('Offers Screen'),
-            actions: [
-              //Test for userType
-              // IconButton(
-              //   onPressed: () {
-              //     print('User Type: $userType');
-              //     print('User Type: $userTypeLoaded');
-              //   },
-              //   icon: Icon(
-              //     Icons.person,
-              //     color: Theme.of(context).colorScheme.onPrimary,
-              //   ),
-              // ),
-              if (userType == 'business')
-                IconButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (ctx) {
-                          return const BusinessProfileEditScreen();
-                        },
-                      ),
-                    );
-                  },
-                  icon: Icon(
-                    Icons.person,
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
-                ),
-              if (userType == 'business')
-                IconButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (ctx) {
-                        return const AddOfferScreen();
-                      }),
-                    );
-                  },
-                  icon: Icon(
-                    Icons.add,
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
-                ),
-              IconButton(
-                onPressed: () async {
-                  await FirebaseAuth.instance.signOut();
-                },
-                icon: Icon(
-                  Icons.exit_to_app,
-                  color: Theme.of(context).colorScheme.onPrimary,
-                ),
-              ),
-            ],
-          ),
+          backgroundColor: const Color.fromARGB(255, 246, 245, 245),
           body: bottomNavPages[currentIndex],
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: currentIndex,
@@ -109,7 +49,7 @@ class _OffersMainScreenState extends ConsumerState<MainScreen> {
             items: [
               BottomNavigationBarItem(
                 icon: const Icon(Icons.home),
-                label: 'Home',
+                label: 'Dashboard',
                 activeIcon: Icon(Icons.home,
                     color: Theme.of(context).colorScheme.primary),
               ),
