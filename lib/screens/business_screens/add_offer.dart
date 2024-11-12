@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:offers_app/providers/usertype_provider.dart';
+import 'package:offers_app/providers/user_provider.dart';
 
 //PROSEXE NA BALEIS NA MI MPOROUN NA KANOUN ADD OFFER BUSINESSESS POU DEN EXOUN BALEI PEDIO ONOMA BUSINESS
 // I NA TO ELEGXEIS. GIATI DEN EXW BALEI GIA OLES AKOMA.

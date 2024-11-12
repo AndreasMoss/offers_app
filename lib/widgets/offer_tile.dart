@@ -14,26 +14,6 @@ class OfferTile extends StatefulWidget {
 }
 
 class _OfferTileState extends State<OfferTile> {
-  Future<String?> fetchProfileImage(String businessId) async {
-    try {
-      final docSnapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(businessId)
-          .get();
-
-      // `profile_image`Elegxos an to eggrafo iparxei kai an periexo to pedio profile_image
-      if (docSnapshot.exists && docSnapshot.data() != null) {
-        final data = docSnapshot.data()!;
-        return data.containsKey('profile_image')
-            ? data['profile_image'] as String
-            : null;
-      }
-    } catch (e) {
-      print('Error fetching profile image: $e');
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
