@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:offers_app/providers/offers_list_provider.dart';
@@ -26,7 +27,6 @@ class OffersListPage extends ConsumerWidget {
                     .headlineLarge!
                     .copyWith(color: textBlackB12),
               ),
-
               Expanded(
                 child: ListView.builder(
                   padding: const EdgeInsets.only(top: 18),
@@ -36,27 +36,6 @@ class OffersListPage extends ConsumerWidget {
                   },
                 ),
               ),
-
-              // Padding(
-              //   padding: const EdgeInsets.all(18.0),
-              //   child: ElevatedButton.icon(
-              //     icon: const Icon(Icons.map),
-              //     onPressed: () {
-              //       Navigator.of(context).push(
-              //         MaterialPageRoute(
-              //             builder: (ctx) => const MapScreen()),
-              //       );
-              //     },
-              //     style: ElevatedButton.styleFrom(
-              //       backgroundColor: Theme.of(context)
-              //           .colorScheme
-              //           .secondary
-              //           .withOpacity(0.9),
-              //     ),
-              //     label: const Text('View on Map'),
-              //   ),
-              // ),
-              // Text('You are user: \n$userIdProvided'),
             ],
           ),
           Positioned(
