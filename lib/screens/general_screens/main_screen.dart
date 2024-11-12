@@ -48,9 +48,9 @@ class _OffersMainScreenState extends ConsumerState<MainScreen> {
             type: BottomNavigationBarType.fixed,
             items: [
               BottomNavigationBarItem(
-                icon: const Icon(Icons.home),
+                icon: const Icon(Icons.space_dashboard),
                 label: 'Dashboard',
-                activeIcon: Icon(Icons.home,
+                activeIcon: Icon(Icons.dashboard,
                     color: Theme.of(context).colorScheme.primary),
               ),
               BottomNavigationBarItem(

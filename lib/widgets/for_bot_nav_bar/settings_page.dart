@@ -14,40 +14,43 @@ class SettingsPage extends ConsumerWidget {
 
     return Padding(
         padding: const EdgeInsets.all(24),
-        child: Column(
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                if (userType == 'business') {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (ctx) {
-                        return const BusinessProfileEditScreen();
-                      },
-                    ),
-                  );
-                } else {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (ctx) {
-                        return const UserProfileEdit();
-                      },
-                    ),
-                  );
-                }
-              },
-              child: const Text('Edit your Profile'),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-              },
-              child: const Text('Log out'),
-            ),
-          ],
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  if (userType == 'business') {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (ctx) {
+                          return const BusinessProfileEditScreen();
+                        },
+                      ),
+                    );
+                  } else {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (ctx) {
+                          return const UserProfileEdit();
+                        },
+                      ),
+                    );
+                  }
+                },
+                child: const Text('Edit your Profile'),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  await FirebaseAuth.instance.signOut();
+                },
+                child: const Text('Log out'),
+              ),
+            ],
+          ),
         ));
   }
 }
