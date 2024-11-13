@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:offers_app/providers/usertype_provider.dart';
+import 'package:offers_app/providers/user_provider.dart';
 import 'package:offers_app/screens/business_screens/business_profile_edit.dart';
 import 'package:offers_app/widgets/for_bot_nav_bar/dashboard_page.dart';
 
@@ -27,6 +27,7 @@ class _OffersMainScreenState extends ConsumerState<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // STIN OUSIA DEN TON XRISIMOPOIW KAPOU AUTON TON PROVIDER SE AUTO TO SCREEN, ALLA THELW NA TON FORTWSW NA TON EXW STO YPOLOIPO TIS EFARMOGIS.
     final userTypeAsyncValue = ref.watch(userTypeProvider);
     //perimenw o provider na exei data, kathws einai futureProvider
 
@@ -76,7 +77,8 @@ class _OffersMainScreenState extends ConsumerState<MainScreen> {
         );
       },
       error: (error, stack) => Scaffold(
-        body: Center(child: Text('ErrorAAAAAAAAAAAAAAAAAAAA: $error')),
+        body:
+            Center(child: Text('ErrorAAAAAAAAIIIIIIIIIIAAAAAAAAAAAA: $error')),
       ),
       loading: () => const Scaffold(
         body: Center(child: CircularProgressIndicator()),

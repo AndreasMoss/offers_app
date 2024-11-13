@@ -3,12 +3,14 @@ class Offer {
       {required this.id,
       required this.title,
       required this.description,
-      required this.codes});
+      required this.codes,
+      this.profileImage});
 
   final String id;
   final String title;
   final String description;
   final int codes;
+  final String? profileImage;
 
   int redeemedCodes = 0;
 

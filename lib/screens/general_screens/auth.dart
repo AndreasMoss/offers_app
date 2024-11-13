@@ -25,7 +25,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   var _enteredEmail = '';
   var _enteredPassword = '';
-  UserType _selectedUserType = UserType.regular;
+  UserType _selectedUserType = UserType.business;
 
   void _submit() async {
     final isValid = _form.currentState!.validate();
@@ -195,6 +195,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                       setState(() {
                                         _isBusiness = true;
                                         _selectedUserType = UserType.business;
+                                        print('Business: $_isBusiness');
                                       });
                                     },
                                     child: const Text('Business'),
@@ -209,6 +210,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                       setState(() {
                                         _isBusiness = false;
                                         _selectedUserType = UserType.regular;
+                                        print('Business: $_isBusiness');
                                       });
                                     },
                                     style: OutlinedButton.styleFrom(

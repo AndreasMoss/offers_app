@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:offers_app/providers/usertype_provider.dart';
+import 'package:offers_app/providers/user_provider.dart';
 import 'package:offers_app/screens/business_screens/add_offer.dart';
 
 class DashboardPage extends ConsumerWidget {

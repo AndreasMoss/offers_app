@@ -24,6 +24,7 @@ class _AddOfferScreenState extends ConsumerState<AddOfferScreen> {
     final isValid = _addForm.currentState!.validate();
 
     final userIdProvided = ref.read(userIdProvider);
+    final userProfileImageUrl = ref.read(userProfileImageProvider).value;
     if (userIdProvided == null) {
       print(
           'ISSUE WITH userIdProvided!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
@@ -49,93 +50,110 @@ class _AddOfferScreenState extends ConsumerState<AddOfferScreen> {
       'title': _enteredTitle,
       'description': _enteredDescription,
       'codes': _enteredCodesNumber,
+      'business_image_url': userProfileImageUrl,
     });
-    print("New document ID: ${docRef.id}");
+
+    //print("New document ID: ${docRef.id}");
 
     Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add new Offer'),
+    final userProfileImageAsyncValue = ref.watch(userProfileImageProvider);
+    return userProfileImageAsyncValue.when(
+      data: (profileImage) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Add new Offer'),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Form(
+                key: _addForm,
+                child: Column(
+                  children: [
+                    // TextFormField(
+                    //   decoration: const InputDecoration(labelText: 'ID'),
+                    //   validator: (value) {
+                    //     if (value == null || value.trim().isEmpty) {
+                    //       return 'Please enter a valid ID';
+                    //     }
+
+                    //     return null;
+                    //   },
+                    //   onSaved: (value) {
+                    //     _enteredID = value!;
+                    //   },
+                    // ),
+                    TextFormField(
+                      decoration: const InputDecoration(labelText: 'title'),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'Please enter a valid title';
+                        }
+
+                        return null;
+                      },
+                      onSaved: (value) {
+                        //se kathe tetoio elegxoume an einai null ston validator pou kaloume prin to save sto _submitAddForm.
+                        //Giauto bazoume !
+                        _enteredTitle = value!;
+                      },
+                    ),
+                    TextFormField(
+                      maxLines: 3,
+                      keyboardType: TextInputType.multiline,
+                      textInputAction: TextInputAction.newline,
+                      decoration:
+                          const InputDecoration(labelText: 'Description'),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'Please enter a valid Description';
+                        }
+
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _enteredDescription = value!;
+                      },
+                    ),
+                    TextFormField(
+                      keyboardType: TextInputType.number,
+                      decoration:
+                          const InputDecoration(labelText: 'Number of Codes'),
+                      validator: (value) {
+                        if (value == null ||
+                            value.trim().isEmpty ||
+                            int.tryParse(value) == null) {
+                          return 'Please enter a valid number of Codes';
+                        }
+
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _enteredCodesNumber = int.tryParse(value!)!;
+                      },
+                    ),
+                    ElevatedButton(
+                      onPressed: _submitAddForm,
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondary),
+                      child: const Text('Add Offer'),
+                    ),
+                  ],
+                )),
+          ),
+        );
+      },
+      error: (error, stack) => Scaffold(
+        body: Center(
+            child: Text(
+                'ErrorINADDOFFERPAGE WITH PROFILE IMAGE ASYNC VALUE: $error')),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Form(
-            key: _addForm,
-            child: Column(
-              children: [
-                // TextFormField(
-                //   decoration: const InputDecoration(labelText: 'ID'),
-                //   validator: (value) {
-                //     if (value == null || value.trim().isEmpty) {
-                //       return 'Please enter a valid ID';
-                //     }
-
-                //     return null;
-                //   },
-                //   onSaved: (value) {
-                //     _enteredID = value!;
-                //   },
-                // ),
-                TextFormField(
-                  decoration: const InputDecoration(labelText: 'title'),
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Please enter a valid title';
-                    }
-
-                    return null;
-                  },
-                  onSaved: (value) {
-                    //se kathe tetoio elegxoume an einai null ston validator pou kaloume prin to save sto _submitAddForm.
-                    //Giauto bazoume !
-                    _enteredTitle = value!;
-                  },
-                ),
-                TextFormField(
-                  maxLines: 3,
-                  keyboardType: TextInputType.multiline,
-                  textInputAction: TextInputAction.newline,
-                  decoration: const InputDecoration(labelText: 'Description'),
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Please enter a valid Description';
-                    }
-
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _enteredDescription = value!;
-                  },
-                ),
-                TextFormField(
-                  keyboardType: TextInputType.number,
-                  decoration:
-                      const InputDecoration(labelText: 'Number of Codes'),
-                  validator: (value) {
-                    if (value == null ||
-                        value.trim().isEmpty ||
-                        int.tryParse(value) == null) {
-                      return 'Please enter a valid number of Codes';
-                    }
-
-                    return null;
-                  },
-                  onSaved: (value) {
-                    _enteredCodesNumber = int.tryParse(value!)!;
-                  },
-                ),
-                ElevatedButton(
-                  onPressed: _submitAddForm,
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.secondary),
-                  child: const Text('Add Offer'),
-                ),
-              ],
-            )),
+      loading: () => const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
       ),
     );
   }

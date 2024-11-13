@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:offers_app/models/offer.dart';
 import 'package:offers_app/screens/general_screens/offers_details.dart';
@@ -39,12 +38,33 @@ class _OfferTileState extends State<OfferTile> {
         padding: const EdgeInsets.all(14),
         child: Row(
           children: [
-            Container(
-              width: 80,
-              height: 108,
-              decoration: BoxDecoration(
-                  color: textGrayB80, borderRadius: BorderRadius.circular(8)),
-            ),
+            if (widget.offer.profileImage != null)
+              Container(
+                width: 115,
+                height: 108,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  image: DecorationImage(
+                    image: NetworkImage(widget.offer.profileImage!),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              )
+            else
+              Container(
+                width: 80,
+                height: 108,
+                decoration: BoxDecoration(
+                  color: textGrayB80,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+            // Container(
+            //   width: 80,
+            //   height: 108,
+            //   decoration: BoxDecoration(
+            //       color: textGrayB80, borderRadius: BorderRadius.circular(8)),
+            // ),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(left: 16, top: 9, bottom: 9),

@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:offers_app/models/offer.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:offers_app/providers/usertype_provider.dart';
+import 'package:offers_app/providers/user_provider.dart';
 
 // to .map sta streams leitourgei diaforetika apo tis listes. Edw to .map() eksasfalizei oti tha ginei mia energeia
 // otan to stream steilei neo antikeimeno i iparksei kapoia allagi.
@@ -26,6 +27,7 @@ final offersStreamProvider = StreamProvider<List<Offer>>((ref) {
         title: data['title'],
         description: data['description'],
         codes: data['codes'],
+        profileImage: data['business_image_url'],
       );
     }).toList();
   });

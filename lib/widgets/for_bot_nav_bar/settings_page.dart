@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:offers_app/providers/usertype_provider.dart';
+import 'package:offers_app/providers/user_provider.dart';
 import 'package:offers_app/screens/business_screens/business_profile_edit.dart';
 import 'package:offers_app/screens/regular_user_screens/user_profile_edit.dart';
 
