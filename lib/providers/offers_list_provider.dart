@@ -26,6 +26,7 @@ final offersStreamProvider = StreamProvider<List<Offer>>((ref) {
         title: data['title'],
         description: data['description'],
         codes: data['codes'],
+        businessId: data['business_id'],
         profileImage: data['business_image_url'],
       );
     }).toList();

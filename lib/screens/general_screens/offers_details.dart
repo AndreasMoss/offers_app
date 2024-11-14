@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:offers_app/models/offer.dart';
+import 'package:offers_app/providers/user_provider.dart';
 
-class OffersDetails extends StatelessWidget {
+class OffersDetails extends ConsumerWidget {
   const OffersDetails({super.key, required this.offer});
 
   final Offer offer;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userId = ref.read(userIdProvider);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Offers Details'),
+        title: const Text('Offer Details'),
       ),
       body: Container(
         padding:
@@ -30,17 +34,17 @@ class OffersDetails extends StatelessWidget {
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.labelLarge,
             ),
-            const SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: () {
-                // offer.redeemCode();
-                // Navigator.of(context).pop();
-                // print(offer.availableCodes);
-              },
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.secondary),
-              child: const Text('Redeem Code'),
-            )
+            const Spacer(),
+            if (userId == offer.businessId)
+              ElevatedButton.icon(
+                icon: const Icon(Icons.qr_code),
+                onPressed: () {
+                  // offer.redeemCode();
+                  // Navigator.of(context).pop();
+                  // print(offer.availableCodes);
+                },
+                label: const Text('Scan User QR Code'),
+              )
           ],
         ),
       ),
