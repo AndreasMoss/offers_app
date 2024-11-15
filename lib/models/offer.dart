@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Offer {
   Offer(
       {required this.id,
@@ -20,15 +22,31 @@ class Offer {
     return codes - redeemedCodes;
   }
 
-  void printOfferId() {
+  void printOfferId() async {
     print("OFFFFEEEEERRRR ID: ---------------$id------------------");
   }
 
-  void redeemCode() {
-    if (availableCodes > 0) {
-      redeemedCodes++;
-    } else {
-      print('No Codes left');
+  Future<void> redeemCode(String userId) async {
+    final firestoreDb = FirebaseFirestore.instance;
+    try {
+      final userRef = firestoreDb.collection('users').doc(userId);
+      await firestoreDb.runTransaction((transaction) async {
+        print('STAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAART');
+        final snapshot = await transaction.get(userRef);
+
+        try {
+          print(snapshot.data());
+          int currentPoints = snapshot.data()!['points'];
+          print('Current POINTS AREEEEEEEEEEEEEEEEEEEEE : $currentPoints');
+          transaction.update(userRef, {'points': currentPoints + 20});
+          print('Points added successfully to user $userId.');
+        } catch (error) {
+          print('ERROR WHILE TRYING TO READ USER DOCUMENT');
+        }
+        print('FINIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIISH');
+      });
+    } catch (e) {
+      print('ERROR WHILE TRYING TO ADD POINTS TO USER!!!');
     }
   }
 }

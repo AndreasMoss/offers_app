@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:offers_app/models/offer.dart';
 import 'package:offers_app/providers/user_provider.dart';
-import 'package:offers_app/theme/colors_for_text.dart';
 
 class OffersDetails extends ConsumerWidget {
   const OffersDetails({super.key, required this.offer});
@@ -19,18 +18,24 @@ class OffersDetails extends ConsumerWidget {
           height: 400,
           child: MobileScanner(
             key: UniqueKey(), // Βοηθά στην ανανέωση του widget
-            onDetect: (BarcodeCapture capture) {
+            onDetect: (BarcodeCapture capture) async {
               final List<Barcode> barcodes = capture.barcodes;
               if (barcodes.isNotEmpty) {
                 final String? scannedUserId = barcodes.first.rawValue;
                 if (scannedUserId != null) {
                   Navigator.of(context).pop();
+                  try {
+                    await offer.redeemCode(scannedUserId);
+                  } catch (e) {
+                    print('ERROR WHILE READING THE QR CODE OF THE USER');
+                  }
                   ScaffoldMessenger.of(ctx).showSnackBar(
                     SnackBar(
+                        duration: const Duration(seconds: 1),
                         backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                         content: Text(
                           'QR code matched: $scannedUserId',
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white, fontWeight: FontWeight.bold),
                         )),
                   );
