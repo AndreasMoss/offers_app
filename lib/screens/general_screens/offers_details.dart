@@ -1,12 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:offers_app/models/offer.dart';
 import 'package:offers_app/providers/user_provider.dart';
+import 'package:offers_app/theme/colors_for_text.dart';
 
 class OffersDetails extends ConsumerWidget {
   const OffersDetails({super.key, required this.offer});
 
   final Offer offer;
+
+  void scanQRCode(BuildContext ctx) {
+    showModalBottomSheet(
+      context: ctx,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return SizedBox(
+          height: 400,
+          child: MobileScanner(
+            key: UniqueKey(), // Βοηθά στην ανανέωση του widget
+            onDetect: (BarcodeCapture capture) {
+              final List<Barcode> barcodes = capture.barcodes;
+              if (barcodes.isNotEmpty) {
+                final String? scannedUserId = barcodes.first.rawValue;
+                if (scannedUserId != null) {
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(ctx).showSnackBar(
+                    SnackBar(
+                        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                        content: Text(
+                          'QR code matched: $scannedUserId',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        )),
+                  );
+                }
+              }
+            },
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -39,9 +74,7 @@ class OffersDetails extends ConsumerWidget {
               ElevatedButton.icon(
                 icon: const Icon(Icons.qr_code),
                 onPressed: () {
-                  // offer.redeemCode();
-                  // Navigator.of(context).pop();
-                  // print(offer.availableCodes);
+                  scanQRCode(context);
                 },
                 label: const Text('Scan User QR Code'),
               )
