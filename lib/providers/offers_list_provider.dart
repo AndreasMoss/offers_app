@@ -22,7 +22,7 @@ final offersStreamProvider = StreamProvider<List<Offer>>((ref) {
     return snapshot.docs.map((doc) {
       final data = doc.data();
       return Offer(
-        id: doc.id,
+        offerId: doc.id,
         title: data['title'],
         description: data['description'],
         codes: data['codes'],

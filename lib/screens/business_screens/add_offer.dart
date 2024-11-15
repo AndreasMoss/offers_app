@@ -55,7 +55,9 @@ class _AddOfferScreenState extends ConsumerState<AddOfferScreen> {
 
     //print("New document ID: ${docRef.id}");
 
-    Navigator.of(context).pop();
+    if (mounted) {
+      Navigator.of(context).pop();
+    }
   }
 
   @override

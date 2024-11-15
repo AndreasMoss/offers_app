@@ -2,14 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Offer {
   Offer(
-      {required this.id,
+      {required this.offerId,
       required this.title,
       required this.description,
       required this.codes,
       required this.businessId,
       this.profileImage});
 
-  final String id;
+  final String offerId;
   final String title;
   final String description;
   final int codes;
@@ -22,24 +22,29 @@ class Offer {
     return codes - redeemedCodes;
   }
 
-  void printOfferId() async {
-    print("OFFFFEEEEERRRR ID: ---------------$id------------------");
-  }
+  // void printOfferId() async {
+  //   print("OFFFFEEEEERRRR ID: ---------------$id------------------");
+  // }
 
+  // Using transaction
   Future<void> redeemCode(String userId) async {
     final firestoreDb = FirebaseFirestore.instance;
     try {
       final userRef = firestoreDb.collection('users').doc(userId);
+      final offerRef = firestoreDb.collection('offers').doc(offerId);
       await firestoreDb.runTransaction((transaction) async {
         print('STAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAART');
         final snapshot = await transaction.get(userRef);
+        final snapshot2 = await transaction.get(offerRef);
 
         try {
-          print(snapshot.data());
+          //print(snapshot.data());
           int currentPoints = snapshot.data()!['points'];
-          print('Current POINTS AREEEEEEEEEEEEEEEEEEEEE : $currentPoints');
+          int currentCodes = snapshot2.data()!['codes'];
+          //print('Current POINTS AREEEEEEEEEEEEEEEEEEEEE : $currentPoints');
           transaction.update(userRef, {'points': currentPoints + 20});
-          print('Points added successfully to user $userId.');
+          transaction.update(offerRef, {'codes': currentCodes - 1});
+          //print('Points added successfully to user $userId.');
         } catch (error) {
           print('ERROR WHILE TRYING TO READ USER DOCUMENT');
         }

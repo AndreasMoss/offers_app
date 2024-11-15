@@ -26,19 +26,26 @@ class OffersDetails extends ConsumerWidget {
                   Navigator.of(context).pop();
                   try {
                     await offer.redeemCode(scannedUserId);
+                    if (ctx.mounted) {
+                      ScaffoldMessenger.of(ctx).showSnackBar(
+                        SnackBar(
+                          duration: const Duration(seconds: 1),
+                          backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+                          content: Text(
+                            'Coded Redeemed Succesfuly for the User $scannedUserId',
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      );
+                    }
+                    if (ctx.mounted) {
+                      Navigator.of(ctx).pop();
+                    }
                   } catch (e) {
                     print('ERROR WHILE READING THE QR CODE OF THE USER');
                   }
-                  ScaffoldMessenger.of(ctx).showSnackBar(
-                    SnackBar(
-                        duration: const Duration(seconds: 1),
-                        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-                        content: Text(
-                          'QR code matched: $scannedUserId',
-                          style: const TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        )),
-                  );
                 }
               }
             },

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:offers_app/providers/user_provider.dart';
-import 'package:offers_app/screens/business_screens/business_profile_edit.dart';
 import 'package:offers_app/widgets/for_bot_nav_bar/dashboard_page.dart';
 
 import 'package:offers_app/widgets/for_bot_nav_bar/offers_list_page.dart';

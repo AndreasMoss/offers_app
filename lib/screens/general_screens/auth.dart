@@ -53,16 +53,19 @@ class _AuthScreenState extends State<AuthScreen> {
         });
       }
     } on FirebaseAuthException catch (error) {
-      ScaffoldMessenger.of(context).clearSnackBars();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: const Color.fromARGB(116, 102, 109, 128),
-          content: Text(
-            error.message ?? 'Authentication Failed',
-            style: const TextStyle(color: Colors.white),
+      if (mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: const Color.fromARGB(116, 102, 109, 128),
+            content: Text(
+              error.message ?? 'Authentication Failed',
+              style: const TextStyle(color: Colors.white),
+            ),
           ),
-        ),
-      );
+        );
+      }
     }
   }
 
