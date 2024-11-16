@@ -50,6 +50,7 @@ class _AuthScreenState extends State<AuthScreen> {
           'userType':
               _selectedUserType == UserType.business ? 'business' : 'regular',
           if (_selectedUserType == UserType.regular) 'points': 0,
+          if (_selectedUserType == UserType.business) 'points': -1,
         });
       }
     } on FirebaseAuthException catch (error) {

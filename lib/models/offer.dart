@@ -16,12 +16,6 @@ class Offer {
   final String businessId;
   final String? profileImage;
 
-  int redeemedCodes = 0;
-
-  int get availableCodes {
-    return codes - redeemedCodes;
-  }
-
   // void printOfferId() async {
   //   print("OFFFFEEEEERRRR ID: ---------------$id------------------");
   // }

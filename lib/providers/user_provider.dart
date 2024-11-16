@@ -42,28 +42,6 @@ final userIdProvider = Provider<String?>((ref) {
   return user.uid;
 });
 
-// //AN DEN YPARXEI I EIKONA , NA EPISTREFW NULL.
-// final userProfileImageProvider = FutureProvider<String?>((ref) async {
-//   final user = ref.watch(authStateProvider).asData?.value;
-//   // me to asData pairnoyme tin trexousa katastasi tou AsyncData (an einai stin katatasi data:) kai me to value pairnoyme tin timi pou periexei.
-
-//   if (user == null) {
-//     return null;
-//   }
-
-//   final uid = user.uid;
-//   final doc =
-//       await FirebaseFirestore.instance.collection('users').doc(uid).get();
-
-//   try {
-//     if (doc.exists) {
-//       return doc['profile_image'] as String;
-//     }
-//   } catch (e) {
-//     return null;
-//   }
-// });
-
 final userProfileImageProvider = StreamProvider<String?>((ref) {
   final user = ref.watch(authStateProvider).asData?.value;
 

@@ -3,16 +3,17 @@ import 'package:offers_app/models/offer.dart';
 import 'package:offers_app/screens/general_screens/offers_details.dart';
 import 'package:offers_app/theme/colors_for_text.dart';
 
-class OfferTile extends StatefulWidget {
-  const OfferTile({super.key, required this.offer});
+class OfferTile extends StatelessWidget {
+  const OfferTile({
+    super.key,
+    required this.offer,
+    this.color,
+  });
+
+  final Color? color;
 
   final Offer offer;
 
-  @override
-  State<OfferTile> createState() => _OfferTileState();
-}
-
-class _OfferTileState extends State<OfferTile> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -20,7 +21,7 @@ class _OfferTileState extends State<OfferTile> {
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (ctx) {
-              return OffersDetails(offer: widget.offer);
+              return OffersDetails(offer: offer);
             },
           ),
         );
@@ -29,6 +30,7 @@ class _OfferTileState extends State<OfferTile> {
         height: 136,
         width: double.infinity,
         decoration: BoxDecoration(
+          color: color ?? const Color.fromARGB(0, 255, 255, 255),
           border: Border.all(
             color: const Color(0xFFECEFF3), // Χρώμα του border
             width: 1,
@@ -38,14 +40,14 @@ class _OfferTileState extends State<OfferTile> {
         padding: const EdgeInsets.all(14),
         child: Row(
           children: [
-            if (widget.offer.profileImage != null)
+            if (offer.profileImage != null)
               Container(
                 width: 115,
                 height: 108,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   image: DecorationImage(
-                    image: NetworkImage(widget.offer.profileImage!),
+                    image: NetworkImage(offer.profileImage!),
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -72,7 +74,7 @@ class _OfferTileState extends State<OfferTile> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.offer.title,
+                      offer.title,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context)
                           .textTheme
@@ -80,7 +82,7 @@ class _OfferTileState extends State<OfferTile> {
                           .copyWith(color: textBlackB12),
                     ),
                     Text(
-                      widget.offer.description,
+                      offer.description,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context)
                           .textTheme
@@ -89,7 +91,7 @@ class _OfferTileState extends State<OfferTile> {
                     ),
                     const Spacer(),
                     Text(
-                      "Remaining: ${widget.offer.codes} codes",
+                      "Remaining: ${offer.codes} codes",
                       style: Theme.of(context)
                           .textTheme
                           .labelSmall!

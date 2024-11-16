@@ -31,8 +31,12 @@ class BusinessDashboard extends ConsumerWidget {
                         .copyWith(color: textBlackB12),
                   ),
                   Expanded(
-                    child: OffersList(offers: activeOffers),
+                    child: OffersList(
+                      offers: activeOffers,
+                      color: const Color.fromARGB(120, 76, 175, 80),
+                    ),
                   ),
+                  const SizedBox(height: 8),
                   Text(
                     'Expired Offers',
                     style: Theme.of(context)
@@ -41,8 +45,12 @@ class BusinessDashboard extends ConsumerWidget {
                         .copyWith(color: textBlackB12),
                   ),
                   Expanded(
-                    child: OffersList(offers: inactiveOffers),
+                    child: OffersList(
+                      offers: inactiveOffers,
+                      color: const Color.fromARGB(120, 244, 67, 54),
+                    ),
                   ),
+                  const SizedBox(height: 8),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).push(

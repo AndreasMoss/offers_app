@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:offers_app/providers/user_provider.dart';
+import 'package:offers_app/screens/general_screens/leaderboard.dart';
 import 'package:offers_app/widgets/for_bot_nav_bar/dashboard_page.dart';
 
 import 'package:offers_app/widgets/for_bot_nav_bar/offers_list_page.dart';
@@ -36,6 +37,22 @@ class _OffersMainScreenState extends ConsumerState<MainScreen> {
         // final userIdProvided = ref.watch(userIdProvider);
 
         return Scaffold(
+          appBar: currentIndex == 0
+              ? AppBar(
+                  title: Text(
+                    'Dashboard',
+                    style: Theme.of(context).textTheme.headlineLarge,
+                  ),
+                  actions: [
+                    IconButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (ctx) => const LeaderboardScreen()));
+                        },
+                        icon: const Icon(Icons.emoji_events))
+                  ],
+                )
+              : null,
           backgroundColor: const Color.fromARGB(255, 246, 245, 245),
           body: bottomNavPages[currentIndex],
           bottomNavigationBar: BottomNavigationBar(
