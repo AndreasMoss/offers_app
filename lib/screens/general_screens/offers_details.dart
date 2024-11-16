@@ -9,6 +9,8 @@ class OffersDetails extends ConsumerWidget {
 
   final Offer offer;
 
+// DEN EXW PAREI PERIPTWSI POU NA EINAI TO TELEUTAIO KOUPONI
+// KAI PERIPTWSI POU TELEIWSE I PROSFORA ARA PREPEI NA MIN FAINETAI STIN ARXIKI.
   void scanQRCode(BuildContext ctx) {
     showModalBottomSheet(
       context: ctx,

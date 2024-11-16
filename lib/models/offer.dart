@@ -41,6 +41,9 @@ class Offer {
           //print(snapshot.data());
           int currentPoints = snapshot.data()!['points'];
           int currentCodes = snapshot2.data()!['codes'];
+          if (currentCodes == 1) {
+            transaction.update(offerRef, {'isActive': false});
+          }
           //print('Current POINTS AREEEEEEEEEEEEEEEEEEEEE : $currentPoints');
           transaction.update(userRef, {'points': currentPoints + 20});
           transaction.update(offerRef, {'codes': currentCodes - 1});

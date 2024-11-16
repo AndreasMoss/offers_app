@@ -1,77 +1,88 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:offers_app/providers/offers_list_provider.dart';
 import 'package:offers_app/screens/general_screens/map.dart';
 import 'package:offers_app/theme/colors_for_text.dart';
 import 'package:offers_app/widgets/offers_list.dart';
 
-class OffersListPage extends StatelessWidget {
+class OffersListPage extends ConsumerWidget {
   const OffersListPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 60, left: 24, right: 24),
-      child: Stack(children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Available Offers!👋',
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineLarge!
-                  .copyWith(color: textBlackB12),
-            ),
-            const Expanded(
-              child: OffersList(),
-            ),
-          ],
-        ),
-        Positioned(
-          top: 576,
-          right: 0,
-          child: Column(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final offersListStreamDataProvided = ref.watch(activeOffersStreamProvider);
+    return offersListStreamDataProvided.when(
+      data: (offersL) => Padding(
+        padding: const EdgeInsets.only(top: 60, left: 24, right: 24),
+        child: Stack(children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: 80,
-                height: 32,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Theme.of(context).colorScheme.primary),
-                child: Center(
-                  child: Text(
-                    'View Map',
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelSmall!
-                        .copyWith(fontWeight: FontWeight.w600),
-                  ),
-                ),
+              Text(
+                'Available Offers!👋',
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineLarge!
+                    .copyWith(color: textBlackB12),
               ),
-              const SizedBox(height: 4),
-              SizedBox(
-                height: 60,
-                width: 60,
-                child: FloatingActionButton(
-                  shape: const CircleBorder(),
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (ctx) => const MapScreen(),
-                      ),
-                    );
-                  },
-                  backgroundColor: Colors.white,
-                  child: Icon(
-                    Icons.location_on,
-                    color: Theme.of(context).colorScheme.primary,
-                    size: 35,
-                  ),
+              Expanded(
+                child: OffersList(
+                  offers: offersL,
                 ),
               ),
             ],
           ),
-        ),
-      ]),
+          Positioned(
+            top: 576,
+            right: 0,
+            child: Column(
+              children: [
+                Container(
+                  width: 80,
+                  height: 32,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Theme.of(context).colorScheme.primary),
+                  child: Center(
+                    child: Text(
+                      'View Map',
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelSmall!
+                          .copyWith(fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                SizedBox(
+                  height: 60,
+                  width: 60,
+                  child: FloatingActionButton(
+                    shape: const CircleBorder(),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (ctx) => const MapScreen(),
+                        ),
+                      );
+                    },
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      Icons.location_on,
+                      color: Theme.of(context).colorScheme.primary,
+                      size: 35,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ]),
+      ),
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stack) => Center(
+        child: Text('ErrorINOFFERSLISTTTTTTTTTTTTTTT_WIDGET: $error'),
+      ),
     );
   }
 }

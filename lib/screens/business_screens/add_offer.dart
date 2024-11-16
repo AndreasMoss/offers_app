@@ -51,6 +51,7 @@ class _AddOfferScreenState extends ConsumerState<AddOfferScreen> {
       'description': _enteredDescription,
       'codes': _enteredCodesNumber,
       'business_image_url': userProfileImageUrl,
+      'isActive': true
     });
 
     //print("New document ID: ${docRef.id}");
