@@ -47,10 +47,15 @@ class _AuthScreenState extends State<AuthScreen> {
             .doc(userCredentials.user!.uid)
             .set({
           'email': _enteredEmail,
+          if (_selectedUserType == UserType.regular) 'username': 'nameless',
+          if (_selectedUserType == UserType.business)
+            'business_name': 'nameless',
           'userType':
               _selectedUserType == UserType.business ? 'business' : 'regular',
           if (_selectedUserType == UserType.regular) 'points': 0,
           if (_selectedUserType == UserType.business) 'points': -1,
+          if (_selectedUserType == UserType.regular) 'totalCodesUsed': 0,
+          if (_selectedUserType == UserType.business) 'totalCodesGiven': 0,
         });
       }
     } on FirebaseAuthException catch (error) {

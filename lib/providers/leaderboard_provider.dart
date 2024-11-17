@@ -26,6 +26,7 @@ final userRankingProvider = StreamProvider<List<RegularUser>>(
             return RegularUser(
               userId: doc.id,
               points: data['points'],
+              username: data['username'],
             );
           },
         ).toList();

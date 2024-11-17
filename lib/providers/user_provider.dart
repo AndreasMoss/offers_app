@@ -31,6 +31,30 @@ final userTypeProvider = FutureProvider<String?>((ref) async {
   }
 });
 
+final usernameProvider = FutureProvider<String?>((ref) async {
+  final user = ref.watch(authStateProvider).asData?.value;
+  // me to asData pairnoyme tin trexousa katastasi tou AsyncData (an einai stin katatasi data:) kai me to value pairnoyme tin timi pou periexei.
+
+  if (user == null) {
+    return null;
+  }
+
+  final uid = user.uid;
+  final doc =
+      await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+  try {
+    if (doc.exists) {
+      print('TRYING TO GET THE USERNAME');
+      return doc['username'] as String;
+    }
+  } catch (e) {
+    print(
+        'PROBLEM WITH THE USERNAMEPROVIDERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR');
+    return null;
+  }
+});
+
 // autos o provider mou dinei to userid
 final userIdProvider = Provider<String?>((ref) {
   final user = ref.watch(authStateProvider).asData?.value;
@@ -59,6 +83,29 @@ final userProfileImageProvider = StreamProvider<String?>((ref) {
       final data = doc.data();
       if (data != null && data.containsKey('profile_image')) {
         return data['profile_image'] as String?;
+      }
+    }
+    return null;
+  });
+});
+
+final usertotalCodesUsedProvider = StreamProvider<int?>((ref) {
+  final user = ref.watch(authStateProvider).asData?.value;
+
+  if (user == null) {
+    return const Stream.empty();
+  }
+
+  final uid = user.uid;
+  return FirebaseFirestore.instance
+      .collection('users')
+      .doc(uid)
+      .snapshots()
+      .map((doc) {
+    if (doc.exists) {
+      final data = doc.data();
+      if (data != null && data.containsKey('totalCodesUsed')) {
+        return data['totalCodesUsed'];
       }
     }
     return null;
