@@ -28,12 +28,12 @@ class _OffersMainScreenState extends ConsumerState<MainScreen> {
   @override
   Widget build(BuildContext context) {
     // STIN OUSIA DEN TON XRISIMOPOIW KAPOU AUTON TON PROVIDER SE AUTO TO SCREEN, ALLA THELW NA TON FORTWSW NA TON EXW STO YPOLOIPO TIS EFARMOGIS.
-    final userTypeAsyncValue = ref.watch(userTypeProvider);
+    final userDataProvidedAsync = ref.watch(userDataProvider);
     //perimenw o provider na exei data, kathws einai futureProvider
 
     //parakolouthw ton provider pou moy dinei ta offers.
-    return userTypeAsyncValue.when(
-      data: (userType) {
+    return userDataProvidedAsync.when(
+      data: (userData) {
         // final userIdProvided = ref.watch(userIdProvider);
 
         return Scaffold(

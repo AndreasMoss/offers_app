@@ -11,6 +11,7 @@ class OffersListPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final offersListStreamDataProvided = ref.watch(activeOffersStreamProvider);
+
     return offersListStreamDataProvided.when(
       data: (offersL) => Padding(
         padding: const EdgeInsets.only(top: 60, left: 24, right: 24),

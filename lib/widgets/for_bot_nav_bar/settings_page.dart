@@ -10,7 +10,8 @@ class SettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userType = ref.read(userTypeProvider).value;
+    final userData = ref.read(userDataProvider).value;
+    final userType = userData!['userType'];
 
     return Padding(
         padding: const EdgeInsets.all(24),

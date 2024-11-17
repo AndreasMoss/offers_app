@@ -10,11 +10,10 @@ class UserProfile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userId = ref.read(userIdProvider);
-    final totalCodesUsed = ref.watch(usertotalCodesUsedProvider);
-    final usernameProvided = ref.watch(usernameProvider);
+    final userDataProvided = ref.watch(userDataProvider);
 
-    return totalCodesUsed.when(
-      data: (totalCodes) {
+    return userDataProvided.when(
+      data: (userData) {
         return Padding(
           padding: const EdgeInsets.only(top: 60, left: 24, right: 24),
           child: SizedBox(
@@ -31,7 +30,7 @@ class UserProfile extends ConsumerWidget {
                 ),
                 const SizedBox(height: 40),
                 Text(
-                  'You are ',
+                  'You are ${userData!['username']}',
                   style: Theme.of(context)
                       .textTheme
                       .headlineMedium!
@@ -39,7 +38,7 @@ class UserProfile extends ConsumerWidget {
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  'You have used $totalCodes Codes!',
+                  'You have used ${userData['totalCodesUsed']} Codes!',
                   style: Theme.of(context)
                       .textTheme
                       .headlineMedium!

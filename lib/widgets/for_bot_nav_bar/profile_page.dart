@@ -9,8 +9,8 @@ class ProfilePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userType = ref.watch(userTypeProvider).value;
-
+    final userData = ref.read(userDataProvider).value;
+    final userType = userData!['userType'];
     return userType == 'business'
         ? const BusinessProfile()
         : const UserProfile();

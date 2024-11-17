@@ -24,7 +24,9 @@ class _AddOfferScreenState extends ConsumerState<AddOfferScreen> {
     final isValid = _addForm.currentState!.validate();
 
     final userIdProvided = ref.read(userIdProvider);
-    final userProfileImageUrl = ref.read(userProfileImageProvider).value;
+    final userData = ref.read(userDataProvider).value;
+    final businessProfileImageUrl = userData!['profile_image'];
+
     if (userIdProvided == null) {
       print(
           'ISSUE WITH userIdProvided!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
@@ -50,7 +52,7 @@ class _AddOfferScreenState extends ConsumerState<AddOfferScreen> {
       'title': _enteredTitle,
       'description': _enteredDescription,
       'codes': _enteredCodesNumber,
-      'business_image_url': userProfileImageUrl,
+      'business_image_url': businessProfileImageUrl,
       'isActive': true
     });
 
@@ -63,9 +65,9 @@ class _AddOfferScreenState extends ConsumerState<AddOfferScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final userProfileImageAsyncValue = ref.watch(userProfileImageProvider);
-    return userProfileImageAsyncValue.when(
-      data: (profileImage) {
+    final userDataAsync = ref.watch(userDataProvider);
+    return userDataAsync.when(
+      data: (userData) {
         return Scaffold(
           appBar: AppBar(
             title: const Text('Add new Offer'),
