@@ -137,7 +137,9 @@ class _OffersMainScreenState extends ConsumerState<MainScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Total Codes Redeemed:',
+                        userData!['userType'] == 'business'
+                            ? 'Total Codes Redeemed:'
+                            : 'Total Codes Used:',
                         style: GoogleFonts.manrope(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -148,7 +150,9 @@ class _OffersMainScreenState extends ConsumerState<MainScreen> {
                       Row(
                         children: [
                           Text(
-                            userData!['totalCodesGiven'].toString(),
+                            userData!['userType'] == 'business'
+                                ? userData['totalCodesGiven'].toString()
+                                : userData['totalCodesUsed'].toString(),
                             style: GoogleFonts.manrope(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,

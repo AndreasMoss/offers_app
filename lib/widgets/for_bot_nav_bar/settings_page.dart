@@ -33,7 +33,7 @@ class SettingsPage extends ConsumerWidget {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (ctx) {
-                          return const UserProfileEdit();
+                          return const UserProfileEditScreen();
                         },
                       ),
                     );

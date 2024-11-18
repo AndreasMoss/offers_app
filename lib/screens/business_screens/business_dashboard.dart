@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:offers_app/providers/offers_list_provider.dart';
-import 'package:offers_app/providers/user_provider.dart';
 import 'package:offers_app/screens/business_screens/add_offer.dart';
 import 'package:offers_app/theme/colors_for_text.dart';
 import 'package:offers_app/widgets/offers_list.dart';
