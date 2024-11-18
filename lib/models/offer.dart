@@ -26,16 +26,19 @@ class Offer {
     try {
       final userRef = firestoreDb.collection('users').doc(userId);
       final offerRef = firestoreDb.collection('offers').doc(offerId);
+      final bussRef = firestoreDb.collection('users').doc(businessId);
       await firestoreDb.runTransaction((transaction) async {
         print('STAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAART');
         final snapshot = await transaction.get(userRef);
         final snapshot2 = await transaction.get(offerRef);
+        final snapshot3 = await transaction.get(bussRef);
 
         try {
           //print(snapshot.data());
           int currentPoints = snapshot.data()!['points'];
           int currentCodes = snapshot2.data()!['codes'];
-          int currentsCodesUsed = snapshot.data()!['totalCodesUsed'];
+          int currentsCodesUsedByUser = snapshot.data()!['totalCodesUsed'];
+          int currentCodesGivenByBuss = snapshot3.data()!['totalCodesGiven'];
           if (currentCodes == 1) {
             transaction.update(offerRef, {'isActive': false});
           }
@@ -43,7 +46,9 @@ class Offer {
           transaction.update(userRef, {'points': currentPoints + 20});
           transaction.update(offerRef, {'codes': currentCodes - 1});
           transaction
-              .update(userRef, {'totalCodesUsed': currentsCodesUsed + 1});
+              .update(userRef, {'totalCodesUsed': currentsCodesUsedByUser + 1});
+          transaction.update(
+              bussRef, {'totalCodesGiven': currentCodesGivenByBuss + 1});
           //print('Points added successfully to user $userId.');
         } catch (error) {
           print('ERROR WHILE TRYING TO READ USER DOCUMENT');

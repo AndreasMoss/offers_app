@@ -25,6 +25,8 @@ class _AuthScreenState extends State<AuthScreen> {
 
   var _enteredEmail = '';
   var _enteredPassword = '';
+  var _enteredName = '';
+
   UserType _selectedUserType = UserType.business;
 
   void _submit() async {
@@ -47,9 +49,9 @@ class _AuthScreenState extends State<AuthScreen> {
             .doc(userCredentials.user!.uid)
             .set({
           'email': _enteredEmail,
-          if (_selectedUserType == UserType.regular) 'username': 'nameless',
+          if (_selectedUserType == UserType.regular) 'username': _enteredName,
           if (_selectedUserType == UserType.business)
-            'business_name': 'nameless',
+            'business_name': _enteredName,
           'userType':
               _selectedUserType == UserType.business ? 'business' : 'regular',
           if (_selectedUserType == UserType.regular) 'points': 0,
@@ -105,6 +107,38 @@ class _AuthScreenState extends State<AuthScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          ////////////////////////////////////////
+                          if (!_isLogin)
+                            Text(
+                              'Username or Business name',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium!
+                                  .copyWith(color: textBlackB12),
+                            ),
+                          if (!_isLogin) const SizedBox(height: 8),
+                          if (!_isLogin)
+                            SizedBox(
+                              height: 48,
+                              width: double.infinity,
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                  labelText: 'Enter your name',
+                                ),
+                                autocorrect: false,
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return 'Please enter a valid name';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) {
+                                  _enteredName = value!;
+                                },
+                              ),
+                            ),
+                          if (!_isLogin) const SizedBox(height: 16),
+                          //////////////////////////////////////////
                           Text(
                             'Email',
                             style: Theme.of(context)
