@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
-import 'package:offers_app/models/for_maps.dart';
+
+String googleMapsApiKey = dotenv.env['GOOGLE_MAPS_API_KEY']!;
 
 class MapScreen extends StatelessWidget {
-  MapScreen({super.key});
-
-  PlaceLocation? _testLocation;
+  const MapScreen({super.key});
 
   Future<void> _getCurrentLocation() async {
     Location location = Location();
@@ -41,7 +41,7 @@ class MapScreen extends StatelessWidget {
       return;
     }
     final url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=AIzaSyA9cxHk3c_BWDobpy5pW2HsaC9SrMKtHNs');
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=$googleMapsApiKey');
 
     final response = await http.get(url);
 
@@ -50,9 +50,7 @@ class MapScreen extends StatelessWidget {
 
     final address = resData['results'][0]['formatted_address'];
 
-    _testLocation =
-        PlaceLocation(address: address, longtitude: lng, latitude: lat);
-    print("SE BRIKA BRWMOPOUTANITSA:");
+    print("current location:");
     print(address);
 
     print(lat);

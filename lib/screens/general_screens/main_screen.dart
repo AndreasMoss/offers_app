@@ -150,7 +150,7 @@ class _OffersMainScreenState extends ConsumerState<MainScreen> {
                       Row(
                         children: [
                           Text(
-                            userData!['userType'] == 'business'
+                            userData['userType'] == 'business'
                                 ? userData['totalCodesGiven'].toString()
                                 : userData['totalCodesUsed'].toString(),
                             style: GoogleFonts.manrope(
