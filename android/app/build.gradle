@@ -1,22 +1,5 @@
 import java.util.Properties
 
-// for env dynamic loading for androidmanifest
-def loadEnv() {
-    Properties properties = new Properties()
-    def envFile = file("${rootDir}/.env")
-    if (envFile.exists()) {
-        envFile.withInputStream {
-            properties.load(it)
-        }
-    } else {
-        throw new GradleException(".env file not found in project root")
-    }
-    return properties
-}
-
-def env = loadEnv()
-
-
 
 plugins {
     id "com.android.application"
@@ -28,6 +11,27 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+
+def loadEnv() {
+    Properties properties = new Properties()
+    def envFile = new File(rootProject.rootDir.parentFile, ".env")
+    println("Looking for .env file in: ${envFile.absolutePath}")
+    if (envFile.exists()) {
+        println(".env file found. Loading properties...")
+        envFile.withInputStream {
+            properties.load(it)
+        }
+    } else {
+        throw new GradleException(".env file not found at ${envFile.absolutePath}")
+    }
+    return properties
+}
+
+// Αποθήκευση των properties στο ext ώστε να είναι διαθέσιμα
+ext {
+    env = loadEnv()
+}
+
 android {
     namespace = "com.andreas.offers_app"
     compileSdk = flutter.compileSdkVersion
@@ -36,6 +40,10 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures {
+        buildConfig true
     }
 
     kotlinOptions {
@@ -52,6 +60,9 @@ android {
         versionCode = flutter.versionCode
         versionName = flutter.versionName
         buildConfigField "String", "GOOGLE_MAPS_API_KEY", "\"${env['GOOGLE_MAPS_API_KEY']}\""
+        manifestPlaceholders = [
+        GOOGLE_MAPS_API_KEY: "${env['GOOGLE_MAPS_API_KEY']}"
+    ]
     }
 
     buildTypes {
