@@ -1,3 +1,23 @@
+import java.util.Properties
+
+// for env dynamic loading for androidmanifest
+def loadEnv() {
+    Properties properties = new Properties()
+    def envFile = file("${rootDir}/.env")
+    if (envFile.exists()) {
+        envFile.withInputStream {
+            properties.load(it)
+        }
+    } else {
+        throw new GradleException(".env file not found in project root")
+    }
+    return properties
+}
+
+def env = loadEnv()
+
+
+
 plugins {
     id "com.android.application"
     // START: FlutterFire Configuration
@@ -31,6 +51,7 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        buildConfigField "String", "GOOGLE_MAPS_API_KEY", "\"${env['GOOGLE_MAPS_API_KEY']}\""
     }
 
     buildTypes {
