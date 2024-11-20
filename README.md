@@ -1,7 +1,7 @@
 # **Offers App**
 
 ## **Overview**
-Offers App is a mobile application built with Flutter that helps users discover, filter, and redeem the best offers around them. By incorporating location-based filtering, QR scanning, and gamification elements, the app makes finding and using offers a rewarding experience.
+Offers App is an innovative mobile application built with Flutter that helps users discover, filter, and redeem the best offers around them. By incorporating location-based filtering, QR scanning, and gamification elements, the app makes finding and using offers a rewarding experience.
 
 ## **How to run:** 
 
