@@ -2,9 +2,102 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:offers_app/providers/map_provider.dart';
+import 'package:offers_app/theme/colors_for_text.dart';
 
 class MapScreen extends ConsumerWidget {
   const MapScreen({super.key});
+
+  final String _mapStyle = '''
+[
+    {
+      "featureType": "poi.attraction",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "poi.business",
+      "stylers": [
+        {
+          "visibility": "off"
+        },
+        {
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "featureType": "poi.business",
+      "elementType": "labels.text",
+      "stylers": [
+        {
+          "saturation": -25
+        }
+      ]
+    },
+    {
+      "featureType": "poi.government",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "poi.medical",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "poi.park",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "poi.place_of_worship",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "poi.school",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "poi.sports_complex",
+      "stylers": [
+        {
+          "visibility": "off"
+        }
+      ]
+    },
+    {
+      "featureType": "road.local",
+      "stylers": [
+        {
+          "saturation": -40
+        },
+        {
+          "lightness": 5
+        }
+      ]
+    }
+  ]
+''';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -12,7 +105,17 @@ class MapScreen extends ConsumerWidget {
         ref.read(userStartingLocationProvider.future);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Map'),
+        iconTheme: const IconThemeData(
+          color: textBlackB12,
+        ),
+        toolbarHeight: 70,
+        title: Text('Filter offers with map',
+            style: Theme.of(context)
+                .textTheme
+                .headlineMedium!
+                .copyWith(color: textBlackB12)),
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       ),
       body: FutureBuilder(
         future: startingUserLocationFuture,
@@ -27,13 +130,22 @@ class MapScreen extends ConsumerWidget {
 
           final LatLng userCurrentLocation = snapshot.data!;
           return GoogleMap(
+            style: _mapStyle,
+            myLocationEnabled: true,
             initialCameraPosition: CameraPosition(
               target: LatLng(
                 userCurrentLocation.latitude,
                 userCurrentLocation.longitude,
               ),
-              zoom: 14,
+              zoom: 15,
             ),
+            markers: {
+              const Marker(
+                markerId: MarkerId('1'),
+                position: LatLng(37.943436, 23.718365),
+                infoWindow: InfoWindow(title: '1st test Offer'),
+              ),
+            },
           );
         },
       ),
