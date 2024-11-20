@@ -1,16 +1,20 @@
-# offers_app
+# **Offers App**
 
-A new Flutter project.
+## **Overview**
+Offers App is a mobile application built with Flutter that helps users discover, filter, and redeem the best offers around them. By incorporating location-based filtering, QR scanning, and gamification elements, the app makes finding and using offers a rewarding experience.
 
-## Getting Started
+## **How to run:** 
 
-This project is a starting point for a Flutter application.
+1. Create a .env file in the root directory of the project (next to pubspec.yaml).
 
-A few resources to get you started if this is your first Flutter project:
+2. Add your Google Maps API Key to the .env file in the following format:
+GOOGLE_MAPS_API_KEY=your_real_google_maps_api_key
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+**Note: The .env file is already included in .gitignore for security reasons.**
+The API key is dynamically loaded into AndroidManifest.xml during the build process via BuildConfig.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+3. After setting up the .env file run:
+
+        flutter clean
+
+        flutter pub get
