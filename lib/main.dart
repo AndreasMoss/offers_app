@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -13,12 +11,6 @@ import 'package:offers_app/theme/offers_theme.dart';
 import 'firebase_options.dart';
 
 void main() async {
-  // final envFile = File('.env');
-  // if (await envFile.exists()) {
-  //   print("TO ENV YPARXEI KANONIKA");
-  // } else {
-  //   print("TO ENV DEN YPARXEI, DE TO BLEPW");
-  // }
   await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(

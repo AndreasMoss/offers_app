@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:offers_app/providers/map_provider.dart';
 
 import 'package:offers_app/providers/user_provider.dart';
 import 'package:offers_app/screens/general_screens/leaderboard.dart';
@@ -31,9 +32,7 @@ class _OffersMainScreenState extends ConsumerState<MainScreen> {
   Widget build(BuildContext context) {
     // STIN OUSIA DEN TON XRISIMOPOIW KAPOU AUTON TON PROVIDER SE AUTO TO SCREEN, ALLA THELW NA TON FORTWSW NA TON EXW STO YPOLOIPO TIS EFARMOGIS.
     final userDataProvidedAsync = ref.watch(userDataProvider);
-    //perimenw o provider na exei data, kathws einai futureProvider
 
-    //parakolouthw ton provider pou moy dinei ta offers.
     return userDataProvidedAsync.when(
       data: (userData) {
         // final userIdProvided = ref.watch(userIdProvider);

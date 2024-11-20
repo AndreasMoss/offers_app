@@ -1,80 +1,41 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:location/location.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:offers_app/providers/map_provider.dart';
 
-String googleMapsApiKey = dotenv.env['GOOGLE_MAPS_API_KEY']!;
-
-class MapScreen extends StatelessWidget {
+class MapScreen extends ConsumerWidget {
   const MapScreen({super.key});
 
-  Future<void> _getCurrentLocation() async {
-    Location location = Location();
-
-    bool serviceEnabled;
-    PermissionStatus permissionGranted;
-    LocationData locationData;
-
-    serviceEnabled = await location.serviceEnabled();
-    if (!serviceEnabled) {
-      serviceEnabled = await location.requestService();
-      if (!serviceEnabled) {
-        return;
-      }
-    }
-
-    permissionGranted = await location.hasPermission();
-    if (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await location.requestPermission();
-      if (permissionGranted != PermissionStatus.granted) {
-        return;
-      }
-    }
-
-    locationData = await location.getLocation();
-    final lat = locationData.latitude;
-    final lng = locationData.longitude;
-    if (lat == null || lng == null) {
-      print("ERROR WITH GETTING CURRENT LOCATION");
-      return;
-    }
-    final url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=$googleMapsApiKey');
-
-    final response = await http.get(url);
-
-    final resData = json.decode(response.body);
-    // response body tha einai se morfi string, opote me to json.decode metatrepetai se morfi eukoli gia epejergasia.
-
-    final address = resData['results'][0]['formatted_address'];
-
-    print("current location:");
-    print(address);
-
-    print(lat);
-    print(lng);
-  }
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final startingUserLocationFuture =
+        ref.read(userStartingLocationProvider.future);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Map'),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            Text(
-              'This will be the Map Screen',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+      body: FutureBuilder(
+        future: startingUserLocationFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return const Center(child: Text('Error fetching location!'));
+          } else if (!snapshot.hasData || snapshot.data == null) {
+            return const Center(child: Text('Could not determine location.'));
+          }
+
+          final LatLng userCurrentLocation = snapshot.data!;
+          return GoogleMap(
+            initialCameraPosition: CameraPosition(
+              target: LatLng(
+                userCurrentLocation.latitude,
+                userCurrentLocation.longitude,
+              ),
+              zoom: 14,
             ),
-            ElevatedButton(
-                onPressed: _getCurrentLocation,
-                child: Text('Get current Location'))
-          ],
-        ),
+          );
+        },
       ),
     );
   }

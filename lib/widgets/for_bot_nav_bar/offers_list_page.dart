@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:offers_app/providers/map_provider.dart';
 import 'package:offers_app/providers/offers_list_provider.dart';
 import 'package:offers_app/screens/general_screens/map.dart';
 import 'package:offers_app/theme/colors_for_text.dart';
@@ -11,6 +12,8 @@ class OffersListPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final offersListStreamDataProvided = ref.watch(activeOffersStreamProvider);
+    final userStartingLocationFuture =
+        ref.watch(userStartingLocationProvider.future);
 
     return offersListStreamDataProvided.when(
       data: (offersL) => Padding(
@@ -58,21 +61,46 @@ class OffersListPage extends ConsumerWidget {
                 SizedBox(
                   height: 60,
                   width: 60,
-                  child: FloatingActionButton(
-                    shape: const CircleBorder(),
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (ctx) => const MapScreen(),
+                  child: FutureBuilder(
+                    future: userStartingLocationFuture,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return FloatingActionButton(
+                          shape: const CircleBorder(),
+                          onPressed: () {},
+                          backgroundColor: Colors.white,
+                          child: const Center(
+                              child: SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator())),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Center(
+                          child: Text('Error: ${snapshot.error}'),
+                        );
+                      } else if (!snapshot.hasData || snapshot.data == null) {
+                        return const Center(
+                          child: Text('Could not fetch location.'),
+                        );
+                      }
+                      return FloatingActionButton(
+                        shape: const CircleBorder(),
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (ctx) => const MapScreen(),
+                            ),
+                          );
+                        },
+                        backgroundColor: Colors.white,
+                        child: Icon(
+                          Icons.location_on,
+                          color: Theme.of(context).colorScheme.primary,
+                          size: 35,
                         ),
                       );
                     },
-                    backgroundColor: Colors.white,
-                    child: Icon(
-                      Icons.location_on,
-                      color: Theme.of(context).colorScheme.primary,
-                      size: 35,
-                    ),
                   ),
                 ),
               ],
