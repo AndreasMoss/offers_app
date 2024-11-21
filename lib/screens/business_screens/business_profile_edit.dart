@@ -78,6 +78,21 @@ class _BusinessProfileEditScreenState
       return;
     }
 
+    if (_pickedLocation == null) {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Please pick your Business Location before saving',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.black87,
+          duration: Duration(seconds: 2), // Προσαρμογή διάρκειας.
+        ),
+      );
+      return;
+    }
+
     setState(() {
       _isLoading = true;
     });
@@ -94,6 +109,9 @@ class _BusinessProfileEditScreenState
           .update({
         'business_name': _enteredBusinessName,
         if (imageUrl != null) 'profile_image': imageUrl,
+        'location':
+            GeoPoint(_pickedLocation!.latitude, _pickedLocation!.longtitude),
+        'address': _pickedLocation!.address,
       });
     } catch (error) {
       print(
