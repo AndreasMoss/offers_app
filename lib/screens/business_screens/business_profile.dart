@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:offers_app/functions.dart/checkers.dart';
 import 'package:offers_app/providers/user_provider.dart';
 import 'package:offers_app/theme/colors_for_text.dart';
 
@@ -36,7 +37,29 @@ class BusinessProfile extends ConsumerWidget {
                       .copyWith(color: textBlackB12),
                 ),
                 const SizedBox(height: 130),
-                Image.network(businessData['profile_image']),
+                FutureBuilder(
+                  future: profileImageChecker(businessId),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(
+                        child: Text('Error: ${snapshot.error}'),
+                      );
+                    } else if (!snapshot.hasData || snapshot.data == null) {
+                      return const Center(
+                        child: Text('Could not fetch location.'),
+                      );
+                    }
+                    if (snapshot.data == true) {
+                      return Image.network(businessData['profile_image']);
+                    } else {
+                      return const Text('No profile picture found');
+                    }
+                  },
+                ),
               ],
             ),
           ),
