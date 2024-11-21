@@ -4,8 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:offers_app/functions.dart/current_location.dart';
+import 'package:offers_app/models/for_maps.dart';
 import 'package:offers_app/providers/user_provider.dart';
+import 'package:offers_app/screens/business_screens/choose_location_map.dart';
 import 'package:offers_app/theme/colors_for_text.dart';
 
 class BusinessProfileEditScreen extends ConsumerStatefulWidget {
@@ -22,6 +26,7 @@ class _BusinessProfileEditScreenState
   final ImagePicker _imagePicker = ImagePicker();
 
   var _enteredBusinessName = '';
+  PlaceLocation? _pickedLocation;
 
   File? _selectedImage;
   bool _isLoading = false;
@@ -161,6 +166,70 @@ class _BusinessProfileEditScreenState
                   'No image selected',
                   style: TextStyle(color: Colors.grey),
                 ),
+              const SizedBox(
+                height: 40,
+              ),
+              Text(
+                'Put your Business Location',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(children: [
+                Expanded(
+                  child: ElevatedButton(
+                      onPressed: () async {
+                        final fetchedLocation = await getCurrentLocation();
+                        setState(() {
+                          _pickedLocation = fetchedLocation;
+                        });
+                      },
+                      child: const Text(
+                        'Get current Location',
+                        textAlign: TextAlign.center,
+                      )),
+                ),
+                const SizedBox(
+                  width: 15,
+                ),
+                Expanded(
+                  child: ElevatedButton(
+                      onPressed: () async {
+                        final markedLocation =
+                            await Navigator.of(context).push<LatLng>(
+                          MaterialPageRoute(
+                            builder: (ctx) {
+                              return const ChooseLocationMap();
+                            },
+                          ),
+                        );
+
+                        if (markedLocation == null) {
+                          return;
+                        }
+
+                        final address = await locationToAddress(
+                            latitude: markedLocation.latitude,
+                            longtitude: markedLocation.longitude);
+                        setState(() {
+                          _pickedLocation = PlaceLocation(
+                              latitude: markedLocation.latitude,
+                              longtitude: markedLocation.longitude,
+                              address: address);
+                        });
+                      },
+                      child: const Text(
+                        'Choose on Map',
+                        textAlign: TextAlign.center,
+                      )),
+                ),
+              ]),
+              if (_pickedLocation != null) Text(_pickedLocation!.address),
+              if (_pickedLocation != null)
+                Text(_pickedLocation!.latitude.toString()),
+              if (_pickedLocation != null)
+                Text(_pickedLocation!.longtitude.toString()),
               const Spacer(),
               _isLoading
                   ? const CircularProgressIndicator()

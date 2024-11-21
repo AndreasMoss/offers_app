@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:offers_app/functions.dart/checkers.dart';
@@ -72,24 +71,28 @@ class BusinessDashboard extends ConsumerWidget {
                           //         data['location'].toString().isNotEmpty;
 
                           if (hasProfileImage && hasLocation) {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(builder: (ctx) {
-                                return const AddOfferScreen();
-                              }),
-                            );
+                            if (context.mounted) {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(builder: (ctx) {
+                                  return const AddOfferScreen();
+                                }),
+                              );
+                            }
                           } else {
-                            ScaffoldMessenger.of(context).clearSnackBars();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text(
-                                  'Please finish your Business Profile before creating an offer.',
-                                  style: TextStyle(color: Colors.white),
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Please finish your Business Profile before creating an offer.',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                  backgroundColor: Colors.black87,
+                                  duration: Duration(
+                                      seconds: 2), // Προσαρμογή διάρκειας.
                                 ),
-                                backgroundColor: Colors.black87,
-                                duration: Duration(
-                                    seconds: 2), // Προσαρμογή διάρκειας.
-                              ),
-                            );
+                              );
+                            }
 
                             return;
                           }
