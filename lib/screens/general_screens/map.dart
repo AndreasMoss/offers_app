@@ -146,7 +146,7 @@ class MapScreen extends ConsumerWidget {
                     userCurrentLocation.latitude,
                     userCurrentLocation.longitude,
                   ),
-                  zoom: 15,
+                  zoom: 14,
                 ),
                 markers: offers
                     .map(
@@ -156,14 +156,6 @@ class MapScreen extends ConsumerWidget {
                               offer.location!.longitude)),
                     )
                     .toSet(),
-
-                //{
-                // const Marker(
-                //   markerId: MarkerId('1'),
-                //   position: LatLng(37.943436, 23.718365),
-                //   infoWindow: InfoWindow(title: '1st test Offer'),
-                // ),
-                //},
               );
             },
           ),

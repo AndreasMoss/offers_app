@@ -26,6 +26,8 @@ class _AddOfferScreenState extends ConsumerState<AddOfferScreen> {
     final userIdProvided = ref.read(userIdProvider);
     final userData = ref.read(userDataProvider).value;
     final businessProfileImageUrl = userData!['profile_image'];
+    final businessLocation = userData['location'];
+    final businessAddress = userData['address'];
 
     if (userIdProvided == null) {
       print(
@@ -53,7 +55,9 @@ class _AddOfferScreenState extends ConsumerState<AddOfferScreen> {
       'description': _enteredDescription,
       'codes': _enteredCodesNumber,
       'business_image_url': businessProfileImageUrl,
-      'isActive': true
+      'isActive': true,
+      'location': businessLocation,
+      'address': businessAddress,
     });
 
     //print("New document ID: ${docRef.id}");
