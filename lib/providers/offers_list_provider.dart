@@ -24,13 +24,14 @@ final activeOffersStreamProvider = StreamProvider<List<Offer>>((ref) {
     return snapshot.docs.map((doc) {
       final data = doc.data();
       return Offer(
-        offerId: doc.id,
-        title: data['title'],
-        description: data['description'],
-        codes: data['codes'],
-        businessId: data['business_id'],
-        profileImage: data['business_image_url'],
-      );
+          offerId: doc.id,
+          title: data['title'],
+          description: data['description'],
+          codes: data['codes'],
+          businessId: data['business_id'],
+          profileImage: data['business_image_url'],
+          address: data['address'],
+          location: data['location']);
     }).toList();
   });
 });

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Offer {
   Offer(
@@ -9,7 +8,8 @@ class Offer {
       required this.codes,
       required this.businessId,
       this.profileImage,
-      this.location});
+      this.location,
+      this.address});
 
   final String offerId;
   final String title;
@@ -17,7 +17,8 @@ class Offer {
   final int codes;
   final String businessId;
   final String? profileImage;
-  final LatLng? location;
+  final GeoPoint? location;
+  final String? address;
 
   // void printOfferId() async {
   //   print("OFFFFEEEEERRRR ID: ---------------$id------------------");
