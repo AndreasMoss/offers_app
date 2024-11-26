@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:offers_app/models/offer.dart';
+import 'package:offers_app/providers/filtering_provider.dart';
 import 'package:offers_app/providers/map_provider.dart';
 import 'package:offers_app/providers/offers_list_provider.dart';
 import 'package:offers_app/theme/colors_for_text.dart';
@@ -122,7 +123,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
   @override
   void dispose() {
-    // Ακύρωσε τον Timer αν υπάρχει πριν το dispose
     _debounceTimer?.cancel();
     super.dispose();
   }
@@ -228,16 +228,21 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   }
 
   Future<void> _setInitialBounds() async {
+    final boundsNotifier = ref.read(boundsProvider.notifier);
     _currentBounds = await _mapController!.getVisibleRegion();
-    print("Bounds: ${_currentBounds.toString()}");
+    boundsNotifier.setBounds(_currentBounds!);
+    //print("Bounds: ${_currentBounds.toString()}");
   }
 
   Future<void> _handleCameraIdle() async {
+    final boundsNotifier = ref.read(boundsProvider.notifier);
     _debounceTimer?.cancel();
 
-    _debounceTimer = Timer(Duration(seconds: 1), () async {
+    _debounceTimer = Timer(const Duration(seconds: 1), () async {
       _currentBounds = await _mapController!.getVisibleRegion();
-      print("Bounds: ${_currentBounds.toString()}");
+      boundsNotifier.setBounds(_currentBounds!);
+      boundsNotifier.printState();
+      // print("Bounds: ${_currentBounds.toString()}");
     });
   }
 
