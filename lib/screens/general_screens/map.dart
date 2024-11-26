@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -12,7 +14,7 @@ import 'package:offers_app/widgets/offer_tile.dart';
 ///
 ///
 
-class MapScreen extends ConsumerWidget {
+class MapScreen extends ConsumerStatefulWidget {
   const MapScreen({super.key});
 
   final String _mapStyle = '''
@@ -107,6 +109,24 @@ class MapScreen extends ConsumerWidget {
   ]
 ''';
 
+  @override
+  ConsumerState<MapScreen> createState() {
+    return _MapScreenState();
+  }
+}
+
+class _MapScreenState extends ConsumerState<MapScreen> {
+  Timer? _debounceTimer; //timer for debouncing
+  LatLngBounds? _currentBounds;
+  GoogleMapController? _mapController;
+
+  @override
+  void dispose() {
+    // Ακύρωσε τον Timer αν υπάρχει πριν το dispose
+    _debounceTimer?.cancel();
+    super.dispose();
+  }
+
   Future<Set<Marker>> _createMarkers(
       List<Offer> offers, BuildContext ctx) async {
     final Set<Marker> markers = {};
@@ -186,7 +206,7 @@ class MapScreen extends ConsumerWidget {
                         onPressed: () {
                           Navigator.of(context).pop(); // Κλείνει το BottomSheet
                         },
-                        child: Text('Return to map'),
+                        child: const Text('Return to map'),
                       ),
                     ],
                   ),
@@ -207,8 +227,22 @@ class MapScreen extends ConsumerWidget {
     return markers;
   }
 
+  Future<void> _setInitialBounds() async {
+    _currentBounds = await _mapController!.getVisibleRegion();
+    print("Bounds: ${_currentBounds.toString()}");
+  }
+
+  Future<void> _handleCameraIdle() async {
+    _debounceTimer?.cancel();
+
+    _debounceTimer = Timer(Duration(seconds: 1), () async {
+      _currentBounds = await _mapController!.getVisibleRegion();
+      print("Bounds: ${_currentBounds.toString()}");
+    });
+  }
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final startingUserLocationFuture =
         ref.read(userStartingLocationProvider.future);
     final offersAsync = ref.watch(activeOffersStreamProvider);
@@ -257,7 +291,11 @@ class MapScreen extends ConsumerWidget {
                     final markers = markersSnapshot.data ?? {};
 
                     return GoogleMap(
-                      style: _mapStyle,
+                      onMapCreated: (GoogleMapController controller) async {
+                        _mapController = controller;
+                        await _setInitialBounds();
+                      },
+                      style: widget._mapStyle,
                       myLocationEnabled: true,
                       initialCameraPosition: CameraPosition(
                         target: LatLng(
@@ -266,6 +304,7 @@ class MapScreen extends ConsumerWidget {
                         ),
                         zoom: 14,
                       ),
+                      onCameraIdle: _handleCameraIdle,
                       markers: markers,
 
                       // offers
