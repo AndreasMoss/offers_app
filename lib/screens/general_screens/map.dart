@@ -112,7 +112,22 @@ class MapScreen extends ConsumerWidget {
     final Set<Marker> markers = {};
 
     for (var offer in offers) {
-      final customMarker = await createCustomMarkerGreen(offer.profileImage!);
+      int availability;
+      if (offer.codes > 30) {
+        availability = 1;
+      } else if (offer.codes > 10) {
+        availability = 2;
+      } else {
+        availability = 3;
+      }
+
+      final customMarker = await createCustomMarkerGreen(
+          offer.profileImage!,
+          availability == 1
+              ? Colors.green
+              : availability == 2
+                  ? Colors.yellow
+                  : Colors.red);
       markers.add(
         Marker(
           markerId: MarkerId(offer.offerId),

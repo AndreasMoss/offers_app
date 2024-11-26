@@ -3,7 +3,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-Future<BitmapDescriptor> createCustomMarkerGreen(String imageUrl,
+Future<BitmapDescriptor> createCustomMarkerGreen(String imageUrl, Color color,
     {double size = 160}) async {
   final pictureRecorder = ui.PictureRecorder();
   final canvas = Canvas(pictureRecorder);
@@ -15,7 +15,7 @@ Future<BitmapDescriptor> createCustomMarkerGreen(String imageUrl,
 
   final Offset center = Offset(canvasSize.width / 2, canvasSize.height / 2);
 
-  final paint = Paint()..color = Colors.green;
+  final paint = Paint()..color = color;
   canvas.drawCircle(center, outerCircleRadius, paint);
 
   final whitePaint = Paint()..color = Colors.white;
