@@ -3,7 +3,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-Future<BitmapDescriptor> createCustomMarker(String imageUrl,
+Future<BitmapDescriptor> createCustomMarkerGreen(String imageUrl,
     {double size = 160}) async {
   final pictureRecorder = ui.PictureRecorder();
   final canvas = Canvas(pictureRecorder);

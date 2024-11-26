@@ -112,7 +112,7 @@ class MapScreen extends ConsumerWidget {
     final Set<Marker> markers = {};
 
     for (var offer in offers) {
-      final customMarker = await createCustomMarker(offer.profileImage!);
+      final customMarker = await createCustomMarkerGreen(offer.profileImage!);
       markers.add(
         Marker(
           markerId: MarkerId(offer.offerId),

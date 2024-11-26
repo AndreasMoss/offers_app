@@ -4,13 +4,20 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:offers_app/models/offer.dart';
 import 'package:offers_app/providers/user_provider.dart';
 
-class OffersDetails extends ConsumerWidget {
+class OffersDetails extends ConsumerStatefulWidget {
   const OffersDetails({super.key, required this.offer});
 
   final Offer offer;
 
-// DEN EXW PAREI PERIPTWSI POU NA EINAI TO TELEUTAIO KOUPONI
-// KAI PERIPTWSI POU TELEIWSE I PROSFORA ARA PREPEI NA MIN FAINETAI STIN ARXIKI.
+  @override
+  ConsumerState<OffersDetails> createState() {
+    return _OffersDetailsState();
+  }
+}
+
+class _OffersDetailsState extends ConsumerState<OffersDetails> {
+  bool isProcessing = false;
+
   void scanQRCode(BuildContext ctx) {
     showModalBottomSheet(
       context: ctx,
@@ -21,14 +28,16 @@ class OffersDetails extends ConsumerWidget {
           child: MobileScanner(
             key: UniqueKey(), // Βοηθά στην ανανέωση του widget
             onDetect: (BarcodeCapture capture) async {
+              if (isProcessing) return;
+              isProcessing = true;
               final List<Barcode> barcodes = capture.barcodes;
               if (barcodes.isNotEmpty) {
                 final String? scannedUserId = barcodes.first.rawValue;
                 if (scannedUserId != null) {
                   Navigator.of(context).pop();
                   try {
-                    await offer.redeemCode(scannedUserId);
-                    if (ctx.mounted) {
+                    await widget.offer.redeemCode(scannedUserId);
+                    if (mounted) {
                       ScaffoldMessenger.of(ctx).showSnackBar(
                         SnackBar(
                           duration: const Duration(seconds: 1),
@@ -47,6 +56,8 @@ class OffersDetails extends ConsumerWidget {
                     }
                   } catch (e) {
                     print('ERROR WHILE READING THE QR CODE OF THE USER');
+                  } finally {
+                    isProcessing = false;
                   }
                 }
               }
@@ -58,7 +69,7 @@ class OffersDetails extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final userId = ref.read(userIdProvider);
 
     return Scaffold(
@@ -73,18 +84,18 @@ class OffersDetails extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              offer.title,
+              widget.offer.title,
               style: Theme.of(context).textTheme.titleLarge,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 10),
             Text(
-              offer.description,
+              widget.offer.description,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.labelLarge,
             ),
             const Spacer(),
-            if (userId == offer.businessId)
+            if (userId == widget.offer.businessId)
               ElevatedButton.icon(
                 icon: const Icon(Icons.qr_code),
                 onPressed: () {
