@@ -117,6 +117,8 @@ class MapScreen extends ConsumerStatefulWidget {
 }
 
 class _MapScreenState extends ConsumerState<MapScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   Timer? _debounceTimer; //timer for debouncing
   LatLngBounds? _currentBounds;
   GoogleMapController? _mapController;
@@ -130,8 +132,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     super.dispose();
   }
 
-  Future<Set<Marker>> _createMarkers(
-      List<Offer> offers, BuildContext ctx) async {
+  Future<Set<Marker>> _createMarkers(List<Offer> offers) async {
     final Set<Marker> markers = {};
 
     for (var offer in offers) {
@@ -159,9 +160,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             offer.location!.longitude,
           ),
           onTap: () {
-            showBottomSheet(
-              context: ctx,
-              builder: (BuildContext context) {
+            _scaffoldKey.currentState?.showBottomSheet(
+              (context) {
                 return Container(
                   height: 353, // Ύψος του BottomSheet
                   padding: const EdgeInsets.all(16),
@@ -237,7 +237,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   //   //print("Bounds: ${_currentBounds.toString()}");
   // }
 
-  Future<void> _handleCameraIdle(int waitTime) async {
+  Future<void> _handleCameraIdle(int waitTime, BuildContext context) async {
     final boundsNotifier = ref.read(boundsProvider.notifier);
     final currentPositionNotifier = ref.read(currentMapImageProvider.notifier);
     final currentZoomNotifier = ref.read(currentZoomProvider.notifier);
@@ -262,8 +262,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
       print(filteredOffers.length);
 
-      if (mounted) {
-        final newMarkers = await _createMarkers(filteredOffers, context);
+      if (context.mounted) {
+        final newMarkers = await _createMarkers(filteredOffers);
         setState(() {
           markers = newMarkers;
         });
@@ -280,6 +280,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     _currentZoomLevel = ref.read(currentZoomProvider);
 
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         iconTheme: const IconThemeData(
           color: textBlackB12,
@@ -297,7 +298,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         onMapCreated: (GoogleMapController controller) async {
           _mapController = controller;
           // await _setInitialBounds();
-          _handleCameraIdle(0);
+          _handleCameraIdle(0, context);
         },
         style: widget._mapStyle,
         myLocationEnabled: true,
@@ -306,7 +307,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           zoom: _currentZoomLevel!,
         ),
         onCameraIdle: () {
-          _handleCameraIdle(1);
+          _handleCameraIdle(1, context);
         },
         markers: markers,
 
