@@ -41,19 +41,53 @@ final userStartingLocationProvider = FutureProvider<LatLng?>(
       print("ERROR WITH GETTING CURRENT LOCATION");
       return null;
     }
-    // final url = Uri.parse(
-    //     'https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=$googleMapsApiKey');
-
-    // final response = await http.get(url);
-
-    // final resData = json.decode(response.body);
-    // // response body tha einai se morfi string, opote me to json.decode metatrepetai se morfi eukoli gia epejergasia.
-
-    // final address = resData['results'][0]['formatted_address'];
-
-    // print("current location:");
-    // print(address);
 
     return LatLng(lat, lng);
   },
 );
+
+class CurrentMapImageNotifier extends StateNotifier<LatLng> {
+  CurrentMapImageNotifier(super.initialLocation);
+
+  void setCurrentImage(LatLngBounds bounds) {
+    final double centerLat =
+        (bounds.southwest.latitude + bounds.northeast.latitude) / 2;
+    final double centerLng =
+        (bounds.southwest.longitude + bounds.northeast.longitude) / 2;
+
+    state = LatLng(centerLat, centerLng);
+  }
+
+  // void printState() {
+  //   print(state);
+  // }
+}
+
+final currentMapImageProvider =
+    StateNotifierProvider<CurrentMapImageNotifier, LatLng?>((ref) {
+  // Διαβάζουμε την αρχική τοποθεσία από το userStartingLocationProvider
+  final startingLocation = ref.read(userStartingLocationProvider).value;
+
+  // Αν δεν υπάρχει αρχική τοποθεσία, θέτουμε μια προκαθορισμένη τιμή
+  final initialLocation = startingLocation ?? LatLng(0.0, 0.0);
+
+  // Επιστρέφουμε το Notifier με την αρχικοποιημένη τοποθεσία
+  return CurrentMapImageNotifier(initialLocation);
+});
+
+class CurrentZoomNotifier extends StateNotifier<double> {
+  CurrentZoomNotifier() : super(14);
+
+  void setCurrentZoom(double zoom) {
+    state = zoom;
+  }
+
+  // void printState() {
+  //   print(state);
+  // }
+}
+
+final currentZoomProvider =
+    StateNotifierProvider<CurrentZoomNotifier, double?>((ref) {
+  return CurrentZoomNotifier();
+});

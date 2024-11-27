@@ -9,11 +9,12 @@ class BoundsNotifier extends StateNotifier<LatLngBounds> {
 
   void setBounds(LatLngBounds bounds) {
     state = bounds;
+    print('THOSE ARE MY BOUNDSSSS: $state');
   }
 
-  void printState() {
-    print(state);
-  }
+  // void printState() {
+  //   print(state);
+  // }
 }
 
 final boundsProvider = StateNotifierProvider<BoundsNotifier, LatLngBounds>(

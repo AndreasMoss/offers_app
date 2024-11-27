@@ -120,6 +120,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   Timer? _debounceTimer; //timer for debouncing
   LatLngBounds? _currentBounds;
   GoogleMapController? _mapController;
+  double? _currentZoomLevel;
+
+  Set<Marker> markers = {};
 
   @override
   void dispose() {
@@ -227,111 +230,90 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     return markers;
   }
 
-  Future<void> _setInitialBounds() async {
-    final boundsNotifier = ref.read(boundsProvider.notifier);
-    _currentBounds = await _mapController!.getVisibleRegion();
-    boundsNotifier.setBounds(_currentBounds!);
-    //print("Bounds: ${_currentBounds.toString()}");
-  }
+  // Future<void> _setInitialBounds() async {
+  //   final boundsNotifier = ref.read(boundsProvider.notifier);
+  //   _currentBounds = await _mapController!.getVisibleRegion();
+  //   boundsNotifier.setBounds(_currentBounds!);
+  //   //print("Bounds: ${_currentBounds.toString()}");
+  // }
 
   Future<void> _handleCameraIdle() async {
     final boundsNotifier = ref.read(boundsProvider.notifier);
+    final currentPositionNotifier = ref.read(currentMapImageProvider.notifier);
+    final currentZoomNotifier = ref.read(currentZoomProvider.notifier);
     _debounceTimer?.cancel();
 
     _debounceTimer = Timer(const Duration(seconds: 1), () async {
       _currentBounds = await _mapController!.getVisibleRegion();
+      _currentZoomLevel = await _mapController!.getZoomLevel();
       boundsNotifier.setBounds(_currentBounds!);
-      boundsNotifier.printState();
+      // boundsNotifier.printState();
       // print("Bounds: ${_currentBounds.toString()}");
+
+      final offers = ref.read(activeOffersStreamProvider).asData?.value ?? [];
+
+      final filteredOffers = offers.where((offer) {
+        final location = offer.location;
+        return _currentBounds!.contains(
+          LatLng(location!.latitude, location.longitude),
+        );
+      }).toList();
+
+      print(filteredOffers.length);
+
+      if (mounted) {
+        final newMarkers = await _createMarkers(filteredOffers, context);
+        setState(() {
+          markers = newMarkers;
+        });
+      }
+      currentZoomNotifier.setCurrentZoom(_currentZoomLevel!);
+
+      currentPositionNotifier.setCurrentImage(_currentBounds!);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final startingUserLocationFuture =
-        ref.read(userStartingLocationProvider.future);
-    final offersAsync = ref.watch(activeOffersStreamProvider);
-    return offersAsync.when(
-      data: (offers) {
-        return Scaffold(
-          appBar: AppBar(
-            iconTheme: const IconThemeData(
-              color: textBlackB12,
-            ),
-            toolbarHeight: 70,
-            title: Text('Filter offers with map',
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineMedium!
-                    .copyWith(color: textBlackB12)),
-            centerTitle: true,
-            backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-          ),
-          body: FutureBuilder(
-            future: startingUserLocationFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                return const Center(child: Text('Error fetching location!'));
-              } else if (!snapshot.hasData || snapshot.data == null) {
-                return const Center(
-                    child: Text('Could not determine location.'));
-              }
+    final currentImagePosition = ref.read(currentMapImageProvider);
+    _currentZoomLevel = ref.read(currentZoomProvider);
 
-              final LatLng userCurrentLocation = snapshot.data!;
-
-              return FutureBuilder(
-                  future: _createMarkers(offers, context),
-                  builder: (ctx, markersSnapshot) {
-                    if (markersSnapshot.connectionState ==
-                        ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    if (markersSnapshot.hasError) {
-                      return const Center(
-                          child: Text('Error creating markers.'));
-                    }
-
-                    final markers = markersSnapshot.data ?? {};
-
-                    return GoogleMap(
-                      onMapCreated: (GoogleMapController controller) async {
-                        _mapController = controller;
-                        await _setInitialBounds();
-                      },
-                      style: widget._mapStyle,
-                      myLocationEnabled: true,
-                      initialCameraPosition: CameraPosition(
-                        target: LatLng(
-                          userCurrentLocation.latitude,
-                          userCurrentLocation.longitude,
-                        ),
-                        zoom: 14,
-                      ),
-                      onCameraIdle: _handleCameraIdle,
-                      markers: markers,
-
-                      // offers
-                      //     .map(
-                      //       (offer) => Marker(
-                      //           markerId: MarkerId(offer.offerId),
-                      //           position: LatLng(offer.location!.latitude,
-                      //               offer.location!.longitude)),
-                      //     )
-                      //     .toSet(),
-                    );
-                  });
-            },
-          ),
-        );
-      },
-      error: (error, stack) => Scaffold(
-        body:
-            Center(child: Text('ErrorAAAAAAAAIIIIIIIIIIAAAAAAAAAAAA: $error')),
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: const IconThemeData(
+          color: textBlackB12,
+        ),
+        toolbarHeight: 70,
+        title: Text('Filter offers with map',
+            style: Theme.of(context)
+                .textTheme
+                .headlineMedium!
+                .copyWith(color: textBlackB12)),
+        centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       ),
-      loading: () => const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
+      body: GoogleMap(
+        onMapCreated: (GoogleMapController controller) async {
+          _mapController = controller;
+          // await _setInitialBounds();
+        },
+        style: widget._mapStyle,
+        myLocationEnabled: true,
+        initialCameraPosition: CameraPosition(
+          target: currentImagePosition!,
+          zoom: _currentZoomLevel!,
+        ),
+        onCameraIdle: _handleCameraIdle,
+        markers: markers,
+
+        // offers
+        //     .map(
+        //       (offer) => Marker(
+        //           markerId: MarkerId(offer.offerId),
+        //           position: LatLng(offer.location!.latitude,
+        //               offer.location!.longitude)),
+        //     )
+        //     .toSet(),
       ),
     );
   }
