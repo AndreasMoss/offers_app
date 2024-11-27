@@ -237,27 +237,28 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   //   //print("Bounds: ${_currentBounds.toString()}");
   // }
 
-  Future<void> _handleCameraIdle() async {
+  Future<void> _handleCameraIdle(int waitTime) async {
     final boundsNotifier = ref.read(boundsProvider.notifier);
     final currentPositionNotifier = ref.read(currentMapImageProvider.notifier);
     final currentZoomNotifier = ref.read(currentZoomProvider.notifier);
     _debounceTimer?.cancel();
 
-    _debounceTimer = Timer(const Duration(seconds: 1), () async {
+    _debounceTimer = Timer(Duration(seconds: waitTime), () async {
       _currentBounds = await _mapController!.getVisibleRegion();
       _currentZoomLevel = await _mapController!.getZoomLevel();
       boundsNotifier.setBounds(_currentBounds!);
       // boundsNotifier.printState();
       // print("Bounds: ${_currentBounds.toString()}");
 
-      final offers = ref.read(activeOffersStreamProvider).asData?.value ?? [];
+      // final offers = ref.read(activeOffersStreamProvider).asData?.value ?? [];
 
-      final filteredOffers = offers.where((offer) {
-        final location = offer.location;
-        return _currentBounds!.contains(
-          LatLng(location!.latitude, location.longitude),
-        );
-      }).toList();
+      // final filteredOffers = offers.where((offer) {
+      //   final location = offer.location;
+      //   return _currentBounds!.contains(
+      //     LatLng(location!.latitude, location.longitude),
+      //   );
+      // }).toList();
+      final filteredOffers = ref.read(filteredListProvider);
 
       print(filteredOffers.length);
 
@@ -296,6 +297,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         onMapCreated: (GoogleMapController controller) async {
           _mapController = controller;
           // await _setInitialBounds();
+          _handleCameraIdle(0);
         },
         style: widget._mapStyle,
         myLocationEnabled: true,
@@ -303,7 +305,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           target: currentImagePosition!,
           zoom: _currentZoomLevel!,
         ),
-        onCameraIdle: _handleCameraIdle,
+        onCameraIdle: () {
+          _handleCameraIdle(1);
+        },
         markers: markers,
 
         // offers
