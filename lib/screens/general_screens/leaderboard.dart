@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:offers_app/providers/leaderboard_provider.dart';
+import 'package:offers_app/providers/user_provider.dart';
+import 'package:offers_app/theme/colors_for_text.dart';
+import 'package:offers_app/widgets/leaderboard_tile.dart';
 
 class LeaderboardScreen extends ConsumerWidget {
   const LeaderboardScreen({super.key});
@@ -8,61 +11,42 @@ class LeaderboardScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userWithPointsAsyncValue = ref.watch(userRankingProvider);
+    final userIdProvided = ref.read(userIdProvider);
     return userWithPointsAsyncValue.when(
       data: (regularUsers) {
         return Scaffold(
+          backgroundColor: Colors.white,
           appBar: AppBar(
+            toolbarHeight: 88,
+            centerTitle: true,
+            iconTheme: IconThemeData(color: textBlackB12),
             title: Text(
               'Leaderboard',
-              style: Theme.of(context).textTheme.headlineLarge,
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineMedium!
+                  .copyWith(color: textBlackB12),
             ),
+            backgroundColor: Colors.white,
           ),
-          body: ListView.builder(
-              itemCount: regularUsers.length,
-              itemBuilder: (ctx, index) {
-                final rank = index + 1;
-                return Center(
-                  child: ListTile(
-                    leading: Container(
-                      width: 30,
-                      height: 30,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          border: index > 2
-                              ? Border.all(
-                                  color: Theme.of(context).colorScheme.primary)
-                              : null,
-                          color: (rank == 1)
-                              ? const Color(0xFFFFD700)
-                              : (rank == 2)
-                                  ? const Color.fromARGB(255, 165, 165, 169)
-                                  : (rank == 3)
-                                      ? const Color.fromARGB(255, 154, 90, 6)
-                                      : Colors.white),
-                      child: Center(
-                        child: Text(
-                          (index + 1).toString(),
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(
-                                  color: index > 2
-                                      ? Theme.of(context).colorScheme.primary
-                                      : Colors.white,
-                                  fontWeight: FontWeight.bold),
-                        ),
+          body: Padding(
+            padding: const EdgeInsets.only(
+                left: 24.0, right: 24.0, top: 6.0, bottom: 24.0),
+            child: ListView.builder(
+                itemCount: regularUsers.length,
+                itemBuilder: (ctx, index) {
+                  return Column(
+                    children: [
+                      LeaderboardTile(
+                        index: index,
+                        user: regularUsers[index],
+                        userId: userIdProvided!,
                       ),
-                    ),
-                    title: Row(
-                      children: [
-                        Text(regularUsers[index].username),
-                        const Spacer(),
-                        Text(regularUsers[index].points.toString()),
-                      ],
-                    ),
-                  ),
-                );
-              }),
+                      const SizedBox(height: 16),
+                    ],
+                  );
+                }),
+          ),
         );
       },
       error: (error, stack) => const Scaffold(
