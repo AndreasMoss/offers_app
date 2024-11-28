@@ -20,6 +20,17 @@ class FilterBottomsheet extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Center(
+              child: Container(
+                width: 80,
+                height: 5,
+                margin: const EdgeInsets.only(bottom: 16),
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
             Text(
               'Filter Offers',
               style: Theme.of(context)
@@ -28,7 +39,7 @@ class FilterBottomsheet extends ConsumerWidget {
                   .copyWith(color: textBlackB12),
             ),
             const SizedBox(
-              height: 18,
+              height: 24,
             ),
             Column(
               children: [
@@ -57,7 +68,8 @@ class FilterBottomsheet extends ConsumerWidget {
                   }
                 }),
             const Spacer(),
-            ElevatedButton(onPressed: () {}, child: const Text('Apply'))
+            ElevatedButton(
+                onPressed: () {}, child: const Text('Return to Offers'))
           ],
         ),
       ),
