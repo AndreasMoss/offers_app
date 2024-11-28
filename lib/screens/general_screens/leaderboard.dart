@@ -21,6 +21,7 @@ class LeaderboardScreen extends ConsumerWidget {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
+            surfaceTintColor: Colors.white,
             toolbarHeight: 88,
             centerTitle: true,
             iconTheme: const IconThemeData(color: textBlackB12),
@@ -34,8 +35,8 @@ class LeaderboardScreen extends ConsumerWidget {
             backgroundColor: Colors.white,
           ),
           body: Padding(
-            padding: const EdgeInsets.only(
-                left: 24.0, right: 24.0, top: 6.0, bottom: 24.0),
+            padding:
+                const EdgeInsets.only(left: 24.0, right: 24.0, bottom: 24.0),
             child: Column(
               children: [
                 Expanded(
