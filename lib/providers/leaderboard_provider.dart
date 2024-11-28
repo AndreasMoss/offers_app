@@ -34,3 +34,20 @@ final userRankingProvider = StreamProvider<List<RegularUser>>(
     );
   },
 );
+
+final userRankProvider = Provider<int?>((ref) {
+  final users = ref.watch(userRankingProvider).asData?.value;
+  if (users == null) {
+    return null;
+  }
+
+  final userId = ref.read(userIdProvider);
+
+  int index = users.indexWhere((user) => user.userId == userId);
+
+  if (index == -1) {
+    return null;
+  }
+
+  return index + 1;
+});
