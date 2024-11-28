@@ -20,6 +20,7 @@ class Offer {
       required this.description,
       required this.codes,
       required this.businessId,
+      required this.category,
       this.profileImage,
       this.location,
       this.address});
@@ -32,6 +33,7 @@ class Offer {
   final String? profileImage;
   final GeoPoint? location;
   final String? address;
+  final OfferCategory category;
 
   // void printOfferId() async {
   //   print("OFFFFEEEEERRRR ID: ---------------$id------------------");
@@ -89,4 +91,17 @@ Map categoryDict = {
   OfferCategory.beauty: 'Beauty',
   OfferCategory.pets: 'Pets',
   OfferCategory.services: 'Services',
+};
+
+Map inverseCategoryDict = {
+  'all': OfferCategory.all,
+  'entertainment': OfferCategory.entertainment,
+  'fitness': OfferCategory.fitness,
+  'coffeeAndFood': OfferCategory.coffeeAndFood,
+  'health': OfferCategory.health,
+  'technology': OfferCategory.technology,
+  'learning': OfferCategory.learning,
+  'beauty': OfferCategory.beauty,
+  'pets': OfferCategory.pets,
+  'services': OfferCategory.services,
 };

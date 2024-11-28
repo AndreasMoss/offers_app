@@ -63,6 +63,7 @@ final inactiveOffersForBusinessStreamProvider =
         codes: data['codes'],
         businessId: data['business_id'],
         profileImage: data['business_image_url'],
+        category: inverseCategoryDict[data['category']],
       );
     }).toList();
   });
@@ -93,6 +94,7 @@ final activeOffersForBusinessStreamProvider =
         codes: data['codes'],
         businessId: data['business_id'],
         profileImage: data['business_image_url'],
+        category: inverseCategoryDict[data['category']],
       );
     }).toList();
   });
@@ -122,7 +124,8 @@ final activeOffersStreamProvider = StreamProvider<List<Offer>>((ref) {
           businessId: data['business_id'],
           profileImage: data['business_image_url'],
           address: data['address'],
-          location: data['location']);
+          location: data['location'],
+          category: inverseCategoryDict[data['category']]);
     }).toList();
   });
 });
