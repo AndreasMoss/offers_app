@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 enum OfferCategory {
+  all,
   entertainment,
   fitness,
   coffeeAndFood,
@@ -78,6 +79,7 @@ class Offer {
 }
 
 Map categoryDict = {
+  OfferCategory.all: 'Show all',
   OfferCategory.entertainment: 'Entertainment',
   OfferCategory.fitness: 'Fitness',
   OfferCategory.coffeeAndFood: 'Coffee and Food',

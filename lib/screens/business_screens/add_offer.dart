@@ -164,13 +164,14 @@ class _AddOfferScreenState extends ConsumerState<AddOfferScreen> {
                               const InputDecoration(labelText: 'Category'),
                           value: _selectedCategory,
                           items: OfferCategory.values
-                              .map(
-                                (category) => DropdownMenuItem(
-                                  value: category,
-                                  child: Text(categoryDict[category]),
-                                ),
-                              )
-                              .toList(),
+                              .where(
+                                  (category) => category != OfferCategory.all)
+                              .map((category) {
+                            return DropdownMenuItem(
+                              value: category,
+                              child: Text(categoryDict[category]),
+                            );
+                          }).toList(),
                           onChanged: (value) {
                             setState(() {
                               _selectedCategory = value!;

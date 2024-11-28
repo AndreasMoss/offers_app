@@ -79,7 +79,7 @@ class _OffersMainScreenState extends ConsumerState<MainScreen> {
                     actions: [],
                   )
                 : null,
-            backgroundColor: const Color.fromARGB(255, 246, 245, 245),
+            // backgroundColor: const Color.fromARGB(255, 246, 245, 245),
             body: bottomNavPages[currentIndex],
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: currentIndex,

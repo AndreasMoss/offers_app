@@ -11,7 +11,7 @@ class OffersList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      padding: const EdgeInsets.only(top: 18),
+      padding: const EdgeInsets.only(top: 6),
       itemCount: offers.length,
       itemBuilder: (ctx, index) {
         return Column(
