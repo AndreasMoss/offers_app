@@ -1,5 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+enum OfferCategory {
+  entertainment,
+  fitness,
+  coffeeAndFood,
+  health,
+  technology,
+  learning,
+  beauty,
+  pets,
+  services,
+}
+
 class Offer {
   Offer(
       {required this.offerId,
@@ -64,3 +76,15 @@ class Offer {
     }
   }
 }
+
+Map categoryDict = {
+  OfferCategory.entertainment: 'Entertainment',
+  OfferCategory.fitness: 'Fitness',
+  OfferCategory.coffeeAndFood: 'Coffee and Food',
+  OfferCategory.health: 'Health',
+  OfferCategory.technology: 'Technology',
+  OfferCategory.learning: 'Learning',
+  OfferCategory.beauty: 'Beauty',
+  OfferCategory.pets: 'Pets',
+  OfferCategory.services: 'Services',
+};

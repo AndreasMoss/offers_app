@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:offers_app/models/offer.dart';
 import 'package:offers_app/providers/user_provider.dart';
 
 //PROSEXE NA BALEIS NA MI MPOROUN NA KANOUN ADD OFFER BUSINESSESS POU DEN EXOUN BALEI PEDIO ONOMA BUSINESS
@@ -19,6 +20,7 @@ class _AddOfferScreenState extends ConsumerState<AddOfferScreen> {
   var _enteredTitle = '';
   var _enteredDescription = '';
   var _enteredCodesNumber = 1;
+  var _selectedCategory = OfferCategory.entertainment;
 
   void _submitAddForm() async {
     final isValid = _addForm.currentState!.validate();
@@ -58,6 +60,7 @@ class _AddOfferScreenState extends ConsumerState<AddOfferScreen> {
       'isActive': true,
       'location': businessLocation,
       'address': businessAddress,
+      'category': _selectedCategory.toString().split('.').last,
     });
 
     //print("New document ID: ${docRef.id}");
@@ -77,82 +80,128 @@ class _AddOfferScreenState extends ConsumerState<AddOfferScreen> {
             title: const Text('Add new Offer'),
           ),
           body: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(
+                top: 10.0, left: 10, right: 10, bottom: 24),
             child: Form(
-                key: _addForm,
-                child: Column(
-                  children: [
-                    // TextFormField(
-                    //   decoration: const InputDecoration(labelText: 'ID'),
-                    //   validator: (value) {
-                    //     if (value == null || value.trim().isEmpty) {
-                    //       return 'Please enter a valid ID';
-                    //     }
+              key: _addForm,
+              child: Column(
+                children: [
+                  // TextFormField(
+                  //   decoration: const InputDecoration(labelText: 'ID'),
+                  //   validator: (value) {
+                  //     if (value == null || value.trim().isEmpty) {
+                  //       return 'Please enter a valid ID';
+                  //     }
 
-                    //     return null;
-                    //   },
-                    //   onSaved: (value) {
-                    //     _enteredID = value!;
-                    //   },
-                    // ),
-                    TextFormField(
-                      decoration: const InputDecoration(labelText: 'title'),
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
-                          return 'Please enter a valid title';
-                        }
+                  //     return null;
+                  //   },
+                  //   onSaved: (value) {
+                  //     _enteredID = value!;
+                  //   },
+                  // ),
+                  TextFormField(
+                    decoration: const InputDecoration(labelText: 'Title'),
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'Please enter a valid Title';
+                      }
 
-                        return null;
-                      },
-                      onSaved: (value) {
-                        //se kathe tetoio elegxoume an einai null ston validator pou kaloume prin to save sto _submitAddForm.
-                        //Giauto bazoume !
-                        _enteredTitle = value!;
-                      },
-                    ),
-                    TextFormField(
-                      maxLines: 3,
-                      keyboardType: TextInputType.multiline,
-                      textInputAction: TextInputAction.newline,
-                      decoration:
-                          const InputDecoration(labelText: 'Description'),
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
-                          return 'Please enter a valid Description';
-                        }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      //se kathe tetoio elegxoume an einai null ston validator pou kaloume prin to save sto _submitAddForm.
+                      //Giauto bazoume !
+                      _enteredTitle = value!;
+                    },
+                  ),
+                  const SizedBox(
+                    height: 18,
+                  ),
+                  TextFormField(
+                    maxLines: 3,
+                    keyboardType: TextInputType.multiline,
+                    textInputAction: TextInputAction.newline,
+                    decoration: const InputDecoration(labelText: 'Description'),
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'Please enter a valid Description';
+                      }
 
-                        return null;
-                      },
-                      onSaved: (value) {
-                        _enteredDescription = value!;
-                      },
-                    ),
-                    TextFormField(
-                      keyboardType: TextInputType.number,
-                      decoration:
-                          const InputDecoration(labelText: 'Number of Codes'),
-                      validator: (value) {
-                        if (value == null ||
-                            value.trim().isEmpty ||
-                            int.tryParse(value) == null) {
-                          return 'Please enter a valid number of Codes';
-                        }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _enteredDescription = value!;
+                    },
+                  ),
+                  const SizedBox(
+                    height: 26,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                              labelText: 'Number of Codes'),
+                          validator: (value) {
+                            if (value == null ||
+                                value.trim().isEmpty ||
+                                int.tryParse(value) == null) {
+                              return 'Please enter a valid number of Codes';
+                            }
 
-                        return null;
-                      },
-                      onSaved: (value) {
-                        _enteredCodesNumber = int.tryParse(value!)!;
-                      },
-                    ),
-                    ElevatedButton(
-                      onPressed: _submitAddForm,
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.secondary),
-                      child: const Text('Add Offer'),
-                    ),
-                  ],
-                )),
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _enteredCodesNumber = int.tryParse(value!)!;
+                          },
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: DropdownButtonFormField<OfferCategory>(
+                          decoration:
+                              const InputDecoration(labelText: 'Category'),
+                          value: _selectedCategory,
+                          items: OfferCategory.values
+                              .map(
+                                (category) => DropdownMenuItem(
+                                  value: category,
+                                  child: Text(categoryDict[category]),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedCategory = value!;
+                              // print(
+                              //     _selectedCategory.toString().split('.').last);
+                            });
+                          },
+                          validator: (value) {
+                            if (value == null) {
+                              return 'Please select a category';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Spacer(),
+                  ElevatedButton(
+                    onPressed: _submitAddForm,
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary),
+                    child: const Text('Add Offer'),
+                  ),
+                ],
+              ),
+            ),
           ),
         );
       },
