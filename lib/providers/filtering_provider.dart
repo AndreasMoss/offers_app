@@ -44,12 +44,14 @@ final categoryFilterProvider =
 final filteredListProvider = Provider((ref) {
   final offers = ref.watch(activeOffersStreamProvider).asData?.value ?? [];
   final bounds = ref.watch(boundsProvider);
+  final category = ref.watch(categoryFilterProvider);
 
   final filteredOffers = offers.where((offer) {
     final location = offer.location;
-    return bounds.contains(
-      LatLng(location!.latitude, location.longitude),
-    );
+    return (bounds.contains(
+          LatLng(location!.latitude, location.longitude),
+        ) &&
+        (offer.category == category || category == OfferCategory.all));
   }).toList();
 
   return filteredOffers;
