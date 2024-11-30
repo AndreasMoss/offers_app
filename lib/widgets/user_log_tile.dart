@@ -4,14 +4,22 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:offers_app/theme/colors_for_text.dart';
 
 class UserLogTile extends StatelessWidget {
-  const UserLogTile({super.key});
+  const UserLogTile(
+      {super.key,
+      required this.date,
+      required this.offerTitle,
+      required this.businessName});
+
+  final String date;
+  final String offerTitle;
+  final String businessName;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
       height: 118,
-      padding: EdgeInsets.all(14),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         border: Border.all(
           color: const Color(0xFFECEFF3),
@@ -25,7 +33,7 @@ class UserLogTile extends StatelessWidget {
           Row(
             children: [
               Text(
-                '32/21/2321',
+                date,
                 style: Theme.of(context)
                     .textTheme
                     .labelSmall!
@@ -57,8 +65,9 @@ class UserLogTile extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 3),
               Text(
-                '20% off All Electronics',
+                offerTitle,
                 style: Theme.of(context)
                     .textTheme
                     .titleSmall!
@@ -66,7 +75,7 @@ class UserLogTile extends StatelessWidget {
               ),
               const SizedBox(height: 5),
               Text(
-                'Business: Tech Store',
+                'Business: $businessName',
                 style: Theme.of(context)
                     .textTheme
                     .labelSmall!

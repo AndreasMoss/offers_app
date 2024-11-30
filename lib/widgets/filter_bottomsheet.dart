@@ -69,7 +69,10 @@ class FilterBottomsheet extends ConsumerWidget {
                 }),
             const Spacer(),
             ElevatedButton(
-                onPressed: () {}, child: const Text('Return to Offers'))
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Return to Offers'))
           ],
         ),
       ),

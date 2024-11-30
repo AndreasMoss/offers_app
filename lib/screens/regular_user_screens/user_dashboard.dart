@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:offers_app/providers/user_provider.dart';
 import 'package:offers_app/theme/colors_for_text.dart';
 import 'package:offers_app/widgets/user_log_tile.dart';
 
-class UserDashboard extends StatelessWidget {
+class UserDashboard extends ConsumerWidget {
   const UserDashboard({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userData = ref.watch(userDataProvider).asData?.value;
+    List history = userData!['redeemedOffers'] ?? [];
     return Padding(
       padding:
-          const EdgeInsets.only(top: 95.0, bottom: 24, left: 24, right: 24),
+          const EdgeInsets.only(top: 90.0, bottom: 24, left: 24, right: 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -20,8 +24,23 @@ class UserDashboard extends StatelessWidget {
                 .titleSmall!
                 .copyWith(color: textBlackB12),
           ),
-          const SizedBox(height: 12),
-          const UserLogTile()
+          const SizedBox(height: 8),
+          Expanded(
+            child: ListView.builder(
+                itemCount: history.length,
+                itemBuilder: (ctx, index) {
+                  return Column(
+                    children: [
+                      const SizedBox(height: 12),
+                      UserLogTile(
+                        businessName: history[index]['businessName'],
+                        date: history[index]['redeemDate'],
+                        offerTitle: history[index]['title'],
+                      ),
+                    ],
+                  );
+                }),
+          )
         ],
       ),
     );
