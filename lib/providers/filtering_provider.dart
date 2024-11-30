@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:offers_app/models/offer.dart';
 import 'package:offers_app/providers/offers_list_provider.dart';
+import 'package:offers_app/providers/user_provider.dart';
 
 class BoundsNotifier extends StateNotifier<LatLngBounds> {
   BoundsNotifier()
@@ -20,7 +21,10 @@ class BoundsNotifier extends StateNotifier<LatLngBounds> {
 }
 
 final boundsProvider = StateNotifierProvider<BoundsNotifier, LatLngBounds>(
-  (ref) => BoundsNotifier(),
+  (ref) {
+    ref.watch(authStateProvider).asData?.value;
+    return BoundsNotifier();
+  },
 );
 
 //////////////////////////////////////////////////////////////////////////
@@ -36,7 +40,10 @@ class CategoryNotifier extends StateNotifier<OfferCategory> {
 
 final categoryFilterProvider =
     StateNotifierProvider<CategoryNotifier, OfferCategory>(
-  (ref) => CategoryNotifier(),
+  (ref) {
+    ref.watch(authStateProvider).asData?.value;
+    return CategoryNotifier();
+  },
 );
 
 /////////////////////////////////////////////////////////////////////////////////////
