@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 enum OfferCategory {
   all,
@@ -46,9 +47,24 @@ class Offer {
       final userRef = firestoreDb.collection('users').doc(userId);
       final offerRef = firestoreDb.collection('offers').doc(offerId);
       final bussRef = firestoreDb.collection('users').doc(businessId);
+
+      await userRef
+          .update({'lastRedeemOfferDate': FieldValue.serverTimestamp()});
+
       await firestoreDb.runTransaction((transaction) async {
         print('STAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAART');
+
         final snapshot = await transaction.get(userRef);
+        var lastRedeems = snapshot.data()?['redeemedOffers'] ?? [];
+
+        if (lastRedeems != []) {
+          for (var item in lastRedeems) {
+            if (item['offerId'] == offerId) {
+              return;
+            }
+          }
+        }
+
         final snapshot2 = await transaction.get(offerRef);
         final snapshot3 = await transaction.get(bussRef);
 
@@ -58,6 +74,7 @@ class Offer {
           int currentCodes = snapshot2.data()!['codes'];
           int currentsCodesUsedByUser = snapshot.data()!['totalCodesUsed'];
           int currentCodesGivenByBuss = snapshot3.data()!['totalCodesGiven'];
+          Timestamp redeemTimestamp = snapshot.data()!['lastRedeemOfferDate'];
           if (currentCodes == 1) {
             transaction.update(offerRef, {'isActive': false});
           }
@@ -69,6 +86,19 @@ class Offer {
           transaction.update(
               bussRef, {'totalCodesGiven': currentCodesGivenByBuss + 1});
           //print('Points added successfully to user $userId.');
+          DateTime redeemDate = redeemTimestamp.toDate();
+          String formattedDate = DateFormat('dd/MM/yyyy').format(redeemDate);
+
+          transaction.update(userRef, {
+            'redeemedOffers': FieldValue.arrayUnion([
+              {
+                'offerId': offerId,
+                'title': title,
+                'businessName': snapshot3.data()!['business_name'],
+                'redeemDate': formattedDate,
+              }
+            ]),
+          });
         } catch (error) {
           print('ERROR WHILE TRYING TO READ USER DOCUMENT');
         }
