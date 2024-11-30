@@ -36,14 +36,17 @@ class _OffersDetailsState extends ConsumerState<OffersDetails> {
                 if (scannedUserId != null) {
                   Navigator.of(context).pop();
                   try {
-                    await widget.offer.redeemCode(scannedUserId);
-                    if (mounted) {
+                    int redemptionStatus =
+                        await widget.offer.redeemCode(scannedUserId);
+                    if (ctx.mounted) {
                       ScaffoldMessenger.of(ctx).showSnackBar(
                         SnackBar(
                           duration: const Duration(seconds: 1),
                           backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                           content: Text(
-                            'Coded Redeemed Succesfuly for the User $scannedUserId',
+                            redemptionStatus == 1
+                                ? 'Coded Redeemed Succesfuly'
+                                : 'Unsuccesfull redemption',
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),

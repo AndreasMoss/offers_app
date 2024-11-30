@@ -41,8 +41,9 @@ class Offer {
   // }
 
   // Using transaction
-  Future<void> redeemCode(String userId) async {
+  Future<int> redeemCode(String userId) async {
     final firestoreDb = FirebaseFirestore.instance;
+    var statusCode = 0;
     try {
       final userRef = firestoreDb.collection('users').doc(userId);
       final offerRef = firestoreDb.collection('offers').doc(offerId);
@@ -57,10 +58,11 @@ class Offer {
         final snapshot = await transaction.get(userRef);
         var lastRedeems = snapshot.data()?['redeemedOffers'] ?? [];
 
-        if (lastRedeems != []) {
+        if ((lastRedeems as List).isNotEmpty) {
           for (var item in lastRedeems) {
             if (item['offerId'] == offerId) {
-              return;
+              statusCode = 0;
+              return 0;
             }
           }
         }
@@ -101,12 +103,18 @@ class Offer {
           });
         } catch (error) {
           print('ERROR WHILE TRYING TO READ USER DOCUMENT');
+          statusCode = 0;
         }
         print('FINIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIISH');
+        statusCode = 1;
       });
+
+      return statusCode;
     } catch (e) {
       print('ERROR WHILE TRYING TO ADD POINTS TO USER!!!');
+      statusCode = 0;
     }
+    return statusCode;
   }
 }
 
