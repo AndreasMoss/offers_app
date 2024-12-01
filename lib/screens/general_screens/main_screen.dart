@@ -59,7 +59,7 @@ class _OffersMainScreenState extends ConsumerState<MainScreen> {
                                         const LeaderboardScreen()));
                               },
                               icon: Container(
-                                padding: EdgeInsets.all(14),
+                                padding: const EdgeInsets.all(14),
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     //borderRadius: BorderRadius.circular(48),
@@ -76,12 +76,13 @@ class _OffersMainScreenState extends ConsumerState<MainScreen> {
                         ),
                       ),
                     ),
-                    actions: [],
+                    actions: const [],
                   )
                 : null,
-            // backgroundColor: const Color.fromARGB(255, 246, 245, 245),
+            backgroundColor: const Color.fromARGB(255, 250, 250, 250),
             body: bottomNavPages[currentIndex],
             bottomNavigationBar: BottomNavigationBar(
+              backgroundColor: Colors.white,
               currentIndex: currentIndex,
               onTap: (index) {
                 setState(() {
