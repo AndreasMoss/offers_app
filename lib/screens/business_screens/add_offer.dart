@@ -162,8 +162,10 @@ class _AddOfferScreenState extends ConsumerState<AddOfferScreen> {
                       const SizedBox(width: 10),
                       Expanded(
                         child: DropdownButtonFormField<OfferCategory>(
+                          isExpanded: true,
                           decoration:
                               const InputDecoration(labelText: 'Category'),
+                          dropdownColor: Colors.white,
                           value: _selectedCategory,
                           items: OfferCategory.values
                               .where(

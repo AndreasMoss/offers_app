@@ -212,6 +212,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         },
         style: widget._mapStyle,
         myLocationEnabled: true,
+        rotateGesturesEnabled: false,
         initialCameraPosition: CameraPosition(
           target: currentImagePosition!,
           zoom: _currentZoomLevel!,

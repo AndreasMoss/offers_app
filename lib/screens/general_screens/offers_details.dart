@@ -171,20 +171,23 @@ class _OffersDetailsState extends ConsumerState<OffersDetails> {
               child: SizedBox(
                 width: double.infinity,
                 height: 320,
-                child: GoogleMap(
-                  style: mapTheme,
-                  initialCameraPosition: CameraPosition(
-                      zoom: 14,
-                      target: LatLng(widget.offer.location!.latitude,
-                          widget.offer.location!.longitude)),
-                  markers: {
-                    Marker(
-                        markerId: const MarkerId('1'),
-                        position: LatLng(
-                          widget.offer.location!.latitude,
-                          widget.offer.location!.longitude,
-                        ))
-                  },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: GoogleMap(
+                    style: mapTheme,
+                    initialCameraPosition: CameraPosition(
+                        zoom: 14,
+                        target: LatLng(widget.offer.location!.latitude,
+                            widget.offer.location!.longitude)),
+                    markers: {
+                      Marker(
+                          markerId: const MarkerId('1'),
+                          position: LatLng(
+                            widget.offer.location!.latitude,
+                            widget.offer.location!.longitude,
+                          ))
+                    },
+                  ),
                 ),
               ),
             ),

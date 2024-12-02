@@ -12,6 +12,7 @@ enum OfferCategory {
   beauty,
   pets,
   services,
+  clothesShoes
 }
 
 class Offer {
@@ -131,6 +132,7 @@ Map categoryDict = {
   OfferCategory.beauty: 'Beauty',
   OfferCategory.pets: 'Pets',
   OfferCategory.services: 'Services',
+  OfferCategory.clothesShoes: 'Clothes/Shoes'
 };
 
 Map inverseCategoryDict = {
@@ -144,4 +146,5 @@ Map inverseCategoryDict = {
   'beauty': OfferCategory.beauty,
   'pets': OfferCategory.pets,
   'services': OfferCategory.services,
+  'clothesShoes': OfferCategory.clothesShoes,
 };
