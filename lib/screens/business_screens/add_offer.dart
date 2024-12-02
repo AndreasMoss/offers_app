@@ -30,6 +30,7 @@ class _AddOfferScreenState extends ConsumerState<AddOfferScreen> {
     final businessProfileImageUrl = userData!['profile_image'];
     final businessLocation = userData['location'];
     final businessAddress = userData['address'];
+    final businessName = userData['business_name'];
 
     if (userIdProvided == null) {
       print(
@@ -61,6 +62,7 @@ class _AddOfferScreenState extends ConsumerState<AddOfferScreen> {
       'location': businessLocation,
       'address': businessAddress,
       'category': _selectedCategory.toString().split('.').last,
+      'businessName': businessName,
     });
 
     //print("New document ID: ${docRef.id}");

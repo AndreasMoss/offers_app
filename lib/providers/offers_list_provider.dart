@@ -61,9 +61,12 @@ final inactiveOffersForBusinessStreamProvider =
         title: data['title'],
         description: data['description'],
         codes: data['codes'],
+        address: data['address'],
+        location: data['location'],
         businessId: data['business_id'],
         profileImage: data['business_image_url'],
         category: inverseCategoryDict[data['category']],
+        businessName: data['businessName'],
       );
     }).toList();
   });
@@ -92,9 +95,12 @@ final activeOffersForBusinessStreamProvider =
         title: data['title'],
         description: data['description'],
         codes: data['codes'],
+        address: data['address'],
+        location: data['location'],
         businessId: data['business_id'],
         profileImage: data['business_image_url'],
         category: inverseCategoryDict[data['category']],
+        businessName: data['businessName'],
       );
     }).toList();
   });
@@ -117,15 +123,17 @@ final activeOffersStreamProvider = StreamProvider<List<Offer>>((ref) {
     return snapshot.docs.map((doc) {
       final data = doc.data();
       return Offer(
-          offerId: doc.id,
-          title: data['title'],
-          description: data['description'],
-          codes: data['codes'],
-          businessId: data['business_id'],
-          profileImage: data['business_image_url'],
-          address: data['address'],
-          location: data['location'],
-          category: inverseCategoryDict[data['category']]);
+        offerId: doc.id,
+        title: data['title'],
+        description: data['description'],
+        codes: data['codes'],
+        businessId: data['business_id'],
+        profileImage: data['business_image_url'],
+        address: data['address'],
+        location: data['location'],
+        category: inverseCategoryDict[data['category']],
+        businessName: data['businessName'],
+      );
     }).toList();
   });
 });

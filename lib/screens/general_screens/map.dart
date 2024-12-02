@@ -6,9 +6,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:offers_app/models/offer.dart';
 import 'package:offers_app/providers/filtering_provider.dart';
 import 'package:offers_app/providers/map_provider.dart';
-import 'package:offers_app/providers/offers_list_provider.dart';
 import 'package:offers_app/theme/colors_for_text.dart';
 import 'package:offers_app/theme/custom_markers.dart';
+import 'package:offers_app/theme/map_theme.dart';
 import 'package:offers_app/widgets/offer_tile.dart';
 
 /// kane to edit gia to profile twn epixeirisewn ena ena.
@@ -18,97 +18,7 @@ import 'package:offers_app/widgets/offer_tile.dart';
 class MapScreen extends ConsumerStatefulWidget {
   const MapScreen({super.key});
 
-  final String _mapStyle = '''
-[
-    {
-      "featureType": "poi.attraction",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    },
-    {
-      "featureType": "poi.business",
-      "stylers": [
-        {
-          "visibility": "off"
-        },
-        {
-          "weight": 1
-        }
-      ]
-    },
-    {
-      "featureType": "poi.business",
-      "elementType": "labels.text",
-      "stylers": [
-        {
-          "saturation": -25
-        }
-      ]
-    },
-    {
-      "featureType": "poi.government",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    },
-    {
-      "featureType": "poi.medical",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    },
-    {
-      "featureType": "poi.park",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    },
-    {
-      "featureType": "poi.place_of_worship",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    },
-    {
-      "featureType": "poi.school",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    },
-    {
-      "featureType": "poi.sports_complex",
-      "stylers": [
-        {
-          "visibility": "off"
-        }
-      ]
-    },
-    {
-      "featureType": "road.local",
-      "stylers": [
-        {
-          "saturation": -40
-        },
-        {
-          "lightness": 5
-        }
-      ]
-    }
-  ]
-''';
+  final String _mapStyle = mapTheme;
 
   @override
   ConsumerState<MapScreen> createState() {

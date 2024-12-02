@@ -244,11 +244,18 @@ class _BusinessProfileEditScreenState
                       )),
                 ),
               ]),
-              if (_pickedLocation != null) Text(_pickedLocation!.address),
               if (_pickedLocation != null)
-                Text(_pickedLocation!.latitude.toString()),
-              if (_pickedLocation != null)
-                Text(_pickedLocation!.longtitude.toString()),
+                Column(
+                  children: [
+                    const SizedBox(height: 16),
+                    const Text('Picked address:'),
+                    Text(_pickedLocation!.address),
+                  ],
+                ),
+              // if (_pickedLocation != null)
+              //   Text(_pickedLocation!.latitude.toString()),
+              // if (_pickedLocation != null)
+              //   Text(_pickedLocation!.longtitude.toString()),
               const Spacer(),
               _isLoading
                   ? const CircularProgressIndicator()

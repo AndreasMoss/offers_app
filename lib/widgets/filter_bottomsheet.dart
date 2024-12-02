@@ -53,6 +53,7 @@ class FilterBottomsheet extends ConsumerWidget {
               ],
             ),
             DropdownButton(
+                dropdownColor: Colors.white,
                 value: currentFilter,
                 items: OfferCategory.values
                     .map(

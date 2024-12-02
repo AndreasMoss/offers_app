@@ -24,7 +24,8 @@ class Offer {
       required this.category,
       this.profileImage,
       this.location,
-      this.address});
+      this.address,
+      this.businessName});
 
   final String offerId;
   final String title;
@@ -35,6 +36,7 @@ class Offer {
   final GeoPoint? location;
   final String? address;
   final OfferCategory category;
+  final String? businessName;
 
   // void printOfferId() async {
   //   print("OFFFFEEEEERRRR ID: ---------------$id------------------");

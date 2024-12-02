@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 final ThemeData offersTheme = ThemeData().copyWith(
+  scaffoldBackgroundColor: const Color.fromARGB(255, 253, 253, 253),
   textTheme: GoogleFonts.workSansTextTheme().copyWith(
     //gia ta headers stin arxi tis selidas
     headlineLarge: TextStyle(

@@ -36,30 +36,81 @@ class BusinessProfile extends ConsumerWidget {
                       .headlineMedium!
                       .copyWith(color: textBlackB12),
                 ),
-                const SizedBox(height: 130),
-                FutureBuilder(
-                  future: profileImageChecker(businessId),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Center(
-                        child: Text('Error: ${snapshot.error}'),
-                      );
-                    } else if (!snapshot.hasData || snapshot.data == null) {
-                      return const Center(
-                        child: Text('Could not fetch location.'),
-                      );
-                    }
-                    if (snapshot.data == true) {
-                      return Image.network(businessData['profile_image']);
-                    } else {
-                      return const Text('No profile picture found');
-                    }
-                  },
-                ),
+                const SizedBox(height: 60),
+                Container(
+                  height: 136,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(
+                      color: const Color(0xFFECEFF3), // Χρώμα του border
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  padding: const EdgeInsets.all(14),
+                  child: Row(
+                    children: [
+                      if (businessData['profile_image'] != null)
+                        Container(
+                          width: 115,
+                          height: 108,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            image: DecorationImage(
+                              image:
+                                  NetworkImage(businessData['profile_image']),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        )
+                      else
+                        Container(
+                          width: 80,
+                          height: 108,
+                          decoration: BoxDecoration(
+                            color: textGrayB80,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 16, top: 9, bottom: 9),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Titlee here',
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(color: textBlackB12),
+                              ),
+                              Text(
+                                'Kati allo edw pera',
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelSmall!
+                                    .copyWith(color: textGrayB80),
+                              ),
+                              const Spacer(),
+                              Text(
+                                "Kai edw pera kati allo tha mpei",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelSmall!
+                                    .copyWith(color: textGrayB80),
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                )
               ],
             ),
           ),
