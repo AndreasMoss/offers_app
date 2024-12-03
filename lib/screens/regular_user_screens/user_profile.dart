@@ -10,6 +10,24 @@ import 'package:qr_flutter/qr_flutter.dart';
 class UserProfile extends ConsumerWidget {
   const UserProfile({super.key});
 
+  String _getTitle(int points) {
+    if (points < 50) {
+      return '🔰 Beginner';
+    } else if (points < 150) {
+      return '🌱 Apprentice';
+    } else if (points < 300) {
+      return '🌟 Explorer';
+    } else if (points < 500) {
+      return '🏆 Achiever';
+    } else if (points < 1000) {
+      return '🏅 Master';
+    } else if (points < 2500) {
+      return '🎖️ Grandmaster';
+    } else {
+      return '👑 Legendary';
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userId = ref.read(userIdProvider);
@@ -97,7 +115,7 @@ class UserProfile extends ConsumerWidget {
                           ),
                           const Spacer(),
                           Text(
-                            '🏅 Master',
+                            _getTitle(userData['points']),
                             style: GoogleFonts.manrope(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
