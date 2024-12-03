@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:offers_app/providers/user_provider.dart';
-import 'package:offers_app/screens/business_screens/business_profile_edit.dart';
+import 'package:offers_app/screens/business_screens/business_profile_edit2.dart';
 import 'package:offers_app/screens/regular_user_screens/user_profile_edit.dart';
 
 class SettingsPage extends ConsumerWidget {
@@ -19,13 +19,13 @@ class SettingsPage extends ConsumerWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              ElevatedButton(
+              ElevatedButton.icon(
                 onPressed: () {
                   if (userType == 'business') {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (ctx) {
-                          return const BusinessProfileEditScreen();
+                          return const BusinessProfileEditScreen2();
                         },
                       ),
                     );
@@ -39,16 +39,18 @@ class SettingsPage extends ConsumerWidget {
                     );
                   }
                 },
-                child: const Text('Edit your Profile'),
+                icon: const Icon(Icons.edit),
+                label: const Text('Edit your Profile'),
               ),
               const SizedBox(
                 height: 10,
               ),
-              ElevatedButton(
+              ElevatedButton.icon(
                 onPressed: () async {
                   await FirebaseAuth.instance.signOut();
                 },
-                child: const Text('Log out'),
+                icon: const Icon(Icons.logout),
+                label: const Text('Log out'),
               ),
             ],
           ),

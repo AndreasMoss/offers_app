@@ -101,6 +101,7 @@ class _OffersDetailsState extends ConsumerState<OffersDetails> {
                 textAlign: TextAlign.center,
               ),
             ),
+            const Divider(),
             const SizedBox(height: 20),
             Text(
               'Business Name:',
@@ -166,7 +167,7 @@ class _OffersDetailsState extends ConsumerState<OffersDetails> {
                 ),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 14),
             Center(
               child: SizedBox(
                 width: double.infinity,

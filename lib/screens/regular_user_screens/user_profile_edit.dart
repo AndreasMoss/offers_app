@@ -1,12 +1,8 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:offers_app/providers/user_provider.dart';
-import 'package:offers_app/theme/colors_for_text.dart';
 
 class UserProfileEditScreen extends ConsumerStatefulWidget {
   const UserProfileEditScreen({super.key});
@@ -18,44 +14,9 @@ class UserProfileEditScreen extends ConsumerStatefulWidget {
 
 class _UserProfileEditScreenState extends ConsumerState<UserProfileEditScreen> {
   final _editProfileForm = GlobalKey<FormState>();
-  // final ImagePicker _imagePicker = ImagePicker(); //akoma den exw balei profile gia tous users
 
   var _enteredUsername = '';
-
-  //File? _selectedImage;
   bool _isLoading = false;
-
-  // Future<void> _pickImage() async {
-  //   // i .pickImage tha epistrepsei ena XFile? , to opoio periexei pliforories gia to arxeio pou epilexthike.
-  //   final pickedFile = await _imagePicker.pickImage(
-  //     source: ImageSource.gallery,
-  //     maxWidth: 375,
-  //     maxHeight: 352,
-  //     imageQuality: 80,
-  //   );
-  //   if (pickedFile != null) {
-  //     setState(() {
-  //       _selectedImage = File(pickedFile.path);
-  //     });
-  //   }
-  // }
-
-  // Future<String?> _uploadImage(String userId) async {
-  //   if (_selectedImage == null) return null;
-
-  //   try {
-  //     final storageRef = FirebaseStorage.instance
-  //         .ref()
-  //         .child('profile_images')
-  //         .child('$userId.jpg');
-
-  //     await storageRef.putFile(_selectedImage!);
-  //     return await storageRef.getDownloadURL();
-  //   } catch (error) {
-  //     print("Error uploading image: $error");
-  //     return null;
-  //   }
-  // }
 
   void _submitEditProfileForm() async {
     if (_isLoading) return;
@@ -114,62 +75,51 @@ class _UserProfileEditScreenState extends ConsumerState<UserProfileEditScreen> {
         child: Form(
           key: _editProfileForm,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextFormField(
-                decoration:
-                    const InputDecoration(labelText: 'Enter your Username'),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Please enter a valid Username';
-                  }
+              Text(
+                'Username Section',
+                style: GoogleFonts.manrope(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: const Color(0xFF111827),
+                ),
+              ),
+              const Divider(),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                          labelText: 'Edit your Username'),
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'Please enter a valid Username';
+                        }
 
-                  return null;
-                },
-                onSaved: (value) {
-                  _enteredUsername = value!;
-                },
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              // ElevatedButton.icon(
-              //   onPressed: _pickImage,
-              //   icon: const Icon(Icons.photo),
-              //   label: const Text('Select Profile Image'),
-              //   style: ElevatedButton.styleFrom(backgroundColor: textGrayB98),
-              // ),
-              // const SizedBox(height: 10),
-              // if (_selectedImage != null)
-              //   Column(
-              //     children: [
-              //       Image.file(
-              //         _selectedImage!,
-              //         height: 150,
-              //         width: 150,
-              //         fit: BoxFit.cover,
-              //       ),
-              //       const SizedBox(height: 12),
-              //       Text(
-              //         'Selected Image',
-              //         style: Theme.of(context).textTheme.bodyMedium,
-              //       ),
-              //     ],
-              //   )
-              // else
-              //   const Text(
-              //     'No image selected',
-              //     style: TextStyle(color: Colors.grey),
-              //   ),
-              // const Spacer(),
-              _isLoading
-                  ? const CircularProgressIndicator()
-                  : ElevatedButton(
-                      onPressed: _submitEditProfileForm,
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.secondary),
-                      child: const Text('Save'),
+                        return null;
+                      },
+                      onSaved: (value) {
+                        _enteredUsername = value!.trim();
+                      },
                     ),
+                  ),
+                  const SizedBox(
+                    width: 12,
+                  ),
+                  _isLoading
+                      ? const CircularProgressIndicator()
+                      : ElevatedButton(
+                          onPressed: _submitEditProfileForm,
+                          style: ElevatedButton.styleFrom(
+                              minimumSize: const Size(20, 40),
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.secondary),
+                          child: const Text('Save'),
+                        )
+                ],
+              ),
             ],
           ),
         ),
