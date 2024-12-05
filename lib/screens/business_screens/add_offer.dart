@@ -44,15 +44,7 @@ class _AddOfferScreenState extends ConsumerState<AddOfferScreen> {
 
     _addForm.currentState!.save();
 
-    // dummyOffers.add(
-    //   Offer(
-    //       id: _enteredID,
-    //       title: _enteredTitle,
-    //       description: _enteredDescription,
-    //       codes: _enteredCodesNumber),
-    // );
-
-    final docRef = await FirebaseFirestore.instance.collection('offers').add({
+    await FirebaseFirestore.instance.collection('offers').add({
       'business_id': userIdProvided,
       'title': _enteredTitle,
       'description': _enteredDescription,

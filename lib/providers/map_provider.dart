@@ -1,10 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:http/http.dart' as http;
 import 'package:offers_app/providers/user_provider.dart';
 
 String googleMapsApiKey = dotenv.env['GOOGLE_MAPS_API_KEY']!;

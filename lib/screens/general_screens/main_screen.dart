@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:offers_app/providers/map_provider.dart';
 
 import 'package:offers_app/providers/user_provider.dart';
 import 'package:offers_app/screens/general_screens/leaderboard.dart';
-import 'package:offers_app/theme/colors_for_text.dart';
 import 'package:offers_app/widgets/for_bot_nav_bar/dashboard_page.dart';
 
 import 'package:offers_app/widgets/for_bot_nav_bar/offers_list_page.dart';

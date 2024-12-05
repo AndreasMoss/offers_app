@@ -80,7 +80,7 @@ class LeaderboardScreen extends ConsumerWidget {
                                   )),
                               const Spacer(),
                               Text(
-                                '${userData!['points']}',
+                                '${userData['points']}',
                                 style: GoogleFonts.manrope(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w700,
