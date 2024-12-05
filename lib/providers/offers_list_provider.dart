@@ -78,7 +78,6 @@ final activeOffersForBusinessStreamProvider =
 ////////////////////////////////////////
 final activeOffersStreamProvider = StreamProvider<List<Offer>>((ref) {
   final user = ref.watch(authStateProvider).asData?.value;
-  //LatLngBounds bound = ref.watch(boundsProvider);
   if (user == null) {
     return Stream.value([]);
   }

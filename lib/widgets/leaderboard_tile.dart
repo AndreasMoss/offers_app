@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:offers_app/models/regular_user.dart';
 import 'package:offers_app/theme/colors_for_text.dart';
