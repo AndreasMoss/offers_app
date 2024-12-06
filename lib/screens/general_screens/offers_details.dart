@@ -114,7 +114,7 @@ class _OffersDetailsState extends ConsumerState<OffersDetails> {
             ),
             const SizedBox(height: 4),
             Text(
-              widget.offer.businessName ?? 'No business name found',
+              widget.offer.businessName,
               textAlign: TextAlign.justify,
               style: GoogleFonts.manrope(
                 fontSize: 14,
@@ -134,7 +134,7 @@ class _OffersDetailsState extends ConsumerState<OffersDetails> {
             ),
             const SizedBox(height: 4),
             Text(
-              widget.offer.address ?? 'No address found',
+              widget.offer.address,
               style: GoogleFonts.manrope(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
@@ -178,14 +178,14 @@ class _OffersDetailsState extends ConsumerState<OffersDetails> {
                     style: mapTheme,
                     initialCameraPosition: CameraPosition(
                         zoom: 14,
-                        target: LatLng(widget.offer.location!.latitude,
-                            widget.offer.location!.longitude)),
+                        target: LatLng(widget.offer.location.latitude,
+                            widget.offer.location.longitude)),
                     markers: {
                       Marker(
                           markerId: const MarkerId('1'),
                           position: LatLng(
-                            widget.offer.location!.latitude,
-                            widget.offer.location!.longitude,
+                            widget.offer.location.latitude,
+                            widget.offer.location.longitude,
                           ))
                     },
                   ),
@@ -193,7 +193,7 @@ class _OffersDetailsState extends ConsumerState<OffersDetails> {
               ),
             ),
             const Spacer(),
-            if (userId == widget.offer.businessId)
+            if (userId == widget.offer.businessId && widget.offer.codes > 0)
               ElevatedButton.icon(
                 icon: const Icon(Icons.qr_code),
                 onPressed: () {

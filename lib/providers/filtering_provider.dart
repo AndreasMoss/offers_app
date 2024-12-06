@@ -56,7 +56,7 @@ final filteredListProvider = Provider((ref) {
   final filteredOffers = offers.where((offer) {
     final location = offer.location;
     return (bounds.contains(
-          LatLng(location!.latitude, location.longitude),
+          LatLng(location.latitude, location.longitude),
         ) &&
         (offer.category == category || category == OfferCategory.all));
   }).toList();

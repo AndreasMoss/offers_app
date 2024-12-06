@@ -41,33 +41,17 @@ class OfferTile extends StatelessWidget {
         padding: const EdgeInsets.all(14),
         child: Row(
           children: [
-            if (offer.profileImage != null)
-              Container(
-                width: 115,
-                height: 108,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  image: DecorationImage(
-                    image: NetworkImage(offer.profileImage!),
-                    fit: BoxFit.fill,
-                  ),
-                ),
-              )
-            else
-              Container(
-                width: 80,
-                height: 108,
-                decoration: BoxDecoration(
-                  color: textGrayB80,
-                  borderRadius: BorderRadius.circular(8),
+            Container(
+              width: 115,
+              height: 108,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                image: DecorationImage(
+                  image: NetworkImage(offer.profileImage),
+                  fit: BoxFit.fill,
                 ),
               ),
-            // Container(
-            //   width: 80,
-            //   height: 108,
-            //   decoration: BoxDecoration(
-            //       color: textGrayB80, borderRadius: BorderRadius.circular(8)),
-            // ),
+            ),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(left: 16, top: 9, bottom: 9),

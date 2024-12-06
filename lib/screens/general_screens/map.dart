@@ -56,7 +56,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       }
 
       final customMarker = await createCustomMarkerGreen(
-          offer.profileImage!,
+          offer.profileImage,
           availability == 1
               ? Colors.green
               : availability == 2
@@ -66,8 +66,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         Marker(
           markerId: MarkerId(offer.offerId),
           position: LatLng(
-            offer.location!.latitude,
-            offer.location!.longitude,
+            offer.location.latitude,
+            offer.location.longitude,
           ),
           onTap: () {
             _scaffoldKey.currentState?.showBottomSheet(

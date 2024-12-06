@@ -36,6 +36,7 @@ final inactiveOffersForBusinessStreamProvider =
         profileImage: data['business_image_url'],
         category: inverseCategoryDict[data['category']],
         businessName: data['businessName'],
+        requiredPoints: data['requiredPoints'],
       );
     }).toList();
   });
@@ -70,6 +71,7 @@ final activeOffersForBusinessStreamProvider =
         profileImage: data['business_image_url'],
         category: inverseCategoryDict[data['category']],
         businessName: data['businessName'],
+        requiredPoints: data['requiredPoints'],
       );
     }).toList();
   });
@@ -101,6 +103,7 @@ final activeOffersStreamProvider = StreamProvider<List<Offer>>((ref) {
         location: data['location'],
         category: inverseCategoryDict[data['category']],
         businessName: data['businessName'],
+        requiredPoints: data['requiredPoints'],
       );
     }).toList();
   });

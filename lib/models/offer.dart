@@ -23,21 +23,23 @@ class Offer {
       required this.codes,
       required this.businessId,
       required this.category,
-      this.profileImage,
-      this.location,
-      this.address,
-      this.businessName});
+      required this.profileImage,
+      required this.location,
+      required this.address,
+      required this.businessName,
+      required this.requiredPoints});
 
   final String offerId;
   final String title;
   final String description;
   final int codes;
   final String businessId;
-  final String? profileImage;
-  final GeoPoint? location;
-  final String? address;
+  final String profileImage;
+  final GeoPoint location;
+  final String address;
   final OfferCategory category;
-  final String? businessName;
+  final String businessName;
+  final int requiredPoints;
 
   // void printOfferId() async {
   //   print("OFFFFEEEEERRRR ID: ---------------$id------------------");
