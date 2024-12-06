@@ -6,10 +6,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:offers_app/models/offer.dart';
 import 'package:offers_app/providers/filtering_provider.dart';
 import 'package:offers_app/providers/map_provider.dart';
+import 'package:offers_app/providers/user_provider.dart';
 import 'package:offers_app/theme/other_colors.dart';
 import 'package:offers_app/theme/custom_markers.dart';
 import 'package:offers_app/theme/map_theme.dart';
 import 'package:offers_app/widgets/offer_tile.dart';
+import 'package:offers_app/widgets/premium_offer_tile.dart';
 
 /// kane to edit gia to profile twn epixeirisewn ena ena.
 ///
@@ -44,6 +46,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
   Future<Set<Marker>> _createMarkers(List<Offer> offers) async {
     final Set<Marker> markers = {};
+
+    final userData = ref.read(userDataProvider).asData!.value;
+    final String userType = userData!['userType'];
 
     for (var offer in offers) {
       int availability;
@@ -104,7 +109,6 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                           ),
                         ),
                       ),
-                      // Το υπόλοιπο περιεχόμενο του BottomSheet
                       Text(
                         'Offer Details',
                         style: Theme.of(context)
@@ -113,7 +117,18 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                             .copyWith(color: textBlackB12),
                       ),
                       const SizedBox(height: 32),
-                      OfferTile(offer: offer),
+                      offer.requiredPoints == 0
+                          ? OfferTile(
+                              offer: offer,
+                            )
+                          : PremiumOfferTile(
+                              offer: offer,
+                              isLocked: userType == 'business'
+                                  ? false
+                                  : userData['points'] > offer.requiredPoints
+                                      ? false
+                                      : true,
+                            ),
                       const Spacer(),
                       ElevatedButton(
                         onPressed: () {

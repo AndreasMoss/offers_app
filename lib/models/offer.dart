@@ -47,6 +47,7 @@ class Offer {
 
   // Using transaction
   Future<int> redeemCode(String userId) async {
+    final isPremium = requiredPoints > 0;
     final firestoreDb = FirebaseFirestore.instance;
     var statusCode = 0;
     try {
@@ -61,6 +62,12 @@ class Offer {
         print('STAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAART');
 
         final snapshot = await transaction.get(userRef);
+
+        if (snapshot.data()!['points'] < requiredPoints) {
+          statusCode = -1;
+          return -1;
+        }
+
         var lastRedeems = snapshot.data()?['redeemedOffers'] ?? [];
 
         if ((lastRedeems as List).isNotEmpty) {
@@ -81,12 +88,14 @@ class Offer {
           int currentCodes = snapshot2.data()!['codes'];
           int currentsCodesUsedByUser = snapshot.data()!['totalCodesUsed'];
           int currentCodesGivenByBuss = snapshot3.data()!['totalCodesGiven'];
+
           Timestamp redeemTimestamp = snapshot.data()!['lastRedeemOfferDate'];
           if (currentCodes == 1) {
             transaction.update(offerRef, {'isActive': false});
           }
           //print('Current POINTS AREEEEEEEEEEEEEEEEEEEEE : $currentPoints');
-          transaction.update(userRef, {'points': currentPoints + 20});
+          transaction.update(userRef,
+              {'points': isPremium ? currentPoints - 100 : currentPoints + 20});
           transaction.update(offerRef, {'codes': currentCodes - 1});
           transaction
               .update(userRef, {'totalCodesUsed': currentsCodesUsedByUser + 1});

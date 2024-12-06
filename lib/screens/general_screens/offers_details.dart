@@ -45,12 +45,14 @@ class _OffersDetailsState extends ConsumerState<OffersDetails> {
                     if (ctx.mounted) {
                       ScaffoldMessenger.of(ctx).showSnackBar(
                         SnackBar(
-                          duration: const Duration(seconds: 1),
+                          duration: const Duration(seconds: 2),
                           backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                           content: Text(
                             redemptionStatus == 1
                                 ? 'Coded Redeemed Succesfuly'
-                                : 'Unsuccesfull redemption',
+                                : redemptionStatus == -1
+                                    ? 'Unsufficient Points'
+                                    : 'Unsuccesfull Redemption',
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),

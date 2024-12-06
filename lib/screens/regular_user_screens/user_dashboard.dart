@@ -29,13 +29,15 @@ class UserDashboard extends ConsumerWidget {
             child: ListView.builder(
                 itemCount: history.length,
                 itemBuilder: (ctx, index) {
+                  final logInverseIndex = history.length - 1;
                   return Column(
                     children: [
                       const SizedBox(height: 12),
                       UserLogTile(
-                        businessName: history[index]['businessName'],
-                        date: history[index]['redeemDate'],
-                        offerTitle: history[index]['title'],
+                        businessName: history[logInverseIndex - index]
+                            ['businessName'],
+                        date: history[logInverseIndex - index]['redeemDate'],
+                        offerTitle: history[logInverseIndex - index]['title'],
                       ),
                     ],
                   );
