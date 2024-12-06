@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:offers_app/theme/colors_for_text.dart';
+import 'package:offers_app/theme/other_colors.dart';
 
 class UserLogTile extends StatelessWidget {
   const UserLogTile(

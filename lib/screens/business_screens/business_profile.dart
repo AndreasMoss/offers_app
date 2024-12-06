@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:offers_app/providers/user_provider.dart';
-import 'package:offers_app/theme/colors_for_text.dart';
+import 'package:offers_app/theme/other_colors.dart';
 import 'package:offers_app/theme/map_theme.dart';
 
 class BusinessProfile extends ConsumerWidget {

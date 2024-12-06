@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:offers_app/models/offer.dart';
+import 'package:offers_app/models/points_titles.dart';
 import 'package:offers_app/providers/user_provider.dart';
-
-//PROSEXE NA BALEIS NA MI MPOROUN NA KANOUN ADD OFFER BUSINESSESS POU DEN EXOUN BALEI PEDIO ONOMA BUSINESS
-// I NA TO ELEGXEIS. GIATI DEN EXW BALEI GIA OLES AKOMA.
+import 'package:offers_app/theme/other_colors.dart';
 
 class AddOfferScreen extends ConsumerStatefulWidget {
   const AddOfferScreen({super.key});
@@ -16,6 +16,8 @@ class AddOfferScreen extends ConsumerStatefulWidget {
 
 class _AddOfferScreenState extends ConsumerState<AddOfferScreen> {
   final _addForm = GlobalKey<FormState>();
+  bool isPremium = false;
+  int premiumType = 0;
 
   var _enteredTitle = '';
   var _enteredDescription = '';
@@ -42,6 +44,21 @@ class _AddOfferScreenState extends ConsumerState<AddOfferScreen> {
       return;
     }
 
+    if (isPremium && premiumType == 0) {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          duration: Duration(seconds: 1),
+          backgroundColor: Color.fromARGB(255, 0, 0, 0),
+          content: Text(
+            'Please select the type of your Premium offer',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+        ),
+      );
+      return;
+    }
+
     _addForm.currentState!.save();
 
     await FirebaseFirestore.instance.collection('offers').add({
@@ -55,6 +72,13 @@ class _AddOfferScreenState extends ConsumerState<AddOfferScreen> {
       'address': businessAddress,
       'category': _selectedCategory.toString().split('.').last,
       'businessName': businessName,
+      'requiredPoints': !isPremium
+          ? 0
+          : premiumType == 60
+              ? achieverMaxPoints
+              : premiumType == 70
+                  ? masterMaxPoints
+                  : grandMasterMaxPoints
     });
 
     //print("New document ID: ${docRef.id}");
@@ -80,19 +104,6 @@ class _AddOfferScreenState extends ConsumerState<AddOfferScreen> {
               key: _addForm,
               child: Column(
                 children: [
-                  // TextFormField(
-                  //   decoration: const InputDecoration(labelText: 'ID'),
-                  //   validator: (value) {
-                  //     if (value == null || value.trim().isEmpty) {
-                  //       return 'Please enter a valid ID';
-                  //     }
-
-                  //     return null;
-                  //   },
-                  //   onSaved: (value) {
-                  //     _enteredID = value!;
-                  //   },
-                  // ),
                   TextFormField(
                     decoration: const InputDecoration(labelText: 'Title'),
                     validator: (value) {
@@ -188,6 +199,58 @@ class _AddOfferScreenState extends ConsumerState<AddOfferScreen> {
                   const SizedBox(
                     height: 10,
                   ),
+                  Row(
+                    children: [
+                      Switch(
+                        activeColor: premiumColor,
+                        value: isPremium,
+                        onChanged: (value) {
+                          setState(() {
+                            isPremium = value;
+                          });
+                        },
+                      ),
+                      Text(
+                        'Premium Offer',
+                        style: GoogleFonts.workSans(
+                            fontSize: 14,
+                            color: textGrayB80,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 14),
+                  if (isPremium)
+                    Text(
+                      'Select type of Premium Offer:',
+                      style: GoogleFonts.workSans(
+                        fontSize: 14,
+                        color: textGrayB80,
+                        //fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  if (isPremium) const SizedBox(height: 8),
+                  if (isPremium)
+                    DropdownButtonFormField(
+                        items: const [
+                          DropdownMenuItem(
+                            value: 60,
+                            child: Text('60% Discount'),
+                          ),
+                          DropdownMenuItem(
+                            value: 70,
+                            child: Text('70% Discount'),
+                          ),
+                          DropdownMenuItem(
+                            value: 80,
+                            child: Text('80% Discount'),
+                          )
+                        ],
+                        onChanged: (value) {
+                          if (value != null) {
+                            premiumType = value;
+                          }
+                        }),
                   const Spacer(),
                   ElevatedButton(
                     onPressed: _submitAddForm,

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:offers_app/providers/filtering_provider.dart';
 import 'package:offers_app/providers/map_provider.dart';
 import 'package:offers_app/screens/general_screens/map.dart';
-import 'package:offers_app/theme/colors_for_text.dart';
+import 'package:offers_app/theme/other_colors.dart';
 import 'package:offers_app/widgets/filter_bottomsheet.dart';
 import 'package:offers_app/widgets/offers_list.dart';
 

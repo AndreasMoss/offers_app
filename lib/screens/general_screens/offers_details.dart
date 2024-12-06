@@ -5,7 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:offers_app/models/offer.dart';
 import 'package:offers_app/providers/user_provider.dart';
-import 'package:offers_app/theme/colors_for_text.dart';
+import 'package:offers_app/theme/other_colors.dart';
 import 'package:offers_app/theme/map_theme.dart';
 
 class OffersDetails extends ConsumerStatefulWidget {

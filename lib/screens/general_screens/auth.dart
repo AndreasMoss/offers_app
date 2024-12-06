@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:offers_app/models/user_type.dart';
-import 'package:offers_app/theme/colors_for_text.dart';
+import 'package:offers_app/theme/other_colors.dart';
 
 //setting the firebase instance object
 final _firebase = FirebaseAuth.instance;

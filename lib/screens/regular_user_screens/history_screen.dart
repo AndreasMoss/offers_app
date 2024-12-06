@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:offers_app/providers/user_provider.dart';
-import 'package:offers_app/theme/colors_for_text.dart';
+import 'package:offers_app/theme/other_colors.dart';
 import 'package:offers_app/widgets/user_log_tile.dart';
 
 class HistoryScreen extends ConsumerWidget {

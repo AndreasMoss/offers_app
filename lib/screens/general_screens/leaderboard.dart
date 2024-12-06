@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:offers_app/providers/leaderboard_provider.dart';
 import 'package:offers_app/providers/user_provider.dart';
-import 'package:offers_app/theme/colors_for_text.dart';
+import 'package:offers_app/theme/other_colors.dart';
 import 'package:offers_app/widgets/leaderboard_tile.dart';
 
 class LeaderboardScreen extends ConsumerWidget {

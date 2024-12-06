@@ -6,7 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:offers_app/models/offer.dart';
 import 'package:offers_app/providers/filtering_provider.dart';
 import 'package:offers_app/providers/map_provider.dart';
-import 'package:offers_app/theme/colors_for_text.dart';
+import 'package:offers_app/theme/other_colors.dart';
 import 'package:offers_app/theme/custom_markers.dart';
 import 'package:offers_app/theme/map_theme.dart';
 import 'package:offers_app/widgets/offer_tile.dart';

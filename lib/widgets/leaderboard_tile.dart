@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:offers_app/models/regular_user.dart';
-import 'package:offers_app/theme/colors_for_text.dart';
+import 'package:offers_app/theme/other_colors.dart';
 
 class LeaderboardTile extends StatelessWidget {
   const LeaderboardTile(

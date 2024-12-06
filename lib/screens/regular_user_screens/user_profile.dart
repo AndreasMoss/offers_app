@@ -1,27 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:offers_app/models/points_titles.dart';
 import 'package:offers_app/providers/user_provider.dart';
 import 'package:offers_app/screens/general_screens/leaderboard.dart';
 import 'package:offers_app/screens/regular_user_screens/history_screen.dart';
-import 'package:offers_app/theme/colors_for_text.dart';
+import 'package:offers_app/theme/other_colors.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class UserProfile extends ConsumerWidget {
   const UserProfile({super.key});
 
   String _getTitle(int points) {
-    if (points < 50) {
+    if (points < begginerMaxPoints) {
       return '🔰 Beginner';
-    } else if (points < 150) {
+    } else if (points < apprenticeMaxPoints) {
       return '🌱 Apprentice';
-    } else if (points < 300) {
+    } else if (points < explorerMaxPoints) {
       return '🌟 Explorer';
-    } else if (points < 500) {
+    } else if (points < achieverMaxPoints) {
       return '🏆 Achiever';
-    } else if (points < 1000) {
+    } else if (points < masterMaxPoints) {
       return '🏅 Master';
-    } else if (points < 2500) {
+    } else if (points < grandMasterMaxPoints) {
       return '🎖️ Grandmaster';
     } else {
       return '👑 Legendary';

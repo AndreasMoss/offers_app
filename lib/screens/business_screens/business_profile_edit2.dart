@@ -11,7 +11,7 @@ import 'package:offers_app/functions.dart/current_location.dart';
 import 'package:offers_app/models/for_maps.dart';
 import 'package:offers_app/providers/user_provider.dart';
 import 'package:offers_app/screens/business_screens/choose_location_map.dart';
-import 'package:offers_app/theme/colors_for_text.dart';
+import 'package:offers_app/theme/other_colors.dart';
 
 class BusinessProfileEditScreen2 extends ConsumerStatefulWidget {
   const BusinessProfileEditScreen2({super.key});
