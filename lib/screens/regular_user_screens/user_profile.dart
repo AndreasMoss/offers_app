@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:offers_app/models/points_titles.dart';
 import 'package:offers_app/providers/user_provider.dart';
 import 'package:offers_app/screens/general_screens/leaderboard.dart';
+import 'package:offers_app/screens/regular_user_screens/achievements_screen.dart';
 import 'package:offers_app/screens/regular_user_screens/history_screen.dart';
 import 'package:offers_app/theme/other_colors.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -130,80 +131,81 @@ class UserProfile extends ConsumerWidget {
                 ),
                 const SizedBox(height: 16),
                 SizedBox(
-                    width: double.infinity,
-                    height: 107,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          children: [
-                            InkWell(
-                              borderRadius: BorderRadius.circular(12),
-                              onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (ctx) =>
-                                        const LeaderboardScreen()));
-                              },
-                              child: Container(
-                                width: 156,
-                                height: 75,
-                                decoration: BoxDecoration(
-                                    color: const Color(0x0A743A24),
-                                    borderRadius: BorderRadius.circular(12)),
-                                child: Center(
-                                  child: Image.asset(
-                                    'assets/trophy.png',
-                                    width: 28,
-                                    height: 28,
-                                  ),
+                  width: double.infinity,
+                  height: 107,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        children: [
+                          InkWell(
+                            borderRadius: BorderRadius.circular(12),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (ctx) => const LeaderboardScreen()));
+                            },
+                            child: Container(
+                              width: 156,
+                              height: 75,
+                              decoration: BoxDecoration(
+                                  color: const Color(0x0A743A24),
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: Center(
+                                child: Image.asset(
+                                  'assets/trophy.png',
+                                  width: 28,
+                                  height: 28,
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 8),
-                            Text('View Leaderboard',
-                                style: GoogleFonts.workSans(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400,
-                                  color: const Color(0xFF111827),
-                                ))
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            InkWell(
-                              borderRadius: BorderRadius.circular(12),
-                              onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (ctx) => const HistoryScreen()));
-                              },
-                              child: Container(
-                                width: 156,
-                                height: 75,
-                                decoration: BoxDecoration(
-                                    color: const Color(0x0AFF1510),
-                                    borderRadius: BorderRadius.circular(12)),
-                                child: Center(
-                                  child: Image.asset(
-                                    'assets/history.png',
-                                    width: 28,
-                                    height: 28,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              'History',
+                          ),
+                          const SizedBox(height: 8),
+                          Text('View Leaderboard',
                               style: GoogleFonts.workSans(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
                                 color: const Color(0xFF111827),
+                              ))
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          InkWell(
+                            borderRadius: BorderRadius.circular(12),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (ctx) =>
+                                      const AchievementsScreen()));
+                            },
+                            child: Container(
+                              width: 156,
+                              height: 75,
+                              decoration: BoxDecoration(
+                                  color: const Color(0x0AFF1510),
+                                  borderRadius: BorderRadius.circular(12)),
+                              child: Center(
+                                child: Image.asset(
+                                  'assets/achievements.png',
+                                  width: 28,
+                                  height: 28,
+                                ),
                               ),
-                            )
-                          ],
-                        )
-                      ],
-                    )),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Achievements',
+                            style: GoogleFonts.workSans(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              color: const Color(0xFF111827),
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
                 const SizedBox(height: 38),
                 if (userId != null)
                   QrImageView(
