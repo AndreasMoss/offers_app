@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:offers_app/models/achievement.dart';
 
 enum OfferCategory {
   all,
@@ -49,6 +50,7 @@ class Offer {
   Future<int> redeemCode(String userId) async {
     final isPremium = requiredPoints > 0;
     final firestoreDb = FirebaseFirestore.instance;
+    int pointsFromAchievements = 0;
     var statusCode = 0;
     try {
       final userRef = firestoreDb.collection('users').doc(userId);
@@ -95,17 +97,33 @@ class Offer {
           if (currentCodes == 1) {
             transaction.update(offerRef, {'isActive': false});
           }
+
+          // ADD IFs FOR ACHIEVEMENT POINTS
+          if (currentRedemptionCategoryNumber == 4) {
+            pointsFromAchievements =
+                pointsFromAchievements + categoryAchievementPoints;
+          }
+          if (currentsCodesUsedByUser == 0) {
+            pointsFromAchievements =
+                pointsFromAchievements + firstRedemptionPoints;
+          }
+
           //print('Current POINTS AREEEEEEEEEEEEEEEEEEEEE : $currentPoints');
-          transaction.update(userRef,
-              {'points': isPremium ? currentPoints - 100 : currentPoints + 20});
+          transaction.update(userRef, {
+            'points': isPremium
+                ? currentPoints - 100 + pointsFromAchievements
+                : currentPoints + 20 + pointsFromAchievements
+          });
           transaction.update(offerRef, {'codes': currentCodes - 1});
           transaction
               .update(userRef, {'totalCodesUsed': currentsCodesUsedByUser + 1});
           transaction.update(
               bussRef, {'totalCodesGiven': currentCodesGivenByBuss + 1});
+
           transaction.update(userRef, {
             '${category.name}Redemptions': currentRedemptionCategoryNumber + 1
           });
+
           //print('Points added successfully to user $userId.');
           DateTime redeemDate = redeemTimestamp.toDate();
           String formattedDate = DateFormat('dd/MM/yyyy').format(redeemDate);

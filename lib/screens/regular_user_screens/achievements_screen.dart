@@ -35,10 +35,12 @@ class AchievementsScreen extends ConsumerWidget {
               return Column(
                 children: [
                   AchievementTile(
-                      achievement: achievementList[index],
-                      progressValue:
-                          userData![achievementList[index].fieldFromFirestore] /
-                              achievementList[index].achievementGoal),
+                    achievement: achievementList[index],
+                    progressValue:
+                        userData![achievementList[index].fieldFromFirestore] /
+                            achievementList[index].achievementGoal,
+                    pointsToAdd: achievementList[index].achievementPoints,
+                  ),
                   const SizedBox(height: 18),
                 ],
               );

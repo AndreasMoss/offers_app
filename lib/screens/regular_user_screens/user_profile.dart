@@ -5,7 +5,6 @@ import 'package:offers_app/models/points_titles.dart';
 import 'package:offers_app/providers/user_provider.dart';
 import 'package:offers_app/screens/general_screens/leaderboard.dart';
 import 'package:offers_app/screens/regular_user_screens/achievements_screen.dart';
-import 'package:offers_app/screens/regular_user_screens/history_screen.dart';
 import 'package:offers_app/theme/other_colors.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 

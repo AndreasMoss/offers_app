@@ -5,10 +5,14 @@ import 'package:offers_app/theme/other_colors.dart';
 
 class AchievementTile extends StatelessWidget {
   const AchievementTile(
-      {super.key, required this.achievement, required this.progressValue});
+      {super.key,
+      required this.achievement,
+      required this.progressValue,
+      required this.pointsToAdd});
 
   final Achievement achievement;
   final double progressValue;
+  final int pointsToAdd;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +39,7 @@ class AchievementTile extends StatelessWidget {
                     .copyWith(color: textBlackB12),
               ),
               const Spacer(),
-              Text('+50',
+              Text('+${pointsToAdd.toString()}',
                   style: Theme.of(context)
                       .textTheme
                       .titleSmall!
