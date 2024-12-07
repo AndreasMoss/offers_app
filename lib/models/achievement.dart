@@ -14,16 +14,11 @@ class Achievement {
 }
 
 const achievementList = [
-  // Achievement(
-  //   achievementTitle: '🥇 Total Progress:',
-  //   color: Color(0xFFFFB900),
-  // ),
   Achievement(
       achievementTitle: '🔰 First Redemption:',
       color: Color.fromARGB(255, 8, 122, 222),
       fieldFromFirestore: 'totalCodesUsed',
       achievementGoal: 1),
-
   Achievement(
       achievementTitle: '🍿 Entertainment Aficionado',
       color: Colors.purple,

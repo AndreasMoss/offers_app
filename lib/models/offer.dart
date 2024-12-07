@@ -85,6 +85,8 @@ class Offer {
         try {
           //print(snapshot.data());
           int currentPoints = snapshot.data()!['points'];
+          int currentRedemptionCategoryNumber =
+              snapshot.data()!['${category.name}Redemptions'];
           int currentCodes = snapshot2.data()!['codes'];
           int currentsCodesUsedByUser = snapshot.data()!['totalCodesUsed'];
           int currentCodesGivenByBuss = snapshot3.data()!['totalCodesGiven'];
@@ -101,6 +103,9 @@ class Offer {
               .update(userRef, {'totalCodesUsed': currentsCodesUsedByUser + 1});
           transaction.update(
               bussRef, {'totalCodesGiven': currentCodesGivenByBuss + 1});
+          transaction.update(userRef, {
+            '${category.name}Redemptions': currentRedemptionCategoryNumber + 1
+          });
           //print('Points added successfully to user $userId.');
           DateTime redeemDate = redeemTimestamp.toDate();
           String formattedDate = DateFormat('dd/MM/yyyy').format(redeemDate);
