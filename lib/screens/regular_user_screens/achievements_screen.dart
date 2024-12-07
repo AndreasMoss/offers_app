@@ -39,7 +39,6 @@ class AchievementsScreen extends ConsumerWidget {
                     progressValue:
                         userData![achievementList[index].fieldFromFirestore] /
                             achievementList[index].achievementGoal,
-                    pointsToAdd: achievementList[index].achievementPoints,
                   ),
                   const SizedBox(height: 18),
                 ],

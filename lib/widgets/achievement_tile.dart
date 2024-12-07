@@ -4,21 +4,20 @@ import 'package:offers_app/models/achievement.dart';
 import 'package:offers_app/theme/other_colors.dart';
 
 class AchievementTile extends StatelessWidget {
-  const AchievementTile(
-      {super.key,
-      required this.achievement,
-      required this.progressValue,
-      required this.pointsToAdd});
+  const AchievementTile({
+    super.key,
+    required this.achievement,
+    required this.progressValue,
+  });
 
   final Achievement achievement;
   final double progressValue;
-  final int pointsToAdd;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 103,
+      height: 120,
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         border: Border.all(
@@ -28,6 +27,7 @@ class AchievementTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
@@ -39,14 +39,20 @@ class AchievementTile extends StatelessWidget {
                     .copyWith(color: textBlackB12),
               ),
               const Spacer(),
-              Text('+${pointsToAdd.toString()}',
+              Text('+${achievement.achievementPoints.toString()}',
                   style: Theme.of(context)
                       .textTheme
                       .titleSmall!
                       .copyWith(color: achievement.color))
             ],
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 4),
+          Text(achievement.achievementDescription,
+              style: Theme.of(context)
+                  .textTheme
+                  .labelSmall!
+                  .copyWith(color: textGrayB80)),
+          const SizedBox(height: 8),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -55,7 +61,7 @@ class AchievementTile extends StatelessWidget {
                 style: Theme.of(context)
                     .textTheme
                     .labelSmall!
-                    .copyWith(color: textGrayB80),
+                    .copyWith(color: textGrayB80, fontWeight: FontWeight.w800),
               ),
               const SizedBox(height: 4),
               Row(
