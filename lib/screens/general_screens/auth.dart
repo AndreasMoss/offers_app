@@ -44,6 +44,18 @@ class _AuthScreenState extends State<AuthScreen> {
         final userCredentials = await _firebase.createUserWithEmailAndPassword(
             email: _enteredEmail, password: _enteredPassword);
 
+        final achievementData = {
+          'entertainmentRedemptions': 0,
+          'fitnessRedemptions': 0,
+          'coffeeAndFoodRedemptions': 0,
+          'healthRedemptions': 0,
+          'technologyRedemptions': 0,
+          'learningRedemptions': 0,
+          'beautyRedemptions': 0,
+          'petsRedemptions': 0,
+          'servicesRedemptions': 0,
+          'clothesShoesRedemptions': 0,
+        };
         await FirebaseFirestore.instance
             .collection('users')
             .doc(userCredentials.user!.uid)
@@ -58,6 +70,7 @@ class _AuthScreenState extends State<AuthScreen> {
           if (_selectedUserType == UserType.business) 'points': -1,
           if (_selectedUserType == UserType.regular) 'totalCodesUsed': 0,
           if (_selectedUserType == UserType.business) 'totalCodesGiven': 0,
+          if (_selectedUserType == UserType.regular) ...achievementData,
         });
       }
     } on FirebaseAuthException catch (error) {

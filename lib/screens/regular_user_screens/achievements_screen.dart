@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:offers_app/models/achievement.dart';
+import 'package:offers_app/providers/user_provider.dart';
 import 'package:offers_app/theme/other_colors.dart';
 import 'package:offers_app/widgets/achievement_tile.dart';
 
-class AchievementsScreen extends StatelessWidget {
+class AchievementsScreen extends ConsumerWidget {
   const AchievementsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final int completedEntertainmentOffers = 5;
-    final int completedFitnessOffers = 2;
-    final int completedCoffeeAndFoodOffers = 4;
-    final int completedHealthOffers = 5;
-    final int completedTechnologyOffers = 1;
-    final int completedLearningOffers = 5;
-    final int completedBeautyOffers = 0;
-    final int completedPetsOffers = 3;
-    final int completedServicesOffers = 5;
-    final int completedClothesShoesOffers = 3;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userData = ref.watch(userDataProvider).asData!.value;
 
     return Scaffold(
       appBar: AppBar(
@@ -42,7 +35,10 @@ class AchievementsScreen extends StatelessWidget {
               return Column(
                 children: [
                   AchievementTile(
-                      achievement: achievementList[index], progressValue: 0.3),
+                      achievement: achievementList[index],
+                      progressValue:
+                          userData![achievementList[index].fieldFromFirestore] /
+                              achievementList[index].achievementGoal),
                   const SizedBox(height: 18),
                 ],
               );

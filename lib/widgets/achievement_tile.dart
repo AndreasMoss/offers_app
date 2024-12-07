@@ -69,7 +69,7 @@ class AchievementTile extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    '${progressValue * 100}%',
+                    progressValue < 1.0 ? '${progressValue * 100}%' : '100%',
                     style: GoogleFonts.urbanist(
                         fontWeight: FontWeight.w500,
                         fontSize: 12,
